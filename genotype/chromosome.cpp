@@ -285,7 +285,7 @@ double Chromosome<E>::compatibility(Chromosome<E>* thatChromosome_)
     while (this_ != these_.end() && that_ != those_.end())
     {
         // Counts a disjoint `E`.
-        else if (**this_ < **that_)
+        if (**this_ < **that_)
         {
             ++disjoint;
             ++this_;
