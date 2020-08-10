@@ -26,6 +26,7 @@
   retrieve: retrieves all `E*`s with matching role(s) and state(s).
   sort: sorts all `E*`s with matching role(s) and state(s) according to their identification tag.
   crossover: assimilates another `Chromosome` through a crossover operation.
+  compatibility: assesses the compatibility with another `Chromosome`.
 */
 
 #pragma once
@@ -93,4 +94,8 @@ public:
 
     // Assimilates another `Chromosome` through a crossover operation.
     void crossover(Chromosome<E>* thatChromosome_);
+
+    // Assesses the compatibility with another `Chromosome`.
+    // TODO: Make this method more flexible by implementing tunable parameters, as well as more fine-grained by distinguishing matching elements by their internal parameters.
+    double compatibility(Chromosome<E>* thatChromosome_);
 };

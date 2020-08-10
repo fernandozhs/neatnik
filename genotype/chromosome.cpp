@@ -263,12 +263,12 @@ void Chromosome<E>::crossover(Chromosome<E>* thatChromosome_)
     return;
 }
 
-/*
-// Computes the compatibility between two `Chromosome`s.
+// Assesses the compatibility with another `Chromosome`.
+// TODO: Make this method more flexible by implementing tunable parameters, as well as more fine-grained by distinguishing matching elements by their internal parameters.
 template <class E>
 double Chromosome<E>::compatibility(Chromosome<E>* thatChromosome_)
 {
-    // The number or matching, disjoint, and excess genes.
+    // The number of matching, disjoint, and excess genes.
     int matching = 0;
     int disjoint = 0;
     int excess = 0;
@@ -281,20 +281,9 @@ double Chromosome<E>::compatibility(Chromosome<E>* thatChromosome_)
     auto this_ = these_.begin();
     auto that_ = those_.begin();
 
+    // Tallies disjoint and matching `E`s.
     while (this_ != these_.end() && that_ != those_.end())
     {
-        // Counts an excess `E`.
-        if (this_ == these.end())
-        {
-            ++excess;
-            ++that_;
-        }
-        // Counts an excess `E`.
-        else if (that_ == those.end())
-        {
-            ++excess;
-            ++this_;
-        }
         // Counts a disjoint `E`.
         else if (**this_ < **that_)
         {
@@ -316,9 +305,16 @@ double Chromosome<E>::compatibility(Chromosome<E>* thatChromosome_)
         }
     }
 
-    // Computes the compatibility metric.
-    
+    // Tallies the excess `E`s.
+    if (this_ == these_.end())
+    {
+        excess = those_.end() - that_;
+    }
+    else if (that_ == those_.end())
+    {
+        excess = these_.end() - this_;
+    }
 
-    return;
+    // Returns the degree of compatibility between the `Chromosome`s.
+    return (disjoint + excess)/(disjoint + excess + matching);
 }
-*/
