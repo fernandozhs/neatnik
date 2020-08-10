@@ -8,8 +8,8 @@
   out_tag: an `integer` which uniquely specifies one of the two `Node`s between which the innovation took place.
   tag: an `integer` which uniquely labels this `Innovation`.
 
-  Constructors:
-  ------------
+  Constructor:
+  -----------
   complete: initializes an `Innovation` by specifying all of its data.
 */
 
@@ -27,15 +27,15 @@ public:
     element_type type;
 
     // The identification tags labeling to the two `Node`s between which the innovation took place, i.e., either the two `Node`s between which a new `Link` was formed, or the two connected `Node`s between which a new `Node` was inserted.
-    int in_tag;
-    int out_tag;
+    unsigned int in_tag;
+    unsigned int out_tag;
 
     // This `Innovation`'s unique label.
-    int tag;
+    unsigned int tag;
 
 
-    // Constructors:
+    // Constructor:
 
     // Complete constructor.
-    Innovation(element_type type_, int in_tag_, int out_tag_, int tag_);
+    Innovation(element_type type_, unsigned int in_tag_, unsigned int out_tag_, unsigned int tag_);
 };

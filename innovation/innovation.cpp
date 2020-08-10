@@ -3,7 +3,7 @@
 // Constructors:
 
 // Complete constructor.
-Innovation::Innovation(element_type type_, int in_tag_, int out_tag_, int tag_)
+Innovation::Innovation(element_type type_, unsigned int in_tag_, unsigned int out_tag_, unsigned int tag_)
 {
     // Sets this `Innovation`'s type.
     type = type_;

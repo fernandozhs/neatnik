@@ -20,28 +20,27 @@ Population::Population(std::vector<Archetype> thoseArchetypes_)
 // Methods:
 
 // Tags a `Link` or `Node` with a new or existent `Innovation`.
-Innovation* Population::tag(element_type type_, int in_tag_, int out_tag_)
+Innovation* Population::tag(element_type type_, unsigned int in_tag_, unsigned int out_tag_)
 {
     // Searches for a matching `Innovation` in this `Population`'s genetic history.
-    for (const auto& innovation_ : history)
+    auto match_ = history.find(this->key(type_, in_tag_, out_tag_));
+
+    // Checks whether a match has been found.
+    if (match_ != history.end())
     {
-        // Checks whether a match has been found.
-        if (innovation_->in_tag == in_tag_ && innovation_->out_tag == out_tag_ && innovation_->type == type_)
-        {
-            // Returns the matching `Innovation`.
-            return innovation_;
-        }
+        // Returns the matching `Innovation*`.
+        return match_->second;
     }
 
-    // In case no match is found, a new `Innovation` entry is logged.
+    // In case no match has been found, a new `Innovation` entry is logged.
     Innovation* innovation_ = this->log(type_, in_tag_, out_tag_);
 
-    // The newly created `Innovation` is returned.
+    // The newly created `Innovation*` is returned.
     return innovation_;
 }
 
 // Logs a new `Innovation`.
-Innovation* Population::log(element_type type_, int in_tag_, int out_tag_)
+Innovation* Population::log(element_type type_, unsigned int in_tag_, unsigned int out_tag_)
 {
     // Creates a new `Innovation` of the input type.
     Innovation* innovation_ = new Innovation(type_, in_tag_, out_tag_, innovation_counter);
@@ -50,7 +49,14 @@ Innovation* Population::log(element_type type_, int in_tag_, int out_tag_)
     innovation_counter++;
 
     // Logs the newly created `Innovation`.
-    history.push_back(innovation_);
+    history[this->key(type_, in_tag_, out_tag_)] = innovation_;
 
     return innovation_;
+}
+
+// Generates an `Innovation`'s unique identification key.
+long int Population::key(element_type type_, unsigned int in_tag_, unsigned int out_tag_)
+{
+    // Returns the unique key.
+    return ((long int)type_ << 63 | (long int)in_tag_ << 31 | (long int)out_tag_);
 }

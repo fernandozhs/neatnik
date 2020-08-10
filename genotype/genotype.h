@@ -83,7 +83,7 @@ public:
     Node* encode(node_role role_, element_type type_, Node* inNode_, Node* outNode_, activation function_);
 
     // Encodes a new `Node` into this `Genotype`.
-    void encode(element_state state_, node_role role_, element_type type_, activation function_, double x_, double y_);
+    void encode(element_state state_, node_role role_, element_type type_, activation function_, int x_, int y_);
 
     // Mutates this `Genotype`.
     void mutate();

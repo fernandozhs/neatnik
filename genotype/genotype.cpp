@@ -108,10 +108,10 @@ Node* Genotype::encode(node_role role_, element_type type_, Node* inNode_, Node*
 }
 
 // Encodes a new `Node` into this `Genotype`.
-void Genotype::encode(element_state state_, node_role role_, element_type type_, activation function_, double x_, double y_)
+void Genotype::encode(element_state state_, node_role role_, element_type type_, activation function_, int x_, int y_)
 {
     // Retrieves or generates the `Innovation` which will tag the new `Node`.
-    Innovation* innovation_ = organism->population->tag(type_, -x_, -y_);
+    Innovation* innovation_ = organism->population->tag(type_, x_, x_);
 
     // Creates a new `Node`.
     Node* newNode_ = new Node(innovation_, state_, role_, function_, x_, y_);
