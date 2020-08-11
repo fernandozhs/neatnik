@@ -11,6 +11,7 @@
   Constructor:
   -----------
   initialization: constructs an `Organism` characterized by a minimal, fully-connected `Phenotype`.
+  copy: makes a deep copy of the input `Organism`.
 
   Destructor:
   ----------
@@ -48,7 +49,7 @@ public:
     Phenotype* phenotype;
 
     // A measure of this `Organism`'s performance with respect to a given metric.
-    double score;
+    double score = 0.;
 
 
     // Constructor:
@@ -56,6 +57,9 @@ public:
     // Initialization constructor.
     // TODO: Make the `Genotype` initialization more flexible.
     Organism(Population* thatPopulation_, Archetype thatArchetype_);
+
+    // Copy constructor responsible for making a deep copy of the input `Organism`.
+    Organism(Organism* thatOrganism_);
 
 
     // Destructor:

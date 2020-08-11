@@ -6,7 +6,7 @@
 // TODO: Make the `Genotype` initialization more flexible.
 Organism::Organism(Population* thatPopulation_, Archetype thatArchetype_)
 {
-    // Assigns this `Organism` to a `Population`.
+    // Assigns this `Organism` to the pertinent `Population`.
     population = thatPopulation_;
 
     // Initializes this `Organism`'s `Phenotype`.
@@ -14,6 +14,19 @@ Organism::Organism(Population* thatPopulation_, Archetype thatArchetype_)
 
     // Initializes this `Organism`'s `Genotype`.
     genotype = new Genotype(this, thatArchetype_);
+}
+
+// Copy constructor responsible for making a deep copy of the input `Organism`.
+Organism::Organism(Organism* thatOrganism_)
+{
+    // Assigns this `Organism` to the pertinent `Population`.
+    population = thatOrganism_->population;
+
+    // Initializes this `Organism`'s `Phenotype`.
+    phenotype = new Phenotype(this);
+
+    // Copies the input `Organism`'s `Genotype`.
+    genotype = new Genotype(this, thatOrganism_->genotype);
 }
 
 
