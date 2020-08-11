@@ -37,7 +37,7 @@ private:
     // The collection of `Organism*`s which make up this `Population`.
     std::vector<Organism*> organisms;
 
-    // The collection of `Innovation*`s logging this `Population`'s genetic history.
+    // The collection of `Innovation*`s recording this `Population`'s genetic history.
     std::unordered_map<long int, Innovation*> history;
 
     // A counter storing the identification tag which was last assigned to an `Innovation`.

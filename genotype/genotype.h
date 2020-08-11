@@ -106,7 +106,7 @@ public:
     void alter_nodes();
 
     // Attempts to add a new `Node` to this `Genotype`.
-    // TODO: Make the splitting of newer `Link`s less likely, avoiding deleterious chain splittings in young `Networks`.
+    // TODO: Make the splitting of newer `Link`s less likely, avoiding deleterious chain splittings in young `Organisms`.
     void add_node(link_role role_, int attempts_ = attempts);
 
     // Assimilates another `Genotype` through a crossover operation.
