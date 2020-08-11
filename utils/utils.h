@@ -1,3 +1,7 @@
+/*
+  Contributors: Fernando Zago and Hans Hopkins.
+*/
+
 #pragma once
 
 #include <random>

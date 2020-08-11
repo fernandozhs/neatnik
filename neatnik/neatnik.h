@@ -50,8 +50,8 @@ enum node_role {INPUT=1, BIAS=2, HIDDEN=3, OUTPUT=4};
 // A `Node`'s activation function.
 typedef double (*activation)(std::vector<double>&);
 
-// A `Genotype`'s archetype.
-typedef std::vector<std::tuple<element_state, node_role, activation, double, double>> Archetype;
+// A `Genotype`'s `Archetype`.
+typedef std::vector<std::tuple<element_state, node_role, activation, int, int>> Archetype;
 
 // Labels the possible ways in which a `Link`'s weight can be altered.
 enum link_alterations {PERTURB=1, REPLACE=2};

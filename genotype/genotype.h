@@ -29,6 +29,10 @@
   crossover: assimilates another `Genotype` through a crossover operation.
 */
 
+/*
+  Contributors: Fernando Zago.
+*/
+
 #pragma once
 
 #include <algorithm>
@@ -86,6 +90,7 @@ public:
     void encode(element_state state_, node_role role_, element_type type_, activation function_, int x_, int y_);
 
     // Mutates this `Genotype`.
+    // TODO: Make it possible to set the rate at which structural and parameter mutations occur.
     void mutate();
 
     // Enables a DISABLED `Link` belonging to this `Genotype`.

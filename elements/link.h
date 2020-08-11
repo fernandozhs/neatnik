@@ -26,6 +26,10 @@
   ==: checks whether two `Link`s possess the same identification tag.
 */
 
+/*
+  Contributors: Fernando Zago.
+*/
+
 #pragma once
 
 #include "../neatnik/neatnik.h"

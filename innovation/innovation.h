@@ -13,6 +13,10 @@
   complete: initializes an `Innovation` by specifying all of its data.
 */
 
+/*
+  Contributors: Fernando Zago.
+*/
+
 #pragma once
 
 #include "../neatnik/neatnik.h"

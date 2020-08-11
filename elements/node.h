@@ -32,6 +32,10 @@
   ==: checks whether two `Node`s possess the same identification tag
 */
 
+/*
+  Contributors: Fernando Zago.
+*/
+
 #pragma once
 
 #include <vector>

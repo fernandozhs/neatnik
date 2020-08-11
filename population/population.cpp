@@ -2,7 +2,7 @@
 
 // Constructor:
 
-// Initialization from an `archetype`.
+// Initializates this `Population` with `Organism`s characterized by minimal fully-connected `Genotype`s.
 Population::Population(std::vector<Archetype> thoseArchetypes_)
 {
     // Creates `Organism`s characterized by minimal fully-connected `Genotype`s.

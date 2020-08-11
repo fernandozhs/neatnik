@@ -18,6 +18,10 @@
   deactivate: restores this `Phenotype` to a clean slate.
 */
 
+/*
+  Contributors: Fernando Zago and Hans Hopkins.
+*/
+
 #pragma once
 
 #include <vector>

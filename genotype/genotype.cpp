@@ -123,6 +123,7 @@ void Genotype::encode(element_state state_, node_role role_, element_type type_,
 }
 
 // Mutates this `Genotype`.
+// TODO: Make it possible to set the rate at which structural and parameter mutations occur.
 void Genotype::mutate()
 {
     // `Link` mutations.
@@ -142,10 +143,10 @@ void Genotype::mutate()
     }
 
     // Samples the probability mass function for encoding a new `Link`.
-    if (int role_ = P(adding_link))
+    if (int sample_ = P(adding_link))
     {
         // Attempts to add a new `Link` of the sampled role.
-        this->add_link((link_role)role_);
+        this->add_link((link_role)sample_);
     }
 
 
@@ -166,10 +167,10 @@ void Genotype::mutate()
     }
 
     // Samples the probability mass function for encoding a new `Node`.
-    if (int role_ = P(adding_node))
+    if (int sample_ = P(adding_node))
     {
         // Attempts to encode a new HIDDEN `Node` by splitting a `Link` of the sampled role.
-        this->add_node((link_role)role_);
+        this->add_node((link_role)sample_);
     }
 
     return;

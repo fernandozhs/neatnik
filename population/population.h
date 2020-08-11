@@ -9,13 +9,17 @@
 
   Constructors:
   ------------
-  initialization: constructs a `Population` composed of `Organisms` characterized by minimal fully-connected `Genotype`s.
+  initialization: initializates this `Population` with `Organism`s characterized by minimal fully-connected `Genotype`s.
 
   Methods:
   -------
   tag: tags a `Link` or `Node` with a new or existent `Innovation`.
   log: logs a new `Innovation`.
   key: generates an `Innovation`'s unique identification key.
+*/
+
+/*
+  Contributors: Fernando Zago and Hans Hopkins.
 */
 
 #pragma once
@@ -48,7 +52,7 @@ public:
 
     // Constructor:
 
-    // Initialization from an `Archetype`.
+    // Initializates this `Population` with `Organism`s characterized by minimal fully-connected `Genotype`s.
     Population(std::vector<Archetype> thoseArchetypes_);
 
 

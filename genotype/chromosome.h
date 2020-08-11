@@ -29,6 +29,10 @@
   compatibility: assesses the compatibility with another `Chromosome`.
 */
 
+/*
+  Contributors: Fernando Zago.
+*/
+
 #pragma once
 
 #include <unordered_map>
