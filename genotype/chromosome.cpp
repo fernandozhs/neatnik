@@ -155,6 +155,20 @@ void Chromosome<E>::toggle(E* element_)
     return;
 }
 
+// Finds the `E*` with a matching identification tag.
+template <class E>
+E* Chromosome<E>::match(E* element_)
+{
+    // Extracts the locus of the input `E*`.
+    int locus_ = (element_->state)*(element_->role);
+
+    // Finds the position of the matching `E*`.
+    auto position_ = std::find_if(this->begin(locus_), this->end(locus_), [=](const E* this_){return *this_ == *element_;});
+
+    // Returns the matching `E*`.
+    return *position_;
+}
+
 // Selects a random `E*` with matching role(s) and state(s).
 template <class E>
 E* Chromosome<E>::random(const std::vector<int> roles_, const std::vector<int> states_)
@@ -215,7 +229,7 @@ std::vector<E*> Chromosome<E>::sort(const std::vector<int> roles_, const std::ve
     std::vector<E*> elements_ = this->retrieve(roles_, states_);
 
     // Sorts the collected `E*`s by their identification tag.
-    std::sort(elements_.begin(), elements_.end(), [](const E* e_, const E* c_){return *e_ < *c_;});
+    std::sort(elements_.begin(), elements_.end(), [](const E* this_, const E* that_){return *this_ < *that_;});
 
     // Returns the sorted `E*`s.
     return elements_;

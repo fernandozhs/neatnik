@@ -22,6 +22,7 @@
   insert: inserts a `E*` into this `Chromosome`.
   remove: removes a `E*` from this `Chromosome`.
   toggle: toggles the state of an encoded `E` element.
+  match: finds the `E*` with a matching identification tag.
   random: selects a random `E*` with matching role(s) and state(s).
   retrieve: retrieves all `E*`s with matching role(s) and state(s).
   sort: sorts all `E*`s with matching role(s) and state(s) according to their identification tag.
@@ -86,6 +87,9 @@ public:
 
     // Toggles the state of an encoded `E` element.
     void toggle(E* element_);
+
+    // Finds the `E*` with a matching identification tag.
+    E* match(E* element_);
 
     // Selects a random `E*` with matching role(s) and state(s).
     E* random(const std::vector<int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1});

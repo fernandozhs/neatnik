@@ -46,12 +46,10 @@ Genotype::Genotype(Organism* thatOrganism_, Genotype* thatGenotype_)
         for (const auto& element_ : elements_)
         {
             // Ensures each `Link` joins the appropriate source `Node` ...
-            int in_locus_ = (element_->inNode->role)*(element_->inNode->state);
-            element_->inNode = *std::find(nodes->begin(in_locus_), nodes->end(in_locus_), element_->inNode);
+            element_->inNode = nodes->match(element_->inNode);
 
             // ... and target `Node` pair.
-            int out_locus_ = (element_->outNode->role)*(element_->outNode->state);
-            element_->outNode = *std::find(nodes->begin(out_locus_), nodes->end(out_locus_), element_->outNode);
+            element_->outNode = nodes->match(element_->outNode);
         }
     }
 }
