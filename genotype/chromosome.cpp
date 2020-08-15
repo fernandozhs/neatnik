@@ -14,13 +14,13 @@ Chromosome<E>::Chromosome()
     genes[-1] = std::vector<E*> {};
     genes[+1] = std::vector<E*> {};
 
-    // -2: `E*`s encoding either a DISABLED BIAS `Node` or a DISABLED BIASING `Link`.
-    // +2: `E*`s encoding either an ENABLED BIAS `Node` or an ENABLED BIASING `Link`.
+    // -2: `E*`s encoding either a DISABLED HIDDEN `Node` or a DISABLED RECURRENT `Link`.
+    // +2: `E*`s encoding either an ENABLED HIDDEN `Node` or an ENABLED RECURRENT `Link`.
     genes[-2] = std::vector<E*> {};
     genes[+2] = std::vector<E*> {};
 
-    // -3: `E*`s encoding either a DISABLED HIDDEN `Node` or a DISABLED RECURRENT `Link`.
-    // +3: `E*`s encoding either an ENABLED HIDDEN `Node` or an ENABLED RECURRENT `Link`.
+    // -3: `E*`s encoding either a DISABLED BIAS `Node` or a DISABLED BIASING `Link`.
+    // +3: `E*`s encoding either an ENABLED BIAS `Node` or an ENABLED BIASING `Link`.
     genes[-3] = std::vector<E*> {};
     genes[+3] = std::vector<E*> {};
 
@@ -176,6 +176,13 @@ E* Chromosome<E>::random(const std::vector<int> roles_, const std::vector<int> s
     // Retrieves the total number of `E*`s with matching role(s) and state(s).
     int size_ = this->size(roles_, states_);
 
+    // Checks whether no matching `E*`s exist.
+    if (size_ == 0)
+    {
+        // Returns `NULL`.
+        return NULL;
+    }
+
     // Samples a uniform probability mass function, effectively selecting one of the matching `E*`s.
     int sample_ = U(1, size_);
 
@@ -196,7 +203,7 @@ E* Chromosome<E>::random(const std::vector<int> roles_, const std::vector<int> s
         }
     }
 
-    // This is reached when no matching `E*`s exist. Returns `NULL`.
+    // This line should never be reached.
     return NULL;
 }
 

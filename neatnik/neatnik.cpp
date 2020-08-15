@@ -39,7 +39,7 @@ std::vector<double> altering_links = {0, 0};
 // P.M.F. for altering a `Link`'s weight: {FAILURE, PERTURB, REPLACE}.
 std::vector<double> altering_weight = {0, 0, 0};
 
-// P.M.F. for adding a `Link` of a given role: {FAILURE, FORWARD, BIASING, RECURRENT, LOOPED}.
+// P.M.F. for adding a `Link` of a given role: {FAILURE, FORWARD, RECURRENT, BIASING, LOOPED}.
 std::vector<double> adding_link = {0, 0, 0, 0, 0};
 
 // P.M.F. for enabling a DISABLED INPUT `Node`: {FAILURE, SUCCESS}.

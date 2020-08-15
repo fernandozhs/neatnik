@@ -31,7 +31,7 @@
 */
 
 /*
-  Contributors: Fernando Zago.
+  Contributors: Fernando Zago and Hans Hopkins.
 */
 
 #pragma once

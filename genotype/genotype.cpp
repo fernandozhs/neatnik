@@ -399,6 +399,10 @@ void Genotype::add_node(link_role role_, int attempts_)
                 // Selects a random FORWARD `Link` to be split.
                 theLink_ = links->random({FORWARD}, {ENABLED});
                 break;
+
+            default:
+                // All other `Link` roles are invalid.
+                break;
         }
 
         // Makes sure the randomly selected `Network` elements satisfy certain consistency requirements.
@@ -420,6 +424,10 @@ void Genotype::add_node(link_role role_, int attempts_)
             case FORWARD:
                 // Ensures the selected `Link`'s state is toggled.
                 links->toggle(theLink_);
+                break;
+
+            default:
+                // All other `Link` roles are invalid.
                 break;
         }
 

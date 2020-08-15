@@ -42,10 +42,10 @@ enum element_type {NODE=0, LINK=1};
 enum element_state {DISABLED=-1, ENABLED=1};
 
 // Labels the possible roles of a `Link` element.
-enum link_role {FORWARD=1, BIASING=2, RECURRENT=3, LOOPED=4};
+enum link_role {FORWARD=1, RECURRENT=2, BIASING=3, LOOPED=4};
 
 // Labels the possible roles of a `Node` element.
-enum node_role {INPUT=1, BIAS=2, HIDDEN=3, OUTPUT=4};
+enum node_role {INPUT=1, HIDDEN=2, BIAS=3, OUTPUT=4};
 
 // A `Node`'s activation function.
 typedef double (*activation)(std::vector<double>&);
@@ -89,7 +89,7 @@ extern std::vector<double> altering_links;
 // P.M.F. for altering a `Link`'s weight: {FAILURE, PERTURB, REPLACE}.
 extern std::vector<double> altering_weight;
 
-// P.M.F. for adding a `Link` of a given role: {FAILURE, FORWARD, BIASING, RECURRENT, LOOPED}.
+// P.M.F. for adding a `Link` of a given role: {FAILURE, FORWARD, RECURRENT, BIASING, LOOPED}.
 extern std::vector<double> adding_link;
 
 // P.M.F. for enabling a DISABLED INPUT `Node`: {FAILURE, SUCCESS}.
