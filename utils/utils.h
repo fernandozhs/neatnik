@@ -7,6 +7,7 @@
 #include <random>
 #include <cmath>
 #include <numeric>
+#include <algorithm>
 
 /*
   Probability Sampling:
@@ -42,3 +43,12 @@ double Logistic(std::vector<double>& x_);
 
 // Rectified Linear Unit function evaluated at the sum of all entries of `x_`.
 double ReLU(std::vector<double>& x_);
+
+
+/*
+  Assorted Functions:
+  -------- ---------
+*/
+
+// Rounds all entries of `x_` while preserving their sum.
+std::vector<double> Round(std::vector<double> x_);

@@ -117,3 +117,39 @@ double ReLU(std::vector<double>& x_)
         return 0.0;
     }
 }
+
+
+/*
+  Assorted Functions:
+  -------- ---------
+*/
+
+// Rounds all entries of `x_` while preserving their sum.
+std::vector<double> Round(std::vector<double> x_)
+{
+    // The indices, the integer part, and the fractional part of `x_`.
+    std::vector<int> indices_(x_.size());
+    std::vector<double> integer_(x_.size());
+    std::vector<double> fractional_(x_.size());
+
+    // Lists the indices of `x_`.
+    std::iota(indices_.begin(), indices_.end(), 0);
+
+    // Splits `x_` into its `integer_` and `fractional_` parts.
+    for (const auto& index_ : indices_)
+    {
+        fractional_[index_] = std::modf(x_[index_], &integer_[index_]);
+    }
+
+    // Rearranges `indices_` so as to sort `fractional_` in descending order.
+    std::sort(indices_.begin(), indices_.end(), [&](int i_, int j_){return fractional_[i_] > fractional_[j_];});
+
+    // Performs the appropriate number of rounding up operations in order to preserve the sum of `x_`.
+    for (int i_ = 0; i_ < std::accumulate(fractional_.begin(), fractional_.end(), 0.); i_++)
+    {
+        integer_[indices_[i_]]++;
+    }
+
+    // Returns the appropriately rounded `x_`.
+    return integer_;
+}
