@@ -254,6 +254,10 @@ void Genotype::add_link(link_role role_, int attempts_)
                 inNode_ = nodes->random({HIDDEN, OUTPUT}, {ENABLED});
                 outNode_ = inNode_;
                 break;
+
+            default:
+                // No other `Link` roles exist.
+                break;
         }
 
         // Makes sure the randomly selected `Node`s satisfy certain consistency requirements.
@@ -292,32 +296,21 @@ void Genotype::add_link(link_role role_, int attempts_)
             case LOOPED:
                 // No additional checks needed for a candidate LOOPED `Link`.
                 break;
+
+            default:
+                // No other `Link` roles exist.
+                break;
         }
 
         // Checks whether the selected `Node`s have ever been directly linked in this `Genotype`.
-        for (const auto& theLink_ : links->retrieve({role_}, {ENABLED, DISABLED}))
-        {
-            // Checks whether a matching `Link` has been found.
-            if (*inNode_ == *(theLink_->inNode) && *outNode_ == *(theLink_->outNode))
-            {
-                // Discards the above-selected `Nodes`.
-                inNode_ = NULL;
-                outNode_ = NULL;
-                break;
-            }
-        }
-
-        // Checks whether a valid pair of `Node`s has been successfully selected.
-        if (inNode_ != NULL && outNode_ != NULL)
-        {
-            // Encodes the new `Link`.
-            this->encode(role_, LINK, inNode_, outNode_, U(-bound, bound));
-        }
-        else
+        if (links->contain({role_}, {ENABLED, DISABLED}, inNode_->innovation->tag, outNode_->innovation->tag))
         {
             // Enforces the selection of another pair of random `Node`s.
             continue;
         }
+
+        // Encodes the new `Link`.
+        this->encode(role_, LINK, inNode_, outNode_, U(-bound, bound));
 
         // A `Link` has been added to this `Genotype`. Return.
         return;
@@ -405,7 +398,7 @@ void Genotype::add_node(link_role role_, int attempts_)
                 break;
         }
 
-        // Makes sure the randomly selected `Network` elements satisfy certain consistency requirements.
+        // Makes sure a `Link` was successfully selected.
         switch (role_)
         {
             case RECURRENT:
@@ -414,22 +407,26 @@ void Genotype::add_node(link_role role_, int attempts_)
                 {
                     return;
                 }
-                // Otherwise, ensures the selected `Link`'s state is toggled.
-                else
-                {
-                    links->toggle(theLink_);
-                }
                 break;
 
             case FORWARD:
-                // Ensures the selected `Link`'s state is toggled.
-                links->toggle(theLink_);
+                // There is always an availble FORWARD `Link` to be split.
                 break;
 
             default:
                 // All other `Link` roles are invalid.
                 break;
         }
+
+        // Checks whether the selected `Link` has ever been split in this `Genotype`.
+        if (nodes->contain({HIDDEN}, {ENABLED}, theLink_->innovation->in_tag, theLink_->innovation->out_tag))
+        {
+            // Enforces the selection of another pair of random `Node`s.
+            continue;
+        }
+
+        // Ensures the selected `Link`'s state is toggled.
+        links->toggle(theLink_);
 
         // Encodes the new HIDDEN `Node` and its associated `Link`s.
         newNode_ = this->encode(HIDDEN, NODE, theLink_->inNode, theLink_->outNode, ReLU);

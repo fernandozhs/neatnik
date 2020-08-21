@@ -163,7 +163,7 @@ E* Chromosome<E>::match(E* element_)
     int locus_ = (element_->state)*(element_->role);
 
     // Finds the position of the matching `E*`.
-    auto position_ = std::find_if(this->begin(locus_), this->end(locus_), [=](const E* this_){return *this_ == *element_;});
+    auto position_ = std::find_if(this->begin(locus_), this->end(locus_), [&](const E* this_){return *this_ == *element_;});
 
     // Returns the matching `E*`.
     return *position_;
@@ -228,6 +228,29 @@ std::vector<E*> Chromosome<E>::retrieve(const std::vector<int> roles_, const std
     return elements_;
 }
 
+// Searches for a `E*` with matching role(s), state(s), and bounding identification tags.
+template <class E>
+bool Chromosome<E>::contain(const std::vector<int> roles_, const std::vector<int> states_, int in_tag_, int out_tag_)
+{
+    // Retrieves all `E*`s with matching role(s) and state(s).
+    std::vector<E*> elements_ = this->retrieve(roles_, states_);
+
+    // Searches for a matching `E*`.
+    auto position_ = std::find_if(elements_.begin(), elements_.end(), [&](const E* this_){return this_->innovation->in_tag == in_tag_ && this_->innovation->out_tag == out_tag_;});
+
+    // Returns the search result.
+    if (position_ != elements_.end())
+    {
+        // A matching `E*` has been found.
+        return true;
+    }
+    else
+    {
+        // No matching `E*` has been found.
+        return false;
+    }
+}
+
 // Sorts all `E*`s with matching role(s) and state(s) according to their identification tag.
 template <class E>
 std::vector<E*> Chromosome<E>::sort(const std::vector<int> roles_, const std::vector<int> states_)
@@ -235,7 +258,7 @@ std::vector<E*> Chromosome<E>::sort(const std::vector<int> roles_, const std::ve
     // Retrieves all `E*`s with matching role(s) and state(s).
     std::vector<E*> elements_ = this->retrieve(roles_, states_);
 
-    // Sorts the collected `E*`s by their identification tag.
+    // Rearranges the collected `E*`s so as to sort their identification tag in ascending order.
     std::sort(elements_.begin(), elements_.end(), [](const E* this_, const E* that_){return *this_ < *that_;});
 
     // Returns the sorted `E*`s.
