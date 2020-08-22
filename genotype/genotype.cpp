@@ -270,7 +270,7 @@ void Genotype::add_link(link_role role_, int attempts_)
                     continue;
                 }
                 // Ensures the candidate `Link` is FORWARD-oriented.
-                else if (inNode_->y > outNode_->y)
+                else if (inNode_->x > outNode_->x)
                 {
                     std::swap(inNode_, outNode_);
                 }
@@ -285,11 +285,6 @@ void Genotype::add_link(link_role role_, int attempts_)
                 if (inNode_ == outNode_)
                 {
                     continue;
-                }
-                // Ensures the candidate `Link` is RECURRENT.
-                else if (inNode_->y < outNode_->y)
-                {
-                    std::swap(inNode_, outNode_);
                 }
                 break;
 
