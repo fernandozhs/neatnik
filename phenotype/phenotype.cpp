@@ -74,7 +74,7 @@ void Phenotype::activate(std::vector<double> inputs_)
     for (const auto& theNode_ : organism->genotype->nodes->sort({INPUT, BIAS}, {ENABLED}))
     {
         // Engages the current INPUT or BIAS `Node`.
-        theNode_->inputs.push_back(inputs_.at(theNode_->innovation->tag));
+        theNode_->inputs.push_back(inputs_.at(theNode_->tag));
         theNode_->engage();
     }
 

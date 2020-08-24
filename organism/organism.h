@@ -76,6 +76,9 @@ public:
     // Assimilates another `Organism` through a crossover operation.
     void crossover(Organism* thatOrganism_);
 
+    // Ranks this `Organism`'s performance with respect to a given metric.
+    void rank();
+
 
     // Operator:
 

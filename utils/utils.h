@@ -50,5 +50,8 @@ double ReLU(std::vector<double>& x_);
   -------- ---------
 */
 
+// Generates a unique search key from the `unsigned integers`: `i_` (4 bits), `j_` (1 bit), `k_` (30 bits), `l_` (30 bits).
+long int Key(unsigned int i_, unsigned int j_, unsigned int k_, unsigned int l_);
+
 // Rounds all entries of `x_` while preserving their sum.
 std::vector<double> Round(std::vector<double> x_);

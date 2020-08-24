@@ -3,10 +3,10 @@
 // Constructors:
 
 // Complete constructor for which all data specifying the `Link` is provided.
-Link::Link(Innovation* innovation_, element_state state_, link_role role_, Node* inNode_, Node* outNode_, double weight_)
+Link::Link(unsigned int tag_, element_state state_, link_role role_, Node* inNode_, Node* outNode_, double weight_)
 {
     // Tags this `Link` as a way of tracking its first appearance in the `Population`.
-    innovation = innovation_;
+    tag = tag_;
 
     // Specifies whether this `Link` should be enabled at initialization.
     state = state_;
@@ -26,7 +26,7 @@ Link::Link(Innovation* innovation_, element_state state_, link_role role_, Node*
 Link::Link(Link* thatLink_)
 {
     // Copies that `Link`'s identification tag as a way of tracking its first appearance in the `Population`.
-    innovation = thatLink_->innovation;
+    tag = thatLink_->tag;
 
     // Copies that `Link`'s state which specifies whether it is currently enabled.
     state = thatLink_->state;
@@ -75,11 +75,11 @@ void Link::assimilate(Link* thatLink_)
 // Overloaded '<' operation for comparing two `Link`s' identification tags.
 bool Link::operator <(const Link& thatLink_) const
 {
-    return this->innovation->tag < thatLink_.innovation->tag;
+    return this->tag < thatLink_.tag;
 }
 
 // Overloaded '==' operation for checking whether two `Link`s possess the same identification tags.
 bool Link::operator ==(const Link& thatLink_) const
 {
-    return this->innovation->tag == thatLink_.innovation->tag;
+    return this->tag == thatLink_.tag;
 }

@@ -24,6 +24,9 @@ double bound = 8;
 // Perturbation power when altering `Link` weights.
 double power = 1;
 
+// An `Organism`'s survival threshold.
+double threshold = 1.;
+
 
 /*
   Probability Mass Functions:
@@ -51,7 +54,7 @@ std::vector<double> altering_nodes = {0, 0};
 // P.M.F. for altering a `Node`'s activation function: {FAILURE, HEAVISIDE, RELU, LOGISTIC}.
 std::vector<double> altering_function = {0, 0, 0, 0};
 
-// P.M.F. for adding a `Node` by splitting a `Link` of given role: {FAILURE, FORWARD, RECURRENT}.
+// P.M.F. for adding a `Node` by splitting a `Link` of a given role: {FAILURE, FORWARD, RECURRENT}.
 std::vector<double> adding_node = {0, 0, 0};
 
 // P.M.F. for assimilating a `Link` or `Node` during crossover: {FAILURE, SUCCESS}

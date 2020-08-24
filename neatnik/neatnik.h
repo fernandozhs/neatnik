@@ -74,6 +74,9 @@ extern double bound;
 // Perturbation power when altering `Link` weights.
 extern double power;
 
+// An `Organism`'s survival threshold.
+extern double threshold;
+
 
 /*
   Probability Mass Functions:
@@ -101,7 +104,7 @@ extern std::vector<double> altering_nodes;
 // P.M.F. for altering a `Node`'s activation function: {FAILURE, HEAVISIDE, RELU, LOGISTIC}.
 extern std::vector<double> altering_function;
 
-// P.M.F. for adding a `Node` by splitting a `Link` of given role: {FAILURE, FORWARD, RECURRENT}.
+// P.M.F. for adding a `Node` by splitting a `Link` of a given role: {FAILURE, FORWARD, RECURRENT}.
 extern std::vector<double> adding_node;
 
 // P.M.F. for assimilating a `Link` or `Node` during crossover: {FAILURE, SUCCESS}

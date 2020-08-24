@@ -3,7 +3,7 @@
 
   Data:
   ----
-  innovation: an `Innovation*` specifying this `Link`'s identity within a `Population`.
+  tag: a unique `unsigned integer` specifying this `Link`'s identity within a `Population`.
   element_state: an `enum` (`element_state`) which specifies whether this `Link` is active.
   role: an `enum` (`link_role`) labeling this `Link`'s role in the artificial neural network.
   inNode: the `Node*` from which this `Link`'s input signal originates.
@@ -33,7 +33,6 @@
 #pragma once
 
 #include "../neatnik/neatnik.h"
-#include "../innovation/innovation.h"
 
 
 // Defines a `Link`.
@@ -44,7 +43,7 @@ public:
     // Data:
 
     // A unique label specifying this `Link`'s identity within a `Population`.
-    Innovation* innovation;
+    unsigned int tag;
 
     // Control flag which specifies whether this `Link` is ENABLED or DISABLED.
     element_state state;
@@ -63,7 +62,7 @@ public:
     // Constructors:
 
     // Complete constructor for which all data specifying the `Link` is provided.
-    Link(Innovation* innovation_, element_state state_, link_role role_, Node* inNode_, Node* outNode_, double weight_);
+    Link(unsigned int tag_, element_state state_, link_role role_, Node* inNode_, Node* outNode_, double weight_);
 
     // Copy constructor responsible for making a shallow copy of the input `Link`.
     Link(Link* thatLink_);

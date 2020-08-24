@@ -3,10 +3,10 @@ CC = g++
 
 all: build experiment
 
-debug: build/neatnik.o build/utils.o build/elements.o build/chromosome.o build/genotype.o build/phenotype.o build/organism.o build/population.o build/innovation.o 
+debug: build/neatnik.o build/utils.o build/elements.o build/chromosome.o build/genotype.o build/phenotype.o build/organism.o build/population.o
 	$(CC) $(CFLAGS) -pg $^ -o experiment
 
-experiment: build/neatnik.o build/utils.o build/elements.o build/chromosome.o build/genotype.o build/phenotype.o build/organism.o build/population.o build/innovation.o 
+experiment: build/neatnik.o build/utils.o build/elements.o build/chromosome.o build/genotype.o build/phenotype.o build/organism.o build/population.o
 	$(CC) $(CFLAGS) $^ -o $@
 
 build/neatnik.o: neatnik/neatnik.cpp neatnik/neatnik.h
@@ -31,9 +31,6 @@ build/organism.o: organism/organism.cpp organism/organism.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 build/population.o: population/population.cpp population/population.h
-	$(CC) $(CFLAGS) -c $< -o $@
-
-build/innovation.o: innovation/innovation.cpp innovation/innovation.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 build:

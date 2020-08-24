@@ -25,7 +25,6 @@
   match: finds the `E*` with a matching identification tag.
   random: selects a random `E*` with matching role(s) and state(s).
   retrieve: retrieves all `E*`s with matching role(s) and state(s).
-  contain: searches for a `E*` with matching role(s), state(s), and bounding identification tags.
   sort: sorts all `E*`s with matching role(s) and state(s) according to their identification tag.
   crossover: assimilates another `Chromosome` through a crossover operation.
   compatibility: assesses the compatibility with another `Chromosome`.
@@ -97,9 +96,6 @@ public:
 
     // Retrieves all `E*`s with matching role(s) and state(s).
     std::vector<E*> retrieve(const std::vector<int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1});
-
-    // Searches for a `E*` with matching role(s), state(s), and bounding identification tags.
-    bool contain(const std::vector<int> roles_, const std::vector<int> states_, int in_tag_, int out_tag_);
 
     // Sorts all `E*`s with matching role(s) and state(s) according to their identification tag.
     std::vector<E*> sort(const std::vector<int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1});

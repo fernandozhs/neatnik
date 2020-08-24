@@ -8,7 +8,7 @@
 // Samples an integer from a probability mass function defined by a collection of weights `w_`.
 int P(std::vector<double> w_)
 {
-    // Seeds the default random number generator.
+    // Seeds the random number generator.
     std::random_device seed;
     std::mt19937 generator(seed());
 
@@ -22,7 +22,7 @@ int P(std::vector<double> w_)
 // Samples a uniformly-distributed integer from the interval `[a_, b_)`.
 int U(int a_, int b_)
 {
-    // Seeds the default random number generator.
+    // Seeds the random number generator.
     std::random_device seed;
     std::mt19937 generator(seed());
 
@@ -36,7 +36,7 @@ int U(int a_, int b_)
 // Samples a uniformly-distributed double from the interval `[a_, b_)`.
 double U(double a_, double b_)
 {
-    // Seeds the default random number generator.
+    // Seeds the random number generator.
     std::random_device seed;
     std::mt19937 generator(seed());
 
@@ -50,7 +50,7 @@ double U(double a_, double b_)
 // Draws a normally distributed double with mean `u_` and standard deviation `s_`.
 double N(double u_, double s_)
 {
-    // Seeds the default random number generator.
+    // Seeds the random number generator.
     std::random_device seed;
     std::mt19937 generator(seed());
 
@@ -123,6 +123,13 @@ double ReLU(std::vector<double>& x_)
   Assorted Functions:
   -------- ---------
 */
+
+// Generates a unique search key from the `unsigned integers`: `i_` (4 bits), `j_` (1 bit), `k_` (30 bits), `l_` (30 bits).
+long int Key(unsigned int i_, unsigned int j_, unsigned int k_, unsigned int l_)
+{
+    // Returns the unique search key.
+    return ((long int)i_ << 61 | (long int)j_ << 60 | (long int)k_ << 30 | (long int)l_);
+}
 
 // Rounds all entries of `x_` while preserving their sum.
 std::vector<double> Round(std::vector<double> x_)

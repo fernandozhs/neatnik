@@ -30,10 +30,10 @@ private:
     // The `Population` to which this `Species` belongs.
     Population* population;
 
-    // The best scoring `Organism*` to ever arise in this `Species`.
+    // This `Species`' best scoring `Organism*`.
     Organism* paragon;
 
-    // The collection of `Organism*`s belonging to this `Species`.
+    // The `Organism*`s allocated to this `Species`.
     std::vector<Organism*> organisms;
 
     // A measure of this `Species`' average performance with respect to a given metric.
@@ -79,7 +79,7 @@ public:
     // Sorts this `Species`' `Organism*`s according to their scores.
     void sort()
     {
-        // Rearranges all `Organism*`s so as to sort their scores in descending order.
+        // Rearranges this `Species`' `Organism*`s so as to sort their scores in descending order.
         std::sort(organisms.begin(), organisms.end(), [](const Organism* this_, const Organism* that_){return *this_ > *that_;});
 
         return;
@@ -91,27 +91,17 @@ public:
         // Seeds the random number generator.
         std::random_device seed;
 
-        // Randomly shuffles this `Species`' `Organism*`s.
+        // Rearranges this `Species`' `Organism*`s in randomized order.
         std::shuffle(organisms.begin(), organisms.end(), std::mt19937(seed()));
 
         return;
     }
 
-    // Partitions this `Species`' `Organism*`s according to a given threshold.
-    int partition(int threshold_ = threshold)
-    {
-        // The bound within which the `Organism`s with threshold-clearing scores are confined.
-        auto bound_ = std::partition(organisms.begin(), organisms.end(), [&](const Organism* this_){return this_->score > threshold_*score;});
-
-        // Returns the number of `Organism`s with threshold-clearing scores.
-        return std::distance(organisms.begin(), bound_);
-    }
-
-    // Enlarges the number of `Organism`s allocated to this `Species`.
+    // Enlarges this `Species`' allocation.
     void enlarge(int allocation_)
     {
         // Copies this `Species`' `Organism`s in their current order until the new allocation is reached.
-        for (auto this_ = organisms.begin(); organisms.size() != allocation_; this_++)
+        for (auto this_ = organisms.begin(); allocation_--; this_++)
         {
             organisms.push_back(new Organism(*this_));
         }
@@ -119,7 +109,7 @@ public:
         return;
     }
 
-    // Shortens the number of `Organism`s allocated to this `Species`.
+    // Shortens this `Species`' allocation.
     void shorten(int allocation_)
     {
         // Discards this `Species`' `Organism`s in reverse order until the new allocation is reached.
@@ -132,14 +122,14 @@ public:
         return;
     }
 
-    // Retains the `Organism`s with threshold-clearing scores.
-    void retain()
+    // Partitions this `Species`' `Organism*`s according to a given threshold.
+    void partition(int threshold_ = threshold)
     {
-        // Groups the `Organism`s with threshold-clearing scores.
-        int allocation_ = this->partition(int threshold_);
+        // The partition point separating this `Species`' threshold-clearing `Organism*`s.
+        auto point_ = std::partition(organisms.begin(), organisms.end(), [&](const Organism* this_){return this_->score > threshold_*score;});
 
         // Discards the `Organism`s with sub-threshold scores.
-        this->shorten(allocation_);
+        this->shorten(std::distance(organisms.begin(), point_));
 
         return;
     }
@@ -153,16 +143,12 @@ public:
         // Adjusts this `Species`' allocation.
         if (organisms.size() < allocation_)
         {
-            // Shuffles.
-            this->shuffle();
-
+            // Enlarges.
             this->enlarge(allocation_);
         }
         else
         {
-            // Sorts.
-            this->sort();
-
+            // Shortens.
             this->shorten(allocation_);
         }
 

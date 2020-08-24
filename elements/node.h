@@ -3,7 +3,7 @@
 
   Data:
   ----
-  innovation: an `Innovation*` specifying this `Node`'s identity within a `Population`.
+  tag: an `unsigned integer` specifying this `Node`'s identity within a `Population`.
   element_state: an `enum` (`element_state`) which specifies whether this `Node` is active.
   role: an `enum` (`link_role`) labeling this `Node`'s role in the artificial neural network.
   inLinks: a `std::vector<Link*>` encoding this `Node`'s incoming `Link`s.
@@ -40,7 +40,6 @@
 
 #include <vector>
 #include "../neatnik/neatnik.h"
-#include "../innovation/innovation.h"
 
 
 // Defines a `Node`.
@@ -50,8 +49,8 @@ public:
 
     // Data:
 
-    // Label marking the moment when this `Node` first appeared in the `Population`.
-    Innovation* innovation;
+    // A unique label specifying this `Link`'s identity within a `Population`.
+    unsigned int tag;
 
     // Control flag which specifies whether this `Node` is ENABLED or DISABLED.
     element_state state;
@@ -77,10 +76,10 @@ public:
     // Constructors:
 
     // Complete constructor for which all non-dynamic data specifying the `Node` is provided.
-    Node(Innovation* innovation_, element_state state_, node_role role_, activation function_, double x_, double y_);
+    Node(unsigned int tag_, element_state state_, node_role role_, activation function_, double x_, double y_);
 
     // Split constructor resposible for initializing a new `Node` instance placed half-way between two other `Node`s.
-    Node(Innovation* innovation_, element_state state_, node_role role_, Node* inNode_, Node* outNode_, activation function_);
+    Node(unsigned int tag_, element_state state_, node_role role_, Node* inNode_, Node* outNode_, activation function_);
 
     // Copy constructor responsible for making a shallow copy of the input `Node`.
     Node(Node* thatNode_);

@@ -36,6 +36,9 @@ Genotype::Genotype(Organism* thatOrganism_, Genotype* thatGenotype_)
     // Assigns this `Genotype` to the pertinent `Organism`.
     organism = thatOrganism_;
 
+    // Copies the input `Genotype`'s logbook.
+    logbook = thatGenotype_->logbook;
+
     // Makes deep copies of the input `Genotype`'s `Chromosome`s.
     links = new Chromosome<Link>(thatGenotype_->links);
     nodes = new Chromosome<Node>(thatGenotype_->nodes);
@@ -75,14 +78,39 @@ int Genotype::size()
     return links->size() + nodes->size();
 }
 
+// Searches for a `Link` or `Node` with matching bounding identification tags.
+bool Genotype::contain(int role_, element_type type_, unsigned int in_tag_, unsigned int out_tag_)
+{
+    // Generates the search key associated with the `Link` or `Node` of interest.
+    long int key_ = Key(role_, type_, in_tag_, out_tag_);
+
+    // Searches for a log entry matching the `Link` or `Node` of interest.
+    auto match_ = logbook.find(key_);
+
+    // Returns the search result.
+    if (match_ != logbook.end())
+    {
+        // A matching `Link` or `Node` has been found.
+        return true;
+    }
+    else
+    {
+        // No matching `Link` or `Node` has been found.
+        return false;
+    }
+}
+
 // Encodes a new `Link` into this `Genotype`.
 void Genotype::encode(link_role role_, element_type type_, Node* inNode_, Node* outNode_, double weight_)
 {
-    // Retrieves or generates the `Innovation` which will tag the new `Link`.
-    Innovation* innovation_ = organism->population->tag(type_, inNode_->innovation->tag, outNode_->innovation->tag);
+    // Retrieves the `Population` log entry matching the new `Link`.
+    std::pair<long int, unsigned int> log_ = organism->population->tag(role_, type_, inNode_->tag, outNode_->tag);
 
-    // Creates a new `Link`.
-    Link* newLink_ = new Link(innovation_, ENABLED, role_, inNode_, outNode_, weight_);
+    // Logs the new `Link`.
+    logbook.insert(log_.first);
+
+    // Creates the new `Link`.
+    Link* newLink_ = new Link(log_.second, ENABLED, role_, inNode_, outNode_, weight_);
 
     // Inserts the new `Link` into the appropriate `Chromosome`.
     links->insert(newLink_);
@@ -93,11 +121,14 @@ void Genotype::encode(link_role role_, element_type type_, Node* inNode_, Node* 
 // Encodes a new `Node` into this `Genotype`.
 Node* Genotype::encode(node_role role_, element_type type_, Node* inNode_, Node* outNode_, activation function_)
 {
-    // Retrieves or generates the `Innovation` which will tag the new `Node`.
-    Innovation* innovation_ = organism->population->tag(type_, inNode_->innovation->tag, outNode_->innovation->tag);
+    // Retrieves the `Population` log entry matching the new `Node`.
+    std::pair<long int, unsigned int> log_ = organism->population->tag(role_, type_, inNode_->tag, outNode_->tag);
 
-    // Creates a new `Node`.
-    Node* newNode_ = new Node(innovation_, ENABLED, role_, inNode_, outNode_, function_);
+    // Logs the new `Node`.
+    logbook.insert(log_.first);
+
+    // Creates the new `Node`.
+    Node* newNode_ = new Node(log_.second, ENABLED, role_, inNode_, outNode_, function_);
 
     // Inserts the new `Node` into the appropriate `Chromosome`.
     nodes->insert(newNode_);
@@ -108,11 +139,14 @@ Node* Genotype::encode(node_role role_, element_type type_, Node* inNode_, Node*
 // Encodes a new `Node` into this `Genotype`.
 void Genotype::encode(element_state state_, node_role role_, element_type type_, activation function_, int x_, int y_)
 {
-    // Retrieves or generates the `Innovation` which will tag the new `Node`.
-    Innovation* innovation_ = organism->population->tag(type_, x_, x_);
+    // Retrieves the `Population` log entry matching the new `Node`.
+    std::pair<long int, unsigned int> log_ = organism->population->tag(role_, type_, x_, y_);
 
-    // Creates a new `Node`.
-    Node* newNode_ = new Node(innovation_, state_, role_, function_, x_, y_);
+    // Logs the new `Node`.
+    logbook.insert(log_.first);
+
+    // Creates the new `Node`.
+    Node* newNode_ = new Node(log_.second, state_, role_, function_, x_, y_);
 
     // Inserts the new `Node` into the appropriate `Chromosome`.
     nodes->insert(newNode_);
@@ -298,7 +332,7 @@ void Genotype::add_link(link_role role_, int attempts_)
         }
 
         // Checks whether the selected `Node`s have ever been directly linked in this `Genotype`.
-        if (links->contain({role_}, {ENABLED, DISABLED}, inNode_->innovation->tag, outNode_->innovation->tag))
+        if (this->contain(role_, LINK, inNode_->tag, outNode_->tag))
         {
             // Enforces the selection of another pair of random `Node`s.
             continue;
@@ -414,7 +448,7 @@ void Genotype::add_node(link_role role_, int attempts_)
         }
 
         // Checks whether the selected `Link` has ever been split in this `Genotype`.
-        if (nodes->contain({HIDDEN}, {ENABLED}, theLink_->innovation->in_tag, theLink_->innovation->out_tag))
+        if (this->contain(HIDDEN, NODE, theLink_->inNode->tag, theLink_->outNode->tag))
         {
             // Enforces the selection of another pair of random `Node`s.
             continue;

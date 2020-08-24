@@ -228,29 +228,6 @@ std::vector<E*> Chromosome<E>::retrieve(const std::vector<int> roles_, const std
     return elements_;
 }
 
-// Searches for a `E*` with matching role(s), state(s), and bounding identification tags.
-template <class E>
-bool Chromosome<E>::contain(const std::vector<int> roles_, const std::vector<int> states_, int in_tag_, int out_tag_)
-{
-    // Retrieves all `E*`s with matching role(s) and state(s).
-    std::vector<E*> elements_ = this->retrieve(roles_, states_);
-
-    // Searches for a matching `E*`.
-    auto position_ = std::find_if(elements_.begin(), elements_.end(), [&](const E* this_){return this_->innovation->in_tag == in_tag_ && this_->innovation->out_tag == out_tag_;});
-
-    // Returns the search result.
-    if (position_ != elements_.end())
-    {
-        // A matching `E*` has been found.
-        return true;
-    }
-    else
-    {
-        // No matching `E*` has been found.
-        return false;
-    }
-}
-
 // Sorts all `E*`s with matching role(s) and state(s) according to their identification tag.
 template <class E>
 std::vector<E*> Chromosome<E>::sort(const std::vector<int> roles_, const std::vector<int> states_)

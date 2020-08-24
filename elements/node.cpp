@@ -3,10 +3,10 @@
 // Constructors:
 
 // Complete constructor for which all non-dynamic data specifying the `Node` is provided.
-Node::Node(Innovation* innovation_, element_state state_, node_role role_, activation function_, double x_, double y_)
+Node::Node(unsigned int tag_, element_state state_, node_role role_, activation function_, double x_, double y_)
 {
     // Tags this `Node` as a way of tracking its first appearance in the `Population`.
-    innovation = innovation_;
+    tag = tag_;
 
     // Specifies whether this `Node` should be enabled at initialization.
     state = state_;
@@ -23,10 +23,10 @@ Node::Node(Innovation* innovation_, element_state state_, node_role role_, activ
 }
 
 // Split constructor resposible for initializing a new `Node` instance placed half-way between two other `Node`s.
-Node::Node(Innovation* innovation_, element_state state_, node_role role_, Node* inNode_, Node* outNode_, activation function_)
+Node::Node(unsigned int tag_, element_state state_, node_role role_, Node* inNode_, Node* outNode_, activation function_)
 {
     // Tags this `Node` as a way of tracking its first appearance in the `Population`.
-    innovation = innovation_;
+    tag = tag_;
 
     // Specifies whether this `Node` should be enabled at initialization.
     state = state_;
@@ -46,7 +46,7 @@ Node::Node(Innovation* innovation_, element_state state_, node_role role_, Node*
 Node::Node(Node* thatNode_)
 {
     // Copies that `Node`'s identification tag as a way of tracking its first appearance in the `Population`.
-    innovation = thatNode_->innovation;
+    tag = thatNode_->tag;
 
     // Copies that `Node`'s state which specifies whether it is currently enabled.
     state = thatNode_->state;
@@ -115,11 +115,11 @@ void Node::assimilate(Node* thatNode_)
 // Overloaded '<' operation for comparing two `Node`s' innovation tags.
 bool Node::operator<(const Node& thatNode_) const
 {
-    return this->innovation->tag < thatNode_.innovation->tag;
+    return this->tag < thatNode_.tag;
 }
 
 // Overloaded '==' operation for checking whether two `Node`s possess the same identification tags.
 bool Node::operator ==(const Node& thatNode_) const
 {
-    return this->innovation->tag == thatNode_.innovation->tag;
+    return this->tag == thatNode_.tag;
 }

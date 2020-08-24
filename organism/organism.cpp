@@ -63,6 +63,15 @@ void Organism::crossover(Organism* thatOrganism_)
     return;
 }
 
+// Ranks this `Organism`'s performance with respect to a given metric.
+void Organism::rank()
+{
+    // Measures this `Organism`'s performance and assigns it a score.
+    // rank(this);
+
+    return;
+}
+
 
 // Operators:
 

@@ -3,6 +3,7 @@
 
   Data:
   ----
+  logbook: a `std::unordered_set<long int>` logging all `Link`s and `Node`s in this `Genotype`.
   links: a `Chromosome<Link>*` encoding the `Link`s which make up this `Genotype`.
   nodes: a `Chromosome<Node>*` encoding the `Node`s which make up this `Genotype`.
 
@@ -18,6 +19,7 @@
   Methods:
   -------
   size: retrieves the total number of `Link`s and `Node`s encoded by this `Genotype`.
+  contain: searches for a `Link` or `Node` with matching bounding identification tags.
   encode: encodes a new `Link` or `Node` into this `Genotype`.
   mutate: mutates this `Genotype`.
   enable_link: enables a DISABLED `Link` belonging to this `Genotype`.
@@ -35,6 +37,8 @@
 
 #pragma once
 
+#include <utility>
+#include <unordered_set>
 #include <algorithm>
 #include "../neatnik/neatnik.h"
 #include "../utils/utils.h"
@@ -53,6 +57,9 @@ public:
 
     // Pointer to the `Organism` associated with this `Genotype`.
     Organism* organism;
+
+    // The log of all `Link`s and `Node`s in this `Genotype`.
+    std::unordered_set<long int> logbook;
 
     // `Chromosome<E>*`s encoding the `E`s which make up this `Genotype`.
     Chromosome<Link>* links;
@@ -79,6 +86,9 @@ public:
 
     // Retrieves the total number of `Link`s and `Node`s encoded by this `Genotype`.
     int size();
+
+    // Searches for a `Link` or `Node` with matching bounding identification tags.
+    bool contain(int role_, element_type type_, unsigned int in_tag_, unsigned int out_tag_);
 
     // Encodes a new `Link` into this `Genotype`.
     void encode(link_role role_, element_type type_, Node* inNode_, Node* outNode_, double weight_);

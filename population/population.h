@@ -4,8 +4,8 @@
   Data:
   ----
   organisms: a `std::vector<Organism*>` listing all individuals which make up this `Population`.
-  history: a `std::unordered_map<long int, Innovation*>` logging this `Population`'s genetic history.
-  innovation_counter: an `integer` which keeps track of how many unique `Innovation`s have been recorded.
+  logbook: a `std::unordered_map<long int, int>` logging all `Link`s and `Node`s in this `Population`.
+  innovation_counter: an `integer` which keeps track of the total number of logged `Link`s and `Node`s.
 
   Constructors:
   ------------
@@ -13,9 +13,9 @@
 
   Methods:
   -------
-  tag: tags a `Link` or `Node` with a new or existent `Innovation`.
-  log: logs a new `Innovation`.
-  key: generates an `Innovation`'s unique identification key.
+  tag: tags a `Link` or `Node` with a new or existent identification tag.
+  log: logs a new `Link` or `Node`.
+  key: generates a unique search key for a given `Link` or `Node`.
 */
 
 /*
@@ -25,11 +25,10 @@
 #pragma once
 
 #include <vector>
+#include <utility>
 #include <unordered_map>
-#include <fstream>
-#include <string>
 #include "../neatnik/neatnik.h"
-#include "../innovation/innovation.h"
+#include "../utils/utils.h"
 #include "../organism/organism.h"
 
 class Population
@@ -41,11 +40,11 @@ private:
     // The collection of `Organism*`s which make up this `Population`.
     std::vector<Organism*> organisms;
 
-    // The collection of `Innovation*`s recording this `Population`'s genetic history.
-    std::unordered_map<long int, Innovation*> history;
+    // The log of all `Link`s and `Node`s in this `Population`.
+    std::unordered_map<long int, unsigned int> logbook;
 
-    // A counter storing the identification tag which was last assigned to an `Innovation`.
-    unsigned int innovation_counter = 0;
+    // A counter storing the identification tag which was last assigned to a `Link` or `Node`.
+    unsigned int tag_counter = 0;
 
 
 public:
@@ -58,12 +57,12 @@ public:
 
     // Methods:
 
-    // Tags a `Link` or `Node` with a new or existent `Innovation`.
-    Innovation* tag(element_type type_, unsigned int in_tag_, unsigned int out_tag_);
+    // Tags a `Link` or `Node` with a new or existent identification tag.
+    std::pair<long int, unsigned int> tag(int role_, element_type type_, unsigned int in_tag_, unsigned int out_tag_);
 
-    // Logs a new `Innovation`.
-    Innovation* log(element_type type_, unsigned int in_tag_, unsigned int out_tag_);
+    // Logs a new `Link` or `Node`.
+    std::pair<long int, unsigned int> log(long int key_);
 
-    // Generates an `Innovation`'s unique identification key.
-    long int key(element_type type_, unsigned int in_tag_, unsigned int out_tag_);
+    // Generates a unique search key for a given `Link` or `Node`.
+    long int key(int role_, element_type type_, unsigned int in_tag_, unsigned int out_tag_);
 };
