@@ -4,29 +4,47 @@
 
 // Initialization constructor.
 // TODO: Make the `Genotype` initialization more flexible.
-Organism::Organism(Population* thatPopulation_, Archetype thatArchetype_)
+Organism::Organism(Species* thatSpecies_, Archetype thatArchetype_)
 {
-    // Assigns this `Organism` to the pertinent `Population`.
-    population = thatPopulation_;
+    // Assigns this `Organism` to the pertinent `Species`.
+    species = thatSpecies_;
 
     // Initializes this `Organism`'s `Phenotype`.
     phenotype = new Phenotype(this);
 
     // Initializes this `Organism`'s `Genotype`.
     genotype = new Genotype(this, thatArchetype_);
+
+    // Assigns this `Organism` to the default batch.
+    batch = CONTESTANT;
+
+    // Initializes this `Organism`'s age.
+    age = 0;
+
+    // Initializes this `Organism`'s score.
+    score = 0.;
 }
 
 // Copy constructor responsible for making a deep copy of the input `Organism`.
 Organism::Organism(Organism* thatOrganism_)
 {
-    // Assigns this `Organism` to the pertinent `Population`.
-    population = thatOrganism_->population;
+    // Assigns this `Organism` to the pertinent `Species`.
+    species = thatOrganism_->species;
 
     // Initializes this `Organism`'s `Phenotype`.
     phenotype = new Phenotype(this);
 
     // Copies the input `Organism`'s `Genotype`.
     genotype = new Genotype(this, thatOrganism_->genotype);
+
+    // Copies the input `Organism`'s batch.
+    batch = thatOrganism_->batch;
+
+    // Copies the input `Organism`'s age.
+    age = thatOrganism_->age;
+
+    // Copies the input `Organism`'s score.
+    score = thatOrganism_->score;
 }
 
 
@@ -45,48 +63,34 @@ Organism::~Organism()
 
 // Methods:
 
-// Mutates this `Organism`.
-void Organism::mutate()
+// Produces a new `Organism` through mutation.
+Organism* Organism::mutate()
 {
-    // Mutates this `Organism`'s `Genotype`.
-    this->genotype->mutate();
+    // Initializes the new `Organism`.
+    Organism* newOrganism_ = new Organism(this);
 
-    return;
+    // Mutates the new `Organism`.
+    newOrganism_->genotype->mutate();
+
+    // Sets the new `Organism`'s age.
+    newOrganism_->age = 0;
+
+    // Returns the new `Organism`.
+    return newOrganism_;
 }
 
-// Assimilates another `Organism` through a crossover operation.
-void Organism::crossover(Organism* thatOrganism_)
+// Produces a new `Organism` through assimilation.
+Organism* Organism::assimilate(Organism* thatOrganism_)
 {
-    // Incorporates the input `Organism`'s `Genotype` into this `Organism`.
-    this->genotype->crossover(thatOrganism_->genotype);
+    // Initializes the new `Organism`.
+    Organism* newOrganism_ = new Organism(this);
 
-    return;
-}
+    // Prompts the new `Organism` to assimilate the input `Organism`'s `Genotype`.
+    newOrganism_->genotype->assimilate(thatOrganism_->genotype);
 
-// Ranks this `Organism`'s performance with respect to a given metric.
-void Organism::rank()
-{
-    // Measures this `Organism`'s performance and assigns it a score.
-    // rank(this);
+    // Sets the new `Organism`'s age.
+    newOrganism_->age = 0;
 
-    return;
-}
-
-
-// Operators:
-
-// Overloaded '<' operation for comparing two `Organism`s' scores or `Genotype` lengths.
-bool Organism::operator <(const Organism& thatOrganism_) const
-{
-    // Checks whether the two `Organism`s possess the same score.
-    if (this->score == thatOrganism_.score)
-    {
-        // Compares the `Organism`s according to the size of their `Genotype`s.
-        return this->genotype->size() > thatOrganism_.genotype->size();
-    }
-    else
-    {
-        // Compares the `Organism`s according to their scores.
-        return this->score < thatOrganism_.score;
-    }
+    // Returns the new `Organism`.
+    return newOrganism_;
 }

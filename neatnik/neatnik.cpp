@@ -1,74 +1,54 @@
-#include <iostream>
-#include "../neatnik/neatnik.h"
-#include "../utils/utils.h"
-#include "../elements/elements.h"
-#include "../innovation/innovation.h"
-#include "../genotype/chromosome.h"
-#include "../genotype/genotype.h"
-#include "../phenotype/phenotype.h"
-#include "../organism/organism.h"
-#include "../population/population.h"
+#include "neatnik.h"
 
+// Constructor:
 
-/*
-  Parameters:
-  ----------
-*/
-
-// Number of attempts at mutating a `Genotype`.
-int attempts = 10;
-
-// Bounding value for `Link` weights.
-double bound = 8;
-
-// Perturbation power when altering `Link` weights.
-double power = 1;
-
-// An `Organism`'s survival threshold.
-double threshold = 1.;
-
-
-/*
-  Probability Mass Functions:
-  ----------- ---- ---------
-*/
-
-// P.M.F. for enabling of a random DISABLED `Link`: {FAILURE, SUCCESS}.
-std::vector<double> enabling_link = {0, 0};
-
-// P.M.F. for altering each ENABLED `Link`: {FAILURE, SUCCESS}.
-std::vector<double> altering_links = {0, 0};
-
-// P.M.F. for altering a `Link`'s weight: {FAILURE, PERTURB, REPLACE}.
-std::vector<double> altering_weight = {0, 0, 0};
-
-// P.M.F. for adding a `Link` of a given role: {FAILURE, FORWARD, RECURRENT, BIASING, LOOPED}.
-std::vector<double> adding_link = {0, 0, 0, 0, 0};
-
-// P.M.F. for enabling a DISABLED INPUT `Node`: {FAILURE, SUCCESS}.
-std::vector<double> enabling_node = {0, 0};
-
-// P.M.F. for altering each HIDDEN `Node`: {FAILURE, SUCCESS}.
-std::vector<double> altering_nodes = {0, 0};
-
-// P.M.F. for altering a `Node`'s activation function: {FAILURE, HEAVISIDE, RELU, LOGISTIC}.
-std::vector<double> altering_function = {0, 0, 0, 0};
-
-// P.M.F. for adding a `Node` by splitting a `Link` of a given role: {FAILURE, FORWARD, RECURRENT}.
-std::vector<double> adding_node = {0, 0, 0};
-
-// P.M.F. for assimilating a `Link` or `Node` during crossover: {FAILURE, SUCCESS}
-std::vector<double> assimilating_element = {0, 0};
-
-
-/*
-  Main:
-  ----
-*/
-
-int main()
+// Initializes `Neatnik`.
+Neatnik::Neatnik(Experiment* experiment_, std::vector<Archetype> thoseArchetypes_)
 {
-    std::cout << "Test successful." << std::endl;
+    // Sets the `Experiment` responsible for driving evolution.
+    experiment = experiment_;
 
-    return 0;
+    // Sets the `Genus` to undergo evolution.
+    genus = new Genus(this, thoseArchetypes_);
+}
+
+
+// Methods:
+
+// Tags a `Link` or `Node` with a new or existent identification tag.
+std::pair<long int, unsigned int> Neatnik::tag(int role_, element_type type_, unsigned int in_tag_, unsigned int out_tag_)
+{
+    // Generates the search key associated with the `Link` or `Node` of interest.
+    long int key_ = Key(role_, type_, in_tag_, out_tag_);
+
+    // Searches for a log entry matching the `Link` or `Node` of interest.
+    auto match_ = logbook.find(key_);
+
+    // Checks whether a matching log has been found.
+    if (match_ != logbook.end())
+    {
+        // Returns the matching log.
+        return *match_;
+    }
+    else
+    {
+        // Returns a new log entry.
+        return this->log(key_);
+    }
+}
+
+// Logs a new `Link` or `Node`.
+std::pair<long int, unsigned int> Neatnik::log(long int key_)
+{
+    // Creates a new log.
+    std::pair<long int, unsigned int> log_ (key_, tag_counter);
+
+    // Increments the identification tag counter.
+    tag_counter++;
+
+    // Logs the new `Link` or `Node`.
+    logbook.insert(log_);
+
+    // Returns the newly created log entry.
+    return log_;
 }

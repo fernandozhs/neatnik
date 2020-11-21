@@ -1,12 +1,14 @@
 /*
-  An `Organism` encapsulates the `Genotype`, `Phenotype`, and score of an individual within a `Population`.
+  An `Organism` encapsulates the `Genotype` and `Phenotype`, and score of an individual within a `Species`.
 
   Data:
   ----
-  population: the `Population*` to which this `Organism` belongs.
+  species: the `Species*` to which this `Organism` belongs.
   genotype: the `Genotype*` storing this `Organism`'s genetic information.
   phenotype: the `Phenotype*` embodying the artificial neural network encoded by this `Organism`'s `Genotype`.
-  score: a `double` measuring this `Organism`'s performance with respect to a given metric.
+  batch: an `enum` (`object_batch`) labeling the batch to which this `Organism` belongs within a `Species`.
+  age: an `integer` storing this `Organism`'s age.
+  score: a `double` storing this `Organism`'s score.
 
   Constructor:
   -----------
@@ -19,19 +21,16 @@
 
   Methods:
   -------
-  mutate: mutates this `Organism`.
-  crossover: assimilates another `Organism` through a crossover operation.
-
-  Operator:
-  --------
-  <: compares the scores or `Genotype` lengths of two `Organism`s.
+  mutate: produces a new `Organism` through mutation.
+  assimilate: produces a new `Organism` through assimilation.
 */
 
 #pragma once
 
-#include "../neatnik/neatnik.h"
+#include "../main/main.h"
 #include "../genotype/genotype.h"
 #include "../phenotype/phenotype.h"
+#include "../genus/species.h"
 
 class Organism
 {
@@ -39,8 +38,8 @@ public:
 
     // Data:
 
-    // The `Population*` to which this `Organism` belongs.
-    Population* population;
+    // The `Species*` to which this `Organism` belongs.
+    Species* species;
 
     // This `Organism`'s genetic make-up.
     Genotype* genotype;
@@ -48,15 +47,21 @@ public:
     // The artificial neural network associated with this `Organism`.
     Phenotype* phenotype;
 
-    // A measure of this `Organism`'s performance with respect to a given metric.
-    double score = 0.;
+    // Establishes the batch to which this `Organism` belongs.
+    object_batch batch;
+
+    // This `Organism`'s age.
+    int age;
+
+    // This `Organism`'s score.
+    double score;
 
 
     // Constructor:
 
     // Initialization constructor.
     // TODO: Make the `Genotype` initialization more flexible.
-    Organism(Population* thatPopulation_, Archetype thatArchetype_);
+    Organism(Species* thatSpecies_, Archetype thatArchetype_);
 
     // Copy constructor responsible for making a deep copy of the input `Organism`.
     Organism(Organism* thatOrganism_);
@@ -70,18 +75,9 @@ public:
 
     // Methods:
 
-    // Mutates this `Organism`.
-    void mutate();
+    // Produces a new `Organism` through mutation.
+    Organism* mutate();
 
-    // Assimilates another `Organism` through a crossover operation.
-    void crossover(Organism* thatOrganism_);
-
-    // Ranks this `Organism`'s performance with respect to a given metric.
-    void rank();
-
-
-    // Operator:
-
-    // Overloaded '<' operation for comparing two `Organism`s' scores or `Genotype` lengths.
-    bool operator <(const Organism& thatOrganism_) const;
+    // Produces a new `Organism` through assimilation.
+    Organism* assimilate(Organism* thatOrganism_);
 };

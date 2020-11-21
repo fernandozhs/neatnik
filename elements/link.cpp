@@ -3,9 +3,12 @@
 // Constructors:
 
 // Complete constructor for which all data specifying the `Link` is provided.
-Link::Link(unsigned int tag_, element_state state_, link_role role_, Node* inNode_, Node* outNode_, double weight_)
+Link::Link(long int key_, unsigned int tag_, element_state state_, link_role role_, Node* inNode_, Node* outNode_, double weight_)
 {
-    // Tags this `Link` as a way of tracking its first appearance in the `Population`.
+    // Assings this `Link` a reference key.
+    key = key_;
+
+    // Assigns this `Link` an identification tag.
     tag = tag_;
 
     // Specifies whether this `Link` should be enabled at initialization.
@@ -25,7 +28,10 @@ Link::Link(unsigned int tag_, element_state state_, link_role role_, Node* inNod
 // Copy constructor responsible for making a shallow copy of the input `Link`.
 Link::Link(Link* thatLink_)
 {
-    // Copies that `Link`'s identification tag as a way of tracking its first appearance in the `Population`.
+    // Copies that `Link`'s reference key.
+    key = thatLink_->key;
+
+    // Copies that `Link`'s identification tag.
     tag = thatLink_->tag;
 
     // Copies that `Link`'s state which specifies whether it is currently enabled.
@@ -60,26 +66,11 @@ void Link::engage()
     return;
 }
 
-// Makes this `Link` assimilate another `Link`'s weight.
-void Link::assimilate(Link* thatLink_)
-{
-    // Incorporates the input `Link`'s weight.
-    weight = thatLink_->weight;
-
-    return;
-}
-
 
 // Operators:
 
 // Overloaded '<' operation for comparing two `Link`s' identification tags.
 bool Link::operator <(const Link& thatLink_) const
 {
-    return this->tag < thatLink_.tag;
-}
-
-// Overloaded '==' operation for checking whether two `Link`s possess the same identification tags.
-bool Link::operator ==(const Link& thatLink_) const
-{
-    return this->tag == thatLink_.tag;
+    return tag < thatLink_.tag;
 }

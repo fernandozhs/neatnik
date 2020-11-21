@@ -15,7 +15,7 @@
 */
 
 // Samples an integer from a probability mass function defined by a collection of weights `w_`.
-int P(std::vector<double> w_);
+int P(std::vector<double> w_, int condition_ = true);
 
 // Samples a uniformly-distributed integer from the interval `[a_, b_)`.
 int U(int a_, int b_);
@@ -50,8 +50,8 @@ double ReLU(std::vector<double>& x_);
   -------- ---------
 */
 
-// Generates a unique search key from the `unsigned integers`: `i_` (4 bits), `j_` (1 bit), `k_` (30 bits), `l_` (30 bits).
+// Generates a unique search key from the `unsigned integers`: `i_` (3 bits), `j_` (1 bit), `k_` (30 bits), `l_` (30 bits).
 long int Key(unsigned int i_, unsigned int j_, unsigned int k_, unsigned int l_);
 
 // Rounds all entries of `x_` while preserving their sum.
-std::vector<double> Round(std::vector<double> x_);
+std::vector<double> Round(std::vector<double>& x_);

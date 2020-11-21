@@ -25,7 +25,7 @@
 #pragma once
 
 #include <vector>
-#include "../neatnik/neatnik.h"
+#include "../main/main.h"
 #include "../organism/organism.h"
 
 

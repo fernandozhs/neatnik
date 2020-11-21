@@ -3,9 +3,12 @@
 // Constructors:
 
 // Complete constructor for which all non-dynamic data specifying the `Node` is provided.
-Node::Node(unsigned int tag_, element_state state_, node_role role_, activation function_, double x_, double y_)
+Node::Node(long int key_, unsigned int tag_, element_state state_, node_role role_, activation function_, double x_, double y_)
 {
-    // Tags this `Node` as a way of tracking its first appearance in the `Population`.
+    // Assings this `Node` a reference key.
+    key = key_;
+
+    // Assigns this `Node` an identification tag.
     tag = tag_;
 
     // Specifies whether this `Node` should be enabled at initialization.
@@ -23,9 +26,12 @@ Node::Node(unsigned int tag_, element_state state_, node_role role_, activation 
 }
 
 // Split constructor resposible for initializing a new `Node` instance placed half-way between two other `Node`s.
-Node::Node(unsigned int tag_, element_state state_, node_role role_, Node* inNode_, Node* outNode_, activation function_)
+Node::Node(long int key_, unsigned int tag_, element_state state_, node_role role_, Node* inNode_, Node* outNode_, activation function_)
 {
-    // Tags this `Node` as a way of tracking its first appearance in the `Population`.
+    // Assings this `Node` a reference key.
+    key = key_;
+
+    // Assigns this `Node` an identificatin tag.
     tag = tag_;
 
     // Specifies whether this `Node` should be enabled at initialization.
@@ -45,7 +51,10 @@ Node::Node(unsigned int tag_, element_state state_, node_role role_, Node* inNod
 // Copy constructor responsible for making a shallow copy of the input `Node`.
 Node::Node(Node* thatNode_)
 {
-    // Copies that `Node`'s identification tag as a way of tracking its first appearance in the `Population`.
+    // Copies that `Node`'s reference key.
+    key = thatNode_->key;
+
+    // Copies that `Node`'s identification tag.
     tag = thatNode_->tag;
 
     // Copies that `Node`'s state which specifies whether it is currently enabled.
@@ -100,26 +109,12 @@ void Node::disengage()
     return;
 }
 
-// Makes this `Node` assimilate another `Node`'s activation function.
-void Node::assimilate(Node* thatNode_)
-{
-    // Incorporates the input `Node`'s activation function.
-    function = thatNode_->function;
-
-    return;
-}
-
 
 // Operators:
 
 // Overloaded '<' operation for comparing two `Node`s' innovation tags.
 bool Node::operator<(const Node& thatNode_) const
 {
-    return this->tag < thatNode_.tag;
+    return tag < thatNode_.tag;
 }
 
-// Overloaded '==' operation for checking whether two `Node`s possess the same identification tags.
-bool Node::operator ==(const Node& thatNode_) const
-{
-    return this->tag == thatNode_.tag;
-}

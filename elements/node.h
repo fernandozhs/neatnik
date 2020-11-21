@@ -3,6 +3,7 @@
 
   Data:
   ----
+  key: a unique `long int` specifying this `Node`'s relative position within the artificial neural network.
   tag: an `unsigned integer` specifying this `Node`'s identity within a `Population`.
   element_state: an `enum` (`element_state`) which specifies whether this `Node` is active.
   role: an `enum` (`link_role`) labeling this `Node`'s role in the artificial neural network.
@@ -24,12 +25,10 @@
   -------
   engage: prompts this `Node` to produce and broadcast an output signal.
   disengage: primes this `Node` for a subsequent engagement.
-  assimilate: makes this `Node` assimilate another `Node`'s activation function.
 
-  Operators:
-  ---------
+  Operator:
+  --------
   <: compares the innovation tags of two `Node`s.
-  ==: checks whether two `Node`s possess the same identification tag
 */
 
 /*
@@ -39,7 +38,7 @@
 #pragma once
 
 #include <vector>
-#include "../neatnik/neatnik.h"
+#include "../main/main.h"
 
 
 // Defines a `Node`.
@@ -49,17 +48,20 @@ public:
 
     // Data:
 
+    // A unique label specifying specifying this `Node`'s relative position within the artificial neural network.
+    long int key;
+
     // A unique label specifying this `Link`'s identity within a `Population`.
     unsigned int tag;
 
     // Control flag which specifies whether this `Node` is ENABLED or DISABLED.
     element_state state;
 
-    // Establishes whether the instance operates as an INPUT, HIDDEN, BIAS, or OUTPUT `Node`.
+    // Establishes whether this instance operates as an INPUT, HIDDEN, BIAS, or OUTPUT `Node`.
     node_role role;
 
     // Vectors containing all of this `Node`'s incoming and outgoing `Link*`s.
-    std::vector<Link*> inLinks {NULL};
+    std::vector<Link*> inLinks {nullptr};
     std::vector<Link*> outLinks;
 
     // The external weighted signals arriving at this `Node`, and its last generated output.
@@ -76,10 +78,10 @@ public:
     // Constructors:
 
     // Complete constructor for which all non-dynamic data specifying the `Node` is provided.
-    Node(unsigned int tag_, element_state state_, node_role role_, activation function_, double x_, double y_);
+    Node(long int key_, unsigned int tag_, element_state state_, node_role role_, activation function_, double x_, double y_);
 
     // Split constructor resposible for initializing a new `Node` instance placed half-way between two other `Node`s.
-    Node(unsigned int tag_, element_state state_, node_role role_, Node* inNode_, Node* outNode_, activation function_);
+    Node(long int key_, unsigned int tag_, element_state state_, node_role role_, Node* inNode_, Node* outNode_, activation function_);
 
     // Copy constructor responsible for making a shallow copy of the input `Node`.
     Node(Node* thatNode_);
@@ -93,15 +95,9 @@ public:
     // Primes this `Node` for a subsequent engagement.
     void disengage();
 
-    // Makes this `Node` assimilate another `Node`'s activation function.
-    void assimilate(Node* thatNode_);
-
 
     // Operators:
 
     // Overloaded '<' operation for comparing two `Node`s' innovation tags.
     bool operator <(const Node& thatNode_) const;
-
-    // Overloaded '==' operation for checking whether two `Node`s possess the same identification tags.
-    bool operator ==(const Node& thatNode_) const;
 };

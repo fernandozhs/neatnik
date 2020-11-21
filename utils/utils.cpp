@@ -6,7 +6,7 @@
 */
 
 // Samples an integer from a probability mass function defined by a collection of weights `w_`.
-int P(std::vector<double> w_)
+int P(std::vector<double> w_, int condition_)
 {
     // Seeds the random number generator.
     std::random_device seed;
@@ -16,7 +16,7 @@ int P(std::vector<double> w_)
     std::discrete_distribution<int> distribution (w_.begin(), w_.end());
 
     // Returns a sample integer.
-    return distribution(generator);
+    return condition_*distribution(generator);
 }
 
 // Samples a uniformly-distributed integer from the interval `[a_, b_)`.
@@ -124,7 +124,7 @@ double ReLU(std::vector<double>& x_)
   -------- ---------
 */
 
-// Generates a unique search key from the `unsigned integers`: `i_` (4 bits), `j_` (1 bit), `k_` (30 bits), `l_` (30 bits).
+// Generates a unique search key from the `unsigned integers`: `i_` (3 bits), `j_` (1 bit), `k_` (30 bits), `l_` (30 bits).
 long int Key(unsigned int i_, unsigned int j_, unsigned int k_, unsigned int l_)
 {
     // Returns the unique search key.
@@ -132,7 +132,7 @@ long int Key(unsigned int i_, unsigned int j_, unsigned int k_, unsigned int l_)
 }
 
 // Rounds all entries of `x_` while preserving their sum.
-std::vector<double> Round(std::vector<double> x_)
+std::vector<double> Round(std::vector<double>& x_)
 {
     // The indices, the integer part, and the fractional part of `x_`.
     std::vector<int> indices_(x_.size());

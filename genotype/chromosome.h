@@ -3,31 +3,31 @@
 
   Data:
   ----
-  genes: an unordered map between `integer`s and `std::vector<E*>`s encoding the `E` (`Node` or `Link`) elements of a `Genotype`.
+  logbook: an `std::unordered_map<long int, E*>` logging all `E` elements of a `Genotype`.
+  genes: an `std::unordered_map<int, std::vector<E*>>` cataloguing the `E` elements of a `Genotype`.
 
-  Constructors:
-  ------------
+  Constructor:
+  -----------
   initialization: creates an empty `Chromosome`.
-  copy: makes a deep copy of the input `Chromosome`.
 
   Destructor:
   ----------
-  resursive: recursively deletes this `Chromosome`'s entire genetic make-up.
+  resursive: deletes this `Chromosome` and all the `E` elements it encodes.
 
   Methods:
   -------
-  size: retrieves the total number of stored `E*`s with matching role(s).
-  begin: returns an iterator at the beginning of a given locus.
-  end: returns an iterator at the end of a given locus.
-  insert: inserts a `E*` into this `Chromosome`.
-  remove: removes a `E*` from this `Chromosome`.
+  size: retrieves the total number of encoded `E`s with matching role(s).
+  begin: retrieves an iterator at the beginning of a given locus.
+  end: retrieves an iterator at the end of a given locus.
+  find: retrieves the `E*` with a matching key.
+  insert: inserts an `E*` into this `Chromosome`.
+  remove: removes an `E*` from this `Chromosome`.
   toggle: toggles the state of an encoded `E` element.
-  match: finds the `E*` with a matching identification tag.
   random: selects a random `E*` with matching role(s) and state(s).
   retrieve: retrieves all `E*`s with matching role(s) and state(s).
-  sort: sorts all `E*`s with matching role(s) and state(s) according to their identification tag.
-  crossover: assimilates another `Chromosome` through a crossover operation.
-  compatibility: assesses the compatibility with another `Chromosome`.
+  sort: sorts all `E*`s with matching role(s) and state(s) according the criterium for comparing two `E*`s.
+  compare: computes the fractions of matching, disjoint, and excess `E*`s relative to the input `Chromosome`.
+  element_comparison: the criterion for comparing two `E*`s through the '<' operation.
 */
 
 /*
@@ -38,8 +38,9 @@
 
 #include <unordered_map>
 #include <vector>
+#include <utility>
 #include <algorithm>
-#include "../neatnik/neatnik.h"
+#include "../main/main.h"
 #include "../utils/utils.h"
 
 template <class E>
@@ -49,7 +50,10 @@ public:
 
     // Data:
 
-    // An unordered map between `integer`s and `std::vector<E*>`s encoding `E` (`Node` or `Link`) elements
+    // The log of all `E` elements in this `Chromosome`.
+    std::unordered_map<long int, E*> logbook;
+
+    // A catalog of `E` elements organized by their roles and states.
     std::unordered_map<int, std::vector<E*>> genes;
 
 
@@ -58,52 +62,49 @@ public:
     // Initialization constructor responsible for creating an empty `Chromosome`.
     Chromosome();
 
-    // Copy constructor responsible for making a deep copy of the input `Chromosome`.
-    Chromosome(Chromosome<E>* thatChromosome_);
-
 
     // Destructor:
 
-    // Recursive destructor.
+    // Recursive destructor responsible for deleting this `Chromosome` and all the `E` elements it encodes.
     ~Chromosome();
 
 
     // Methods:
 
-    // Retrieves the total number of stored `E*`s with matching role(s).
+    // Retrieves the total number of encoded `E*`s with matching role(s).
     int size(const std::vector<int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1});
 
-    // Returns an iterator at the beginning of a given locus.
+    // Retrieves an iterator at the beginning of a given locus.
     typename std::vector<E*>::iterator begin(int locus_);
 
-    // Returns an iterator at the end of a given locus.
+    // Retrieves an iterator at the end of a given locus.
     typename std::vector<E*>::iterator end(int locus_);
 
-    // Inserts a `E*` into this `Chromosome`.
-    void insert(E* element_);
+    // Retrieves the `E*` with a matching key.
+    E* find(long int key_);
 
-    // Removes a `E*` from this `Chromosome`.
-    void remove(E* element_);
+    // Inserts an `E*` into this `Chromosome`.
+    E* insert(E* thatElement_);
+
+    // Removes an `E*` from this `Chromosome`.
+    E* remove(E* thatElement_);
 
     // Toggles the state of an encoded `E` element.
-    void toggle(E* element_);
-
-    // Finds the `E*` with a matching identification tag.
-    E* match(E* element_);
+    void toggle(E* thatElement_, int state_);
 
     // Selects a random `E*` with matching role(s) and state(s).
-    E* random(const std::vector<int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1});
+    E* random(const std::vector<int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1}, const std::vector<double> weights_ = {});
 
     // Retrieves all `E*`s with matching role(s) and state(s).
     std::vector<E*> retrieve(const std::vector<int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1});
 
-    // Sorts all `E*`s with matching role(s) and state(s) according to their identification tag.
+    // Sorts all `E*`s with matching role(s) and state(s) according to their identification tags.
     std::vector<E*> sort(const std::vector<int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1});
 
-    // Assimilates another `Chromosome` through a crossover operation.
-    void crossover(Chromosome<E>* thatChromosome_);
+    // Computes the fractions of matching, disjoint, and excess `E*`s relative to the input `Chromosome`.
+    // TODO: Make this method capable of distinguishing matching elements by their internal parameters.
+    std::vector<double> compare(Chromosome<E>* thatChromosome_);
 
-    // Assesses the compatibility with another `Chromosome`.
-    // TODO: Make this method more flexible by implementing tunable parameters, as well as more fine-grained by distinguishing matching elements by their internal parameters.
-    double compatibility(Chromosome<E>* thatChromosome_);
+    // The criterium for comparing two `E*`s through the '<' operation.
+    static bool element_comparison(E* thatElement_, E* thisElement_);
 };
