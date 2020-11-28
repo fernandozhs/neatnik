@@ -527,5 +527,5 @@ double Genotype::compatibility(Genotype* thatGenotype_)
     std::vector<double> comparison_ = links->compare(thatGenotype_->links);
 
     // Returns the degree of compatibility with the input `Genotype`.
-    return std::inner_product(comparison_.begin(), comparison_.end(), compatibility_weights.begin(), 0.0);
+    return std::inner_product(comparison_.begin(), comparison_.end(), compatibility_weights.begin(), 0.);
 }

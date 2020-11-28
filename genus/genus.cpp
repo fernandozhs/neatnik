@@ -8,17 +8,8 @@ Genus::Genus(Neatnik* thatNeatnik_, std::vector<Archetype> thoseArchetypes_)
     // Assigns this `Genus` to the pertinent `Neatnik`.
     neatnik = thatNeatnik_;
 
-    // Initializes this `Genus`' `Group<Species>`.
-    //species = new Group<Species>();
-
     // Initializes this `Genus`' starting `Species`.
-    Species* newSpecies_ = new Species(this, thoseArchetypes_);
-
-    // Inserts the starting `Species` into this `Genus`.
-    Genus::species->insert(newSpecies_);
-
-    // Promotes the starting `Species` to this `Genus`' DOMINANT batch.
-    Genus::species->toggle(newSpecies_, DOMINANT);
+    this->spawn(DOMINANT, thoseArchetypes_);
 }
 
 
@@ -35,12 +26,28 @@ Genus::~Genus()
 // Methods:
 
 // Spawns a new `Species` within this `Genus`.
-Species* Genus::spawn(Organism* thatOrganism_)
+Species* Genus::spawn(object_batch batch_, Organism* thatOrganism_)
 {
-    // Spawns a new CONTESTANT `Species` containing the input `Organism` alone.
-    Species* newSpecies_ = new Species(this, thatOrganism_);
+    // Retrieves an identidication tag for the new `Species`.
+    unsigned int tag_ = neatnik->tag();
 
-    // Inserts the new CONTESTANT `Species` into this `Genus`.
+    // Spawns a new `Species` containing the input `Organism` alone.
+    Species* newSpecies_ = new Species(tag_, batch_, this, thatOrganism_);
+
+    // Inserts the new `Species` into this `Genus`.
+    return species->insert(newSpecies_);
+}
+
+// Spawns a new `Species` within this `Genus`.
+Species* Genus::spawn(object_batch batch_, std::vector<Archetype> thoseArchetypes_)
+{
+    // Retrieves an identification tag for the new `Species`.
+    unsigned int tag_ = neatnik->tag();
+
+    // Spawns a new `Species` with `Organism`s characterized by minimal fully-connected `Genotype`s.
+    Species* newSpecies_ = new Species(tag_, batch_, this, thoseArchetypes_);
+
+    // Inserts the new `Species` into this `Genus`.
     return species->insert(newSpecies_);
 }
 
@@ -58,7 +65,7 @@ std::vector<Organism*> Genus::spawn_organisms()
     }
 
     // Spawns a new generation of `Organism`s.
-    while (thoseOrganisms_.size() != population_size)
+    while (thoseOrganisms_.size() < population_size - species->size())
     {
         // Randomly selects a DOMINANT or CONTESTANT `Species`.
         Species* theSpecies_ = species->random({DOMINANT, CONTESTANT}, weights_);
@@ -70,17 +77,7 @@ std::vector<Organism*> Genus::spawn_organisms()
         }
     }
 
-    // Returns this `Genus`' new generation of `Organism`s.
-    return thoseOrganisms_;
-}
-
-// Allocates a new generation of `Organism`s to new or existing `Species`.
-void Genus::allocate_organisms()
-{
-    // Spawns a new generation of `Organism`'s.
-    std::vector<Organism*> thoseOrganisms_ = this->spawn_organisms();
-
-    // Removes and deletes all CONTESTANT `Organism`s belonging to this `Genus`' `Species`.
+    // Removes and deletes all CONTESTANT `Organism`s stored in this `Genus`' `Species`.
     for (const auto& theSpecies_ : species->retrieve({DOMINANT, CONTESTANT}))
     {
         for (const auto& theOrganism_ : theSpecies_->organisms->retrieve({CONTESTANT}))
@@ -89,10 +86,34 @@ void Genus::allocate_organisms()
         }
     }
 
+    // Returns this `Genus`' new generation of `Organism`s.
+    return thoseOrganisms_;
+}
+
+// Allocates a new generation of `Organism`s to new or existing `Species`.
+void Genus::allocate_organisms(std::vector<Organism*> thoseOrganisms_)
+{
+    // Spawns a new generation of `Organism`'s.
+    //std::vector<Organism*> thoseOrganisms_ = this->spawn_organisms();
+
+    // Removes and deletes all CONTESTANT `Organism`s stored in this `Genus`' `Species`.
+    /*
+    for (const auto& theSpecies_ : species->retrieve({DOMINANT, CONTESTANT}))
+    {
+        for (const auto& theOrganism_ : theSpecies_->organisms->retrieve({CONTESTANT}))
+        {
+            delete theSpecies_->organisms->remove(theOrganism_);
+        }
+    }
+     */
+
     // Allocates each newly spawned `Organism` to a new or existing `Species`.
     for (const auto& theOrganism_ : thoseOrganisms_)
     {
-        for (const auto& theSpecies_ : species->retrieve({DOMINANT, CONTESTANT}))
+        // Retrieves the updated list of `Species` in this `Genus`.
+        std::vector<Species*> thoseSpecies_ = species->retrieve({DOMINANT, CONTESTANT});
+
+        for (const auto& theSpecies_ : thoseSpecies_)
         {
             // Checks the current `Organism`'s compatibility to an existing `Species`.
             if (theSpecies_->organism_compatibility(theOrganism_))
@@ -101,10 +122,10 @@ void Genus::allocate_organisms()
                 theSpecies_->organisms->insert(theOrganism_);
                 break;
             }
-            else if (theSpecies_ == species->back(CONTESTANT))
+            else if (theSpecies_ == thoseSpecies_.back())
             {
-                // Allocates the current `Organism` to a new `Species`.
-                this->spawn(theOrganism_);
+                // Allocates the current `Organism` to a new CONTESTANT `Species`.
+                this->spawn(CONTESTANT, theOrganism_);
             }
         }
     }
@@ -132,7 +153,7 @@ void Genus::elect_species(const std::vector<int> batches_)
     auto partition_ = std::partition(thoseSpecies_.begin(), thoseSpecies_.end(), this->species_rejection);
 
     // Rearranges the collected `Species` according to their comparison criterion.
-    std::partial_sort(thoseSpecies_.rbegin(), std::make_reverse_iterator(partition_), thoseSpecies_.rend(), this->species_comparison);
+    std::sort(thoseSpecies_.rbegin(), std::make_reverse_iterator(partition_), this->species_comparison);
 
     // Updates each of the matching batch(es) to reflect the `Species` sifting.
     for (const auto& batch_ : batches_)

@@ -72,6 +72,9 @@ Organism* Organism::mutate()
     // Mutates the new `Organism`.
     newOrganism_->genotype->mutate();
 
+    // Sets the new `Organism`'s batch.
+    newOrganism_->batch = CONTESTANT;
+
     // Sets the new `Organism`'s age.
     newOrganism_->age = 0;
 
@@ -87,6 +90,9 @@ Organism* Organism::assimilate(Organism* thatOrganism_)
 
     // Prompts the new `Organism` to assimilate the input `Organism`'s `Genotype`.
     newOrganism_->genotype->assimilate(thatOrganism_->genotype);
+
+    // Sets the new `Organism`'s batch.
+    newOrganism_->batch = CONTESTANT;
 
     // Sets the new `Organism`'s age.
     newOrganism_->age = 0;

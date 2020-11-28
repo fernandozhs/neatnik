@@ -3,9 +3,10 @@
 
   Data:
   ----
+  tag: a unique `unsigned integer` specifying this `Species`' identity within a `Genus`.
+  batch: an `enum` (`object_batch`) specifying the batch to which this `Species` belongs.
   genus: the `Genus*` to which this `Species` belongs.
   organisms: a `Group<Organism>*` storing the `Organism`s which make up this `Species`.
-  batch: an `enum` (`object_batch`) specifying the batch to which this `Species` belongs.
   scores: a `double` storing this `Species`' score.
 
   Constructor:
@@ -45,26 +46,29 @@ public:
 
     // Data:
 
+    // A unique label specifying this `Species`' identity within a `Genus`.
+    unsigned int tag;
+
+    // The batch to which this `Species` belongs.
+    object_batch batch;
+
     // The `Genus` to which this `Species` belongs.
     Genus* genus;
 
     // A `Group<Organism>*`s storing the `Organism`s which make up this `Species`.
     Group<Organism>* organisms;
 
-    // The batch to which this `Species` belongs.
-    object_batch batch;
-
     // This `Species`' score.
-    double score;
+    double score = -1.;
 
 
     // Constructor:
 
     // Initializes this `Species` with `Organism`s characterized by minimal fully-connected `Genotype`s.
-    Species(Genus* thatGenus_, std::vector<Archetype> thoseArchetypes_);
+    Species(unsigned int tag_, object_batch batch_, Genus* thatGenus_, std::vector<Archetype> thoseArchetypes_);
 
-    // Spawns this `Species` from single `Organism`.
-    Species(Genus* thatGenus_, Organism* thatOrganism_);
+    // Spawns this `Species` from a single `Organism`.
+    Species(unsigned int tag_, object_batch batch_, Genus* thatGenus_, Organism* thatOrganism_);
 
 
     // Destructor:
@@ -87,7 +91,7 @@ public:
     // Sifts out the rejected `Organism*`s from the matching batch(es).
     void elect_organisms(const std::vector<int> batches_);
 
-    // The compatibility criterium for `Organism*`s.
+    // The compatibility criterion for `Organism*`s.
     bool organism_compatibility(Organism* thatOrganism_);
 
     // The criterion for comparing two `Organism*`s.

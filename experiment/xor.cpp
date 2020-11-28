@@ -3,13 +3,12 @@
 // Methods:
 
 // Evaluates the performance of the input `Organism`.
-double Experiment::evaluate(Organism* thatOrganism_)
+double XOR::evaluate(Organism* thatOrganism_)
 {
     // Initializes the return variables.
-    double score_ = 0.;
+    double score_ = 4.;
 
-    // Increments the input `Organism`'s age and assembles its `Phenotype`.
-    thatOrganism_->age++;
+    // Assembles the input `Organism`'s `Phenotype`.
     thatOrganism_->phenotype->assemble();
 
     // Defines the target behavior to be evolved by this `Experiment`.
@@ -22,11 +21,11 @@ double Experiment::evaluate(Organism* thatOrganism_)
         thatOrganism_->phenotype->activate(input_);
 
         // Evaluates the `Phenotype`'s performance.
-        score_ += std::abs(thatOrganism_->phenotype->output.back() - output_);
+        score_ -= std::abs(thatOrganism_->phenotype->output.back() - output_);
     }
 
     // Computes the input `Organism`'s score based on its `Phenotype` performance.
-    score_ = std::pow(4. - score_, 2);
+    //score_ = std::pow(4. - score_, 2);
 
     // Returns the input `Organism`'s score.
     return score_;

@@ -1,5 +1,4 @@
 #include <iostream>
-#include "../neatnik/neatnik.h"
 #include "../utils/utils.h"
 #include "../elements/elements.h"
 #include "../genotype/chromosome.h"
@@ -10,18 +9,20 @@
 #include "../genus/species.h"
 #include "../genus/genus.h"
 #include "../experiment/experiment.h"
+#include "../experiment/xor.h"
 #include "../neatnik/neatnik.h"
 
+#include <iomanip>
 
 /*
   Parameters:
   ----------
 */
 
-// Number of evolutions cycles for which the experiment will run.
-int evolution_cycles = 200;
+// Number of generational cycles for which `Neatnik` will run.
+int generational_cycles = 200;
 
-// Number of `Organism`s in the experiment's `Genus`.
+// Number of `Organism`s in `Neatnik`'s `Genus`.
 int population_size = 100;
 
 // Number of attempts at mutating a `Genotype`.
@@ -46,7 +47,7 @@ double rejection_fraction = 0.5;
 int stagnation_threshold = 20;
 
 // The degree of similarity beyond which `Organism`s group in separate `Species`.
-double compatibility_threshold = 0.3;
+double compatibility_threshold = 0.5;
 
 
 /*
@@ -101,6 +102,90 @@ std::vector<double> spawning_organism = {0.7, 0.3};
 
 int main()
 {
+    // Sets the Neural Networks' starting structure.
+    Archetype theArchetype_ {{ENABLED, BIAS, Identity, 0, 2}, {ENABLED, INPUT, Identity, 0, 1}, {ENABLED, INPUT, Identity, 0, 0}, {ENABLED, OUTPUT, Heaviside, 1, 2}};
+    std::vector<Archetype> theArchetypes_ (population_size, theArchetype_);
+
+    // Selects an `Experiment` to drive evolution.
+    Experiment* theExperiment_ = new XOR;
+
+    // Initializes `Neatnik`.
+    Neatnik* theNeatnik = new Neatnik(theExperiment_, theArchetypes_);
+
+    int tries_ = 4;
+
+    while (tries_--)
+    {
+
+        std::cout << "Starting" << std::endl;
+
+        for (const auto& theSpecies_ : theNeatnik->genus->species->retrieve())
+        {
+            std::cout << theSpecies_->tag << " " << theSpecies_->organisms->size() << " " << theSpecies_->score << std::endl;
+
+            for (const auto& theOrganism_ : theSpecies_->organisms->retrieve())
+            {
+                std::cout << theOrganism_->score << std::endl;
+            }
+        }
+
+        std::cout << "Evaluate" << std::endl;
+        // Scores the `Genus` according to its performance.
+        theNeatnik->experiment->evaluate(theNeatnik->genus);
+
+        for (const auto& theSpecies_ : theNeatnik->genus->species->retrieve())
+        {
+            std::cout << theSpecies_->tag << " " << theSpecies_->organisms->size() << " " << theSpecies_->score << std::endl;
+
+            for (const auto& theOrganism_ : theSpecies_->organisms->retrieve())
+            {
+                std::cout << theOrganism_->score << std::endl;
+            }
+        }
+
+        std::cout << "Elect" << std::endl;
+        // Sifts out the rejected `Species`s.
+        theNeatnik->genus->elect_species({DOMINANT, CONTESTANT});
+
+        for (const auto& theSpecies_ : theNeatnik->genus->species->retrieve())
+        {
+            std::cout << theSpecies_->tag << " " << theSpecies_->organisms->size() << " " << theSpecies_->score << std::endl;
+
+            for (const auto& theOrganism_ : theSpecies_->organisms->retrieve())
+            {
+                std::cout << theOrganism_->score << std::endl;
+            }
+        }
+
+        std::cout << "Spawn" << std::endl;
+        // Spawns new generation of `Organism`s and allocates them to new or existing `Species`.
+        auto orgs = theNeatnik->genus->spawn_organisms();
+
+        for (const auto& theSpecies_ : theNeatnik->genus->species->retrieve())
+        {
+            std::cout << theSpecies_->tag << " " << theSpecies_->organisms->size() << " " << theSpecies_->score << std::endl;
+
+            for (const auto& theOrganism_ : theSpecies_->organisms->retrieve())
+            {
+                std::cout << theOrganism_->score << std::endl;
+            }
+        }
+
+        std::cout << "Allocate" << std::endl;
+        // Spawns new generation of `Organism`s and allocates them to new or existing `Species`.
+        theNeatnik->genus->allocate_organisms(orgs);
+
+        for (const auto& theSpecies_ : theNeatnik->genus->species->retrieve())
+        {
+            std::cout << theSpecies_->tag << " " << theSpecies_->organisms->size() << " " << theSpecies_->score << std::endl;
+
+            for (const auto& theOrganism_ : theSpecies_->organisms->retrieve())
+            {
+                std::cout << theOrganism_->score << std::endl;
+            }
+        }
+    }
+
     std::cout << "Test successful." << std::endl;
 
     return 0;

@@ -65,13 +65,16 @@ public:
     // Methods:
 
     // Spawns a new `Species` within this `Genus`.
-    Species* spawn(Organism* thatOrganism_);
+    Species* spawn(object_batch batch_, Organism* thatOrganism_);
+
+    // Spawns a new `Species` within this `Genus`.
+    Species* spawn(object_batch batch_, std::vector<Archetype> thoseArchetypes_);
 
     // Spawns a new generation of `Organism`s within this `Genus`.
     std::vector<Organism*> spawn_organisms();
 
     // Allocates a new generation of `Organism` to new or existing `Species`.
-    void allocate_organisms();
+    void allocate_organisms(std::vector<Organism*> thoseOrganisms_);
 
     // Sifts out the rejected `Species*`s from the matching batch(es).
     void elect_species(const std::vector<int> batches_);

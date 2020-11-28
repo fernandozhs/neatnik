@@ -25,7 +25,7 @@
   toggle: toggles the state of an encoded `E` element.
   random: selects a random `E*` with matching role(s) and state(s).
   retrieve: retrieves all `E*`s with matching role(s) and state(s).
-  sort: sorts all `E*`s with matching role(s) and state(s) according the criterium for comparing two `E*`s.
+  sort: sorts all `E*`s with matching role(s) and state(s) according to their identification tags.
   compare: computes the fractions of matching, disjoint, and excess `E*`s relative to the input `Chromosome`.
   element_comparison: the criterion for comparing two `E*`s through the '<' operation.
 */

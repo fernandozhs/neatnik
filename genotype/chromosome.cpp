@@ -247,7 +247,7 @@ std::vector<double> Chromosome<E>::compare(Chromosome<E>* thatChromosome_)
             ++this_;
         }
         // Counts a disjoint `E`.
-        if (this->element_comparison(*that_, *this_))
+        else if (this->element_comparison(*that_, *this_))
         {
             ++disjoint_;
             ++that_;

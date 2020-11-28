@@ -6,10 +6,10 @@ CC = g++
 
 all: build NEATenn; \
 
-debug: build/main.o build/utils.o build/elements.o build/chromosome.o build/genotype.o build/phenotype.o build/organism.o build/group.o build/species.o build/genus.o build/experiment.o build/neatnik.o; \
+debug: build/main.o build/utils.o build/elements.o build/chromosome.o build/genotype.o build/phenotype.o build/organism.o build/group.o build/species.o build/genus.o build/experiment.o build/xor.o build/neatnik.o; \
 $(CC) $(CFLAGS) -pg $^ -o NEATenn
 
-NEATenn: build/main.o build/utils.o build/elements.o build/chromosome.o build/genotype.o build/phenotype.o build/organism.o build/group.o build/species.o build/genus.o build/experiment.o build/neatnik.o; \
+NEATenn: build/main.o build/utils.o build/elements.o build/chromosome.o build/genotype.o build/phenotype.o build/organism.o build/group.o build/species.o build/genus.o build/experiment.o build/xor.o build/neatnik.o; \
 $(CC) $(CFLAGS) $^ -o $@
 
 build/main.o: main/main.cpp main/main.h; \
@@ -43,6 +43,9 @@ build/genus.o: genus/genus.cpp genus/genus.h; \
 $(CC) $(CFLAGS) -c $< -o $@
 
 build/experiment.o: experiment/experiment.cpp experiment/experiment.h; \
+$(CC) $(CFLAGS) -c $< -o $@
+
+build/xor.o: experiment/xor.cpp experiment/xor.h; \
 $(CC) $(CFLAGS) -c $< -o $@
 
 build/neatnik.o: neatnik/neatnik.cpp neatnik/neatnik.h; \

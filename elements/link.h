@@ -4,7 +4,7 @@
   Data:
   ----
   key: a unique `long int` specifying this `Link`'s relative position within the artificial neural network.
-  tag: a unique `unsigned integer` specifying this `Link`'s identity within a `Population`.
+  tag: a unique `unsigned integer` specifying this `Link`'s identity within a `Genus`.
   element_state: an `enum` (`element_state`) which specifies whether this `Link` is active.
   role: an `enum` (`link_role`) labeling this `Link`'s role in the artificial neural network.
   inNode: the `Node*` from which this `Link`'s input signal originates.

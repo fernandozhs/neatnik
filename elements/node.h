@@ -4,7 +4,7 @@
   Data:
   ----
   key: a unique `long int` specifying this `Node`'s relative position within the artificial neural network.
-  tag: an `unsigned integer` specifying this `Node`'s identity within a `Population`.
+  tag: an `unsigned integer` specifying this `Node`'s identity within a `Genus`.
   element_state: an `enum` (`element_state`) which specifies whether this `Node` is active.
   role: an `enum` (`link_role`) labeling this `Node`'s role in the artificial neural network.
   inLinks: a `std::vector<Link*>` encoding this `Node`'s incoming `Link`s.
@@ -51,7 +51,7 @@ public:
     // A unique label specifying specifying this `Node`'s relative position within the artificial neural network.
     long int key;
 
-    // A unique label specifying this `Link`'s identity within a `Population`.
+    // A unique label specifying this `Link`'s identity within a `Genus`.
     unsigned int tag;
 
     // Control flag which specifies whether this `Node` is ENABLED or DISABLED.

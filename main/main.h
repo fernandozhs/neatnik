@@ -24,12 +24,15 @@ class Genotype;
 // Phenotypical class: `Phenotype`.
 class Phenotype;
 
-// Evolutionary classes: `Organism`, `Group`, `Species`, `Genus`, and `Experiment`.
+// Evolutionary classes: `Organism`, `Group`, `Species`, and `Genus`.
 class Organism;
 template <class O> class Group;
 class Species;
 class Genus;
+
+// Experiment classes:
 class Experiment;
+class XOR;
 
 // Control class: `Neatnik`.
 class Neatnik;
@@ -76,10 +79,10 @@ enum spawning_process {MUTATION=0, ASSIMILATION=1};
   ----------
 */
 
-// Number of evolutions cycles for which the experiment will run.
-extern int evolution_cycles;
+// Number of generational cycles for which `Neatnik` will run.
+extern int generational_cycles;
 
-// Number of `Organism`s in the experiment's `Genus`.
+// Number of `Organism`s in `Neatnik`'s `Genus`.
 extern int population_size;
 
 // Number of attempts at mutating a `Genotype`.

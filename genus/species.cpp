@@ -3,21 +3,24 @@
 // Constructor:
 
 // Initializes this `Species` with `Organism`s characterized by minimal fully-connected `Genotype`s.
-Species::Species(Genus* thatGenus_, std::vector<Archetype> thoseArchetypes_)
+Species::Species(unsigned int tag_, object_batch batch_, Genus* thatGenus_, std::vector<Archetype> thoseArchetypes_)
 {
+    // Assigns this `Species` an identification tag.
+    tag = tag_;
+
+    // Assigns this `Species` to a batch.
+    batch = batch_;
+
     // Assigns this `Species` to the pertinent `Genus`.
     genus = thatGenus_;
 
     // Initializes this `Species`' `Group<Organism>`.
     organisms = new Group<Organism>();
 
-    // Assigns this `Species` to the default batch.
-    batch = CONTESTANT;
-
     // Creates `Organism`s characterized by minimal fully-connected `Genotype`s.
     for (const auto& thatArchetype_ : thoseArchetypes_)
     {
-        // Initializes a new CONTESTANT `Organism`.
+        // Initializes a new `Organism`.
         Organism* newOrganism_ = new Organism(this, thatArchetype_);
 
         // Adds the newly created `Organism` to this `Species`.
@@ -30,16 +33,19 @@ Species::Species(Genus* thatGenus_, std::vector<Archetype> thoseArchetypes_)
 }
 
 // Spawns this `Species` from a single `Organism`.
-Species::Species(Genus* thatGenus_, Organism* thatOrganism_)
+Species::Species(unsigned int tag_, object_batch batch_, Genus* thatGenus_, Organism* thatOrganism_)
 {
+    // Assigns this `Species` an identification tag.
+    tag = tag_;
+
+    // Assigns this `Species` to a batch.
+    batch = batch_;
+
     // Assigns this `Species` to the pertinent `Genus`.
     genus = thatGenus_;
 
     // Initializes this `Species`' `Group<Organism>`.
     organisms = new Group<Organism>();
-
-    // Assigns this `Species` to the default batch.
-    batch = CONTESTANT;
 
     // Adds the input `Organism` to this `Species`.
     organisms->insert(thatOrganism_);
@@ -67,8 +73,8 @@ Organism* Species::spawn(Organism* thatOrganism_)
     // Spawns a new `Organism` through mutation.
     Organism* newOrganism_ = thatOrganism_->mutate();
 
-    // Inserts the new `Organism` into this `Species`.
-    return organisms->insert(newOrganism_);
+    // Returns the new `Organism` spawned within this `Species`.
+    return newOrganism_;
 }
 
 // Spawns a new `Organism` within this `Species`.
@@ -77,8 +83,8 @@ Organism* Species::spawn(Organism* thatOrganism_, Organism* thisOrganism_)
     // Spawns a new `Organism` through assimilation.
     Organism* newOrganism_ = thatOrganism_->assimilate(thisOrganism_);
 
-    // Inserts the new `Organism` into this `Species`.
-    return organisms->insert(newOrganism_);
+    // Returns the new `Organism` spawned within this `Species`.
+    return newOrganism_;
 }
 
 // Attempts to spawn a new `Organism` within this `Species`.
@@ -162,7 +168,6 @@ Organism* Species::spawn_organism(int attempts_)
     return nullptr;
 }
 
-
 // Sifts out the rejected `Organism*`s from the matching batch(es).
 void Species::elect_organisms(const std::vector<int> batches_)
 {
@@ -185,7 +190,7 @@ void Species::elect_organisms(const std::vector<int> batches_)
         switch (batch_)
         {
             case DOMINANT:
-                // Retrieves candidate DOMINANT `Organism`s.
+                // Retrieves the candidate DOMINANT `Organism`s.
                 thisOrganism_ = organisms->back(DOMINANT);
                 thatOrganism_ = thoseOrganisms_.back();
 
@@ -199,7 +204,7 @@ void Species::elect_organisms(const std::vector<int> batches_)
 
             case CONTESTANT:
                 // Ensures the sifted-out CONTESTANT `Organism`s are removed and deleted.
-                for (auto thatOrganism_ = partition_; thatOrganism_ != thoseOrganisms_.rend(); ++thatOrganism_)
+                for (auto thatOrganism_ = partition_ + 1; thatOrganism_ != thoseOrganisms_.rend(); ++thatOrganism_)
                 {
                     delete organisms->remove(*thatOrganism_);
                 }
