@@ -1,15 +1,15 @@
-# Makefile for NEATnik.
+# Makefile for Neatnik.
 # Contributors: Fernando Zago.
 
 CFLAGS = -g -Wall -std=c++17
 CC = g++
 
-all: build NEATenn; \
+all: build Neatnik; \
 
-debug: build/main.o build/utils.o build/elements.o build/chromosome.o build/genotype.o build/phenotype.o build/organism.o build/group.o build/species.o build/genus.o build/experiment.o build/xor.o build/neatnik.o; \
+debug: build/main.o build/utils.o build/elements.o build/chromosome.o build/genotype.o build/phenotype.o build/organism.o build/species.o build/experiment.o build/xor.o build/genus.o; \
 $(CC) $(CFLAGS) -pg $^ -o NEATenn
 
-NEATenn: build/main.o build/utils.o build/elements.o build/chromosome.o build/genotype.o build/phenotype.o build/organism.o build/group.o build/species.o build/genus.o build/experiment.o build/xor.o build/neatnik.o; \
+Neatnik: build/main.o build/utils.o build/elements.o build/chromosome.o build/genotype.o build/phenotype.o build/organism.o build/species.o build/experiment.o build/xor.o build/genus.o; \
 $(CC) $(CFLAGS) $^ -o $@
 
 build/main.o: main/main.cpp main/main.h; \
@@ -33,13 +33,7 @@ $(CC) $(CFLAGS) -c $< -o $@
 build/organism.o: organism/organism.cpp organism/organism.h; \
 $(CC) $(CFLAGS) -c $< -o $@
 
-build/group.o: genus/group.cpp genus/group.h; \
-$(CC) $(CFLAGS) -c $< -o $@
-
 build/species.o: genus/species.cpp genus/species.h; \
-$(CC) $(CFLAGS) -c $< -o $@
-
-build/genus.o: genus/genus.cpp genus/genus.h; \
 $(CC) $(CFLAGS) -c $< -o $@
 
 build/experiment.o: experiment/experiment.cpp experiment/experiment.h; \
@@ -48,7 +42,7 @@ $(CC) $(CFLAGS) -c $< -o $@
 build/xor.o: experiment/xor.cpp experiment/xor.h; \
 $(CC) $(CFLAGS) -c $< -o $@
 
-build/neatnik.o: neatnik/neatnik.cpp neatnik/neatnik.h; \
+build/genus.o: genus/genus.cpp genus/genus.h; \
 $(CC) $(CFLAGS) -c $< -o $@
 
 build: ;\

@@ -3,7 +3,7 @@
 
   Methods:
   -------
-  evaluate: evaluates the performance of the input `Organism`.
+  performance: scores the performance of the input `Phenotype`.
 */
 
 /*
@@ -23,6 +23,6 @@ public:
 
     // Methods:
 
-    // Evaluates the performance of the input `Organism`.
-    double evaluate(Organism* thatOrganism_);
+    // Scores the performance of the input `Phenotype`.
+    double performance(Phenotype* thatPhenotype_);
 };

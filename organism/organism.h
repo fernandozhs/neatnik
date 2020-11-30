@@ -3,10 +3,10 @@
 
   Data:
   ----
-  species: the `Species*` to which this `Organism` belongs.
+  species: a `Species*` specifying the taxon to which this `Organism` belongs.
+  group: an `enum` (`taxon_group`) specifying the group to which this `Organism` belongs within its taxon.
   genotype: the `Genotype*` storing this `Organism`'s genetic information.
   phenotype: the `Phenotype*` embodying the artificial neural network encoded by this `Organism`'s `Genotype`.
-  batch: an `enum` (`object_batch`) labeling the batch to which this `Organism` belongs within a `Species`.
   age: an `integer` storing this `Organism`'s age.
   score: a `double` storing this `Organism`'s score.
 
@@ -38,17 +38,17 @@ public:
 
     // Data:
 
-    // The `Species*` to which this `Organism` belongs.
+    // The taxon to which this `Organism` belongs.
     Species* species;
+
+    // The group to which this `Organism` belongs.
+    taxon_group group;
 
     // This `Organism`'s genetic make-up.
     Genotype* genotype;
 
     // The artificial neural network associated with this `Organism`.
     Phenotype* phenotype;
-
-    // Establishes the batch to which this `Organism` belongs.
-    object_batch batch;
 
     // This `Organism`'s age.
     int age;

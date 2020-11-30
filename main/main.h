@@ -34,9 +34,6 @@ class Genus;
 class Experiment;
 class XOR;
 
-// Control class: `Neatnik`.
-class Neatnik;
-
 
 /*
   Non-Standard Types:
@@ -55,8 +52,8 @@ enum link_role {FORWARD=1, RECURRENT=2, BIASING=3, LOOPED=4};
 // Labels the possible roles of a `Node` element.
 enum node_role {INPUT=1, HIDDEN=2, BIAS=3, OUTPUT=4};
 
-// Labels the possible batches an `Organism` or a `Species` can belong to.
-enum object_batch {CONTESTANT=0, DOMINANT=1};
+// Labels the possible groups an `Organism` or a `Species` can belong to within their respective taxons.
+enum taxon_group {CONTESTANT=0, DOMINANT=1};
 
 // A `Node`'s activation function.
 typedef double (*activation)(std::vector<double>&);
@@ -79,10 +76,10 @@ enum spawning_process {MUTATION=0, ASSIMILATION=1};
   ----------
 */
 
-// Number of generational cycles for which `Neatnik` will run.
+// Number of generational cycles for which an `Experiment` will run.
 extern int generational_cycles;
 
-// Number of `Organism`s in `Neatnik`'s `Genus`.
+// Number of `Organism`s in an `Experiment`'s `Genus`.
 extern int population_size;
 
 // Number of attempts at mutating a `Genotype`.

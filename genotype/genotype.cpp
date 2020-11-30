@@ -103,7 +103,7 @@ bool Genotype::contain(int role_, element_type type_, unsigned int in_tag_, unsi
 Link* Genotype::encode(link_role role_, element_type type_, Node* inNode_, Node* outNode_, double weight_)
 {
     // Retrieves the `Genus` log entry matching the new `Link`.
-    std::pair<long int, unsigned int> log_ = organism->species->genus->neatnik->tag(role_, type_, inNode_->tag, outNode_->tag);
+    std::pair<long int, unsigned int> log_ = organism->species->genus->tag(role_, type_, inNode_->tag, outNode_->tag);
 
     // Creates the new `Link`.
     Link* newLink_ = new Link(log_.first, log_.second, ENABLED, role_, inNode_, outNode_, weight_);
@@ -116,7 +116,7 @@ Link* Genotype::encode(link_role role_, element_type type_, Node* inNode_, Node*
 Node* Genotype::encode(node_role role_, element_type type_, Node* inNode_, Node* outNode_, activation function_)
 {
     // Retrieves the `Genus` log entry matching the new `Node`.
-    std::pair<long int, unsigned int> log_ = organism->species->genus->neatnik->tag(role_, type_, inNode_->tag, outNode_->tag);
+    std::pair<long int, unsigned int> log_ = organism->species->genus->tag(role_, type_, inNode_->tag, outNode_->tag);
 
     // Creates the new `Node`.
     Node* newNode_ = new Node(log_.first, log_.second, ENABLED, role_, inNode_, outNode_, function_);
@@ -129,7 +129,7 @@ Node* Genotype::encode(node_role role_, element_type type_, Node* inNode_, Node*
 Node* Genotype::encode(element_state state_, node_role role_, element_type type_, activation function_, int x_, int y_)
 {
     // Retrieves the `Genus` log entry matching the new `Node`.
-    std::pair<long int, unsigned int> log_ = organism->species->genus->neatnik->tag(role_, type_, x_, y_);
+    std::pair<long int, unsigned int> log_ = organism->species->genus->tag(role_, type_, x_, y_);
 
     // Creates the new `Node`.
     Node* newNode_ = new Node(log_.first, log_.second, state_, role_, function_, x_, y_);

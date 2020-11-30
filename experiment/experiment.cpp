@@ -1,61 +1,85 @@
 #include "experiment.h"
 
+// Constructor:
+
+// Initializes this `Experiment`.
+Experiment::Experiment(Genus* thatGenus_)
+{
+    // Specifies the `Genus` to be evolved by this `Experiment`.
+    genus = thatGenus_;
+}
+
+
 // Methods:
 
-// Evaluates the performance of the input `Genus`.
-void Experiment::evaluate(Genus* thatGenus_)
+// Prints this `Experiment`'s status.
+void Experiment::status(int cycle_)
+{
+    //
+}
+
+// Evolves this `Experiment`'s `Genus`.
+void Experiment::evolve(int cycles_, bool verbose_)
+{
+    // Prints the this `Experiment`'s initial status.
+    if (verbose_) this->status(cycles_);
+
+    // Evolves this `Experiment`'s `Genus` through a number of cycles.
+    while (cycles_--)
+    {
+        // Prints this `Experiment`'s current status.
+        if (verbose_) this->status(cycles_);
+
+        // Evaluates the `Genus`' performance.
+        this->evaluate();
+
+        // Finds the best performing `Organism`s and purges any stagnated `Species`.
+        genus->select();
+
+        // Spawns a new generation of `Organism`s.
+        genus->spawn();
+
+        // Assigns each spawned `Organism` to a new or existing `Species`.
+        genus->speciate()
+    }
+
+    // Prints the this `Experiment`'s final status.
+    if (verbose_) this->status(cycles_);
+
+    return;
+}
+
+// Evaluates the performance of this `Experiment`'s `Genus`.
+void Experiment::evaluate()
 {
     // Evaluates the performance score of each `Species`.
-    for (const auto& theSpecies_ : thatGenus_->species->retrieve({DOMINANT, CONTESTANT}))
+    for (const auto& theSpecies_ : genus->retrieve({DOMINANT, CONTESTANT}))
     {
-        this->evaluate(theSpecies_);
-    }
+        // Resets the current `Species`' rank.
+        theSpecies_->rank = theSpecies_->front(DOMINANT)->score;
 
-    return;
-}
-
-// Evaluates the performance of the input `Species`.
-void Experiment::evaluate(Species* thatSpecies_)
-{
-    // Resets the input `Species`' score.
-    thatSpecies_->score = 0.;
-
-    // Accumulates the performance score of each `Organism`.
-    for (const auto& theOrganism_ : thatSpecies_->organisms->retrieve({DOMINANT, CONTESTANT}))
-    {
-        // Increments the curret `Organism`'s age.
-        theOrganism_->age++;
-
-        // Accumulates the curret `Organism`'s score.
-        switch (theOrganism_->batch)
+        // Evaluates and accumulates each CONTESTANT `Organism`'s score.
+        for (const auto& theOrganism_ : theSpecies_->retrieve({CONTESTANT}))
         {
-            // Accumulates the DOMINANT `Organism`'s performance score.
-            case DOMINANT:
-                thatSpecies_->score += theOrganism_->score;
-                break;
-
-            // Evaluates and accumulates the CONTESTANT `Organism`'s score.
-            case CONTESTANT:
-                theOrganism_->score = this->evaluate(theOrganism_);
-                thatSpecies_->score += theOrganism_->score;
-                break;
+            theOrganism_->score = this->performance(theOrganism_->phenotype);
+            theSpecies_->rank += theOrganism_->score;
         }
-    }
 
-    // Scores the input `Species` with the average of its `Organism`s' scores.
-    thatSpecies_->score /= thatSpecies_->organisms->size({DOMINANT, CONTESTANT});
+        // Ranks the input `Species`.
+        theSpecies_->rank /= theSpecies_->size({DOMINANT, CONTESTANT});
+    }
 
     return;
 }
 
-// Evaluates the performance of the input `Organism`.
-double Experiment::evaluate(Organism* thatOrganism_)
+// Scores the performance of the input `Phenotype`.
+double Experiment::performance(Phenotype* thatPhenotype_)
 {
     // Initializes the return variable.
     double score_ = 0.;
 
     // Assembles the input `Organism`'s `Phenotype`.
-    thatOrganism_->phenotype->assemble();
+    thatPhenotype->assemble();
 
     /*
       Tests the performance of the input `Organism`'s `Phenotype`.

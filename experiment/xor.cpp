@@ -2,14 +2,14 @@
 
 // Methods:
 
-// Evaluates the performance of the input `Organism`.
-double XOR::evaluate(Organism* thatOrganism_)
+// Scores the performance of the input `Phenotype`.
+double XOR::performance(Phenotype* thatPhenotype_)
 {
     // Initializes the return variables.
     double score_ = 4.;
 
     // Assembles the input `Organism`'s `Phenotype`.
-    thatOrganism_->phenotype->assemble();
+    thatPhenotype->assemble();
 
     // Defines the target behavior to be evolved by this `Experiment`.
     std::vector<std::tuple<std::vector<double>, double>> target_ {{{1., 0., 0.}, 0.}, {{1., 1., 0.}, 1.}, {{1., 0., 1.}, 1.}, {{1., 1., 1.}, 0.}};
@@ -17,16 +17,16 @@ double XOR::evaluate(Organism* thatOrganism_)
     // Assesses the behavior of the input `Organism`'s `Phenotype`.
     for (const auto& [input_, output_] : target_)
     {
-        // Activates the `Phenotype`.
-        thatOrganism_->phenotype->activate(input_);
+        // Activates the input `Phenotype`.
+        thatPhenotype->activate(input_);
 
-        // Evaluates the `Phenotype`'s performance.
-        score_ -= std::abs(thatOrganism_->phenotype->output.back() - output_);
+        // Evaluates the input `Phenotype`'s performance.
+        score_ -= std::abs(thatPhenotype->output.back() - output_);
     }
 
-    // Computes the input `Organism`'s score based on its `Phenotype` performance.
+    // Scores the input `Phenotype`'s performance.
     //score_ = std::pow(4. - score_, 2);
 
-    // Returns the input `Organism`'s score.
+    // Returns the input `Phenotype`'s performance score.
     return score_;
 }

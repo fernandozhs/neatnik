@@ -1,9 +1,16 @@
 /*
   An `Experiment` drives the evolution of a `Genus`.
 
+  Data:
+  ----
+  genus: the `Genus*` to be evolved by this `Experiment`.
+
   Methods:
   -------
-  evaluate: evaluates the performance of a `Genus`, `Species`, or `Organism`.
+  status: prints this `Experiment`'s status.
+  evolve: evolves this `Experiment`'s `Genus`.
+  evaluate: evaluates the performance of the this `Experiment`'s `Genus`.
+  performance: scores the performance of the input `Phenotype`.
 */
 
 /*
@@ -24,14 +31,29 @@ class Experiment
 {
 public:
 
+    // Data:
+
+    // The `Genus` to be evolved by this `Experiment`.
+    Genus* genus;
+
+
+    // Constructor:
+
+    // Initializes this `Experiment`.
+    Experiment(Genus* thatGenus_);
+
+
     // Methods:
 
-    // Evaluates the performance of the input `Genus`.
-    void evaluate(Genus* thatGenus_);
+    // Prints this `Experiment`'s status.
+    void status(int cycle_);
 
-    // Evaluates the performance of the input `Species`.
-    void evaluate(Species* thatSpecies_);
+    // Evolves this `Experiment`'s `Genus`.
+    void evolve(int cycles_ = generational_cycles, bool verbose_ = true);
 
-    // Evaluates the performance of the input `Organism`.
-    virtual double evaluate(Organism* thatOrganism_);
+    // Evaluates the performance of this `Experiment`'s `Genus`.
+    void evaluate();
+
+    // Scores the performance of the input `Phenotype`.
+    virtual double performance(Phenotype* thatPhenotype_);
 };
