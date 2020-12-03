@@ -40,7 +40,7 @@
 */
 
 /*
-  Contributors: Fernando Zago.
+  Contributors: Fernando Zago and Ingrid Gendron.
 */
 
 #pragma once

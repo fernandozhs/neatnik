@@ -94,10 +94,4 @@ public:
 
     // Primes this `Node` for a subsequent engagement.
     void disengage();
-
-
-    // Operators:
-
-    // Overloaded '<' operation for comparing two `Node`s' innovation tags.
-    bool operator <(const Node& thatNode_) const;
 };

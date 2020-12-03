@@ -219,65 +219,6 @@ std::vector<E*> Chromosome<E>::sort(const std::vector<int> roles_, const std::ve
     return thoseElements_;
 }
 
-// Computes the fractions of matching, disjoint, and excess `E*`s relative to the input `Chromosome`.
-// TODO: Make this method capable of distinguishing matching elements by their internal parameters.
-template <class E>
-std::vector<double> Chromosome<E>::compare(Chromosome<E>* thatChromosome_)
-{
-    // The number of matching, disjoint, and excess genes.
-    double matching_ = 0.;
-    double disjoint_ = 0.;
-    double excess_ = 0.;
-
-    // Sorts all `E*`s stored in each `Chromosome`.
-    std::vector<E*> theseElements_ = this->sort();
-    std::vector<E*> thoseElements_ = thatChromosome_->sort();
-
-    // Extracts iterators at the beginning of each sorted sequence of `E*`s.
-    auto this_ = theseElements_.begin();
-    auto that_ = thoseElements_.begin();
-
-    // Tallies disjoint and matching `E`s.
-    while (this_ != theseElements_.end() && that_ != thoseElements_.end())
-    {
-        // Counts a disjoint `E`.
-        if (this->element_comparison(*this_, *that_))
-        {
-            ++disjoint_;
-            ++this_;
-        }
-        // Counts a disjoint `E`.
-        else if (this->element_comparison(*that_, *this_))
-        {
-            ++disjoint_;
-            ++that_;
-        }
-        // Counts a matching `E`.
-        else
-        {
-            ++matching_;
-            ++this_;
-            ++that_;
-        }
-    }
-
-    // Tallies the excess `E`s.
-    if (this_ == theseElements_.end())
-    {
-        excess_ = thoseElements_.end() - that_;
-    }
-    else if (that_ == thoseElements_.end())
-    {
-        excess_ = theseElements_.end() - this_;
-    }
-
-    // Computes the total number of `E*`s.
-    double total_ = matching_ + disjoint_ + excess_;
-
-    // Returns a `std::vector<double>` containing the fraction of matching, disjoint, and excess `E*`s.
-    return std::vector<double> {matching_/total_, disjoint_/total_, excess_/total_};
-}
-
 // The criterion for comparing two `E*`s through the '<' operation.
 template <class E>
 bool Chromosome<E>::element_comparison(E* thatElement_, E* thisElement_)

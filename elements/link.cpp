@@ -65,12 +65,3 @@ void Link::engage()
 
     return;
 }
-
-
-// Operators:
-
-// Overloaded '<' operation for comparing two `Link`s' identification tags.
-bool Link::operator <(const Link& thatLink_) const
-{
-    return tag < thatLink_.tag;
-}

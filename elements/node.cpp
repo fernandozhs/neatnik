@@ -108,13 +108,3 @@ void Node::disengage()
 
     return;
 }
-
-
-// Operators:
-
-// Overloaded '<' operation for comparing two `Node`s' innovation tags.
-bool Node::operator<(const Node& thatNode_) const
-{
-    return tag < thatNode_.tag;
-}
-

@@ -271,7 +271,7 @@ void Species::select()
     {
         if (that_ < threshold_)
         {
-            that_->age++;
+            (*that_)->age++;
         }
         else
         {
@@ -282,7 +282,7 @@ void Species::select()
     return;
 }
 
-// Attempts to issue a new `Organism` from this `Species`.
+// Attempts to issue a new `Organism`.
 Organism* Species::spawn(int attempts_)
 {
     // The parent `Organism*`s.
@@ -379,12 +379,12 @@ bool Species::organism_comparison(Organism* thatOrganism_, Organism* thisOrganis
     // Checks whether the two `Organism*`s possess the same score.
     if (thatOrganism_->score == thisOrganism_->score)
     {
-        // Compares the `Organism*`s' sizes through the '>' operation.
-        return thatOrganism_->genotype->size() > thisOrganism_->genotype->size();
+        // Compares the `Organism*`s' sizes through the '<' operation.
+        return thatOrganism_->genotype->size() < thisOrganism_->genotype->size();
     }
     else
     {
-        // Compares the `Organism*`s' scores through the '<' operation.
-        return thatOrganism_->score < thatOrganism_->score;
+        // Compares the `Organism*`s' scores through the '>' operation.
+        return thatOrganism_->score > thisOrganism_->score;
     }
 }

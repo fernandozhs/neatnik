@@ -523,8 +523,62 @@ void Genotype::assimilate_nodes(Chromosome<Node>* thatChromosome_)
 // Computes the degree of compatibility with the input `Genotype`.
 double Genotype::compatibility(Genotype* thatGenotype_)
 {
-    // Retrieves the fractions of matching, disjoint, and excess `Link`s relative to the input `Genotype`.
-    std::vector<double> comparison_ = links->compare(thatGenotype_->links);
+    // The number of matching, disjoint, and excess `Link`s.
+    double matching_ = 0.;
+    double disjoint_ = 0.;
+    double excess_ = 0.;
+
+    // The cumulative difference between each matching `Link`s' weights.
+    double difference_ = 0.;
+
+    // Sorts all `Link`s stored in each `Genotype`.
+    std::vector<Link*> theseLinks_ = links->sort();
+    std::vector<Link*> thoseLinks_ = thatGenotype_->links->sort();
+
+    // Extracts iterators at the beginning of each sorted sequence of `Link`s.
+    auto this_ = theseLinks_.begin();
+    auto that_ = thoseLinks_.begin();
+
+    // Tallies disjoint and matching `Link`s.
+    while (this_ != theseLinks_.end() && that_ != thoseLinks_.end())
+    {
+        // Counts a disjoint `Link`.
+        if (links->element_comparison(*this_, *that_))
+        {
+            ++disjoint_;
+            ++this_;
+        }
+        // Counts a disjoint `Link`.
+        else if (links->element_comparison(*that_, *this_))
+        {
+            ++disjoint_;
+            ++that_;
+        }
+        // Counts a matching `Link`.
+        else
+        {
+            difference_ += std::fabs((*that_)->weight - (*this_)->weight);
+            ++matching_;
+            ++this_;
+            ++that_;
+        }
+    }
+
+    // Tallies the excess `Link`s.
+    if (this_ == theseLinks_.end())
+    {
+        excess_ = thoseLinks_.end() - that_;
+    }
+    else if (that_ == thoseLinks_.end())
+    {
+        excess_ = theseLinks_.end() - this_;
+    }
+
+    // Computes the total number of `Link`s.
+    double total_ = matching_ + disjoint_ + excess_;
+
+    // The `std::vector<double>` encapsulating the comparison between the two `Genotype`s.
+    std::vector<double> comparison_ {difference_/matching_, disjoint_/total_, excess_/total_};
 
     // Returns the degree of compatibility with the input `Genotype`.
     return std::inner_product(comparison_.begin(), comparison_.end(), compatibility_weights.begin(), 0.);

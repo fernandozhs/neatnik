@@ -74,10 +74,4 @@ public:
 
     // Prompts this `Link` to relay a signal to and engage its target `Node`.
     void engage();
-
-
-    // Operators:
-
-    // Overloaded '<' operation for comparing two `Link`s' identification tags.
-    bool operator <(const Link& thatLink_) const;
 };

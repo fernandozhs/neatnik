@@ -380,12 +380,12 @@ bool Genus::species_comparison(Species* thatSpecies_, Species* thisSpecies_)
     // Checks whether the two `Species*`' DOMINANT `Organism*`s possess the same score.
     if (thatOrganism_->score == thisOrganism_->score)
     {
-        // Compares the DOMINANT `Organism*`s' sizes through the '>' operation.
-        return thatOrganism_->genotype->size() > thisOrganism_->genotype->size();
+        // Compares the DOMINANT `Organism*`s' sizes through the '<' operation.
+        return thatOrganism_->genotype->size() < thisOrganism_->genotype->size();
     }
     else
     {
-        // Compares the DOMINANT `Organism*`s' scores through the '<' operation.
-        return thatOrganism_->score < thisOrganism_->score;
+        // Compares the DOMINANT `Organism*`s' scores through the '>' operation.
+        return thatOrganism_->score > thisOrganism_->score;
     }
 }

@@ -98,7 +98,7 @@ double Logistic(std::vector<double>& x_)
     double sum_ = std::accumulate(x_.begin(), x_.end(), 0.);
 
     // Returns the value of the Sigmoid function evaluated at `sum_`.
-    return 1./(1. + exp(-sum_));
+    return 1./(1. + std::exp(sum_));
 }
 
 // Rectified Linear Unit function evaluated at the sum of all entries of `x_`.

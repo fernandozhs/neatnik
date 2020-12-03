@@ -32,7 +32,7 @@
   retrieve: retrieves all `Organism*`s from the matching group(s).
   sort: sorts all `Organism*`s from the matching group(s) according to their performance.
   select: finds the best performing `Organism` and purges a fraction of the remainder.
-  spawn: attempts to issue a new `Organism` from this `Species`.
+  spawn: attempts to issue a new `Organism`.
   organism_compatibility: the compatibility criterion for `Organism*`s.
   organism_comparison: the criterion for comparing two `Organism*`s.
 */
@@ -129,7 +129,7 @@ public:
     // Finds the best performing `Organism` and purges a fraction of the remainder.
     void select();
 
-    // Attempts to issue a new `Organism` from this `Species`.
+    // Attempts to issue a new `Organism`.
     Organism* spawn(int attempts_ = spawning_attempts);
 
     // The compatibility criterion for `Organism*`s.

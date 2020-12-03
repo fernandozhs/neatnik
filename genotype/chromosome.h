@@ -26,7 +26,6 @@
   random: selects a random `E*` with matching role(s) and state(s).
   retrieve: retrieves all `E*`s with matching role(s) and state(s).
   sort: sorts all `E*`s with matching role(s) and state(s) according to their identification tags.
-  compare: computes the fractions of matching, disjoint, and excess `E*`s relative to the input `Chromosome`.
   element_comparison: the criterion for comparing two `E*`s through the '<' operation.
 */
 
@@ -100,10 +99,6 @@ public:
 
     // Sorts all `E*`s with matching role(s) and state(s) according to their identification tags.
     std::vector<E*> sort(const std::vector<int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1});
-
-    // Computes the fractions of matching, disjoint, and excess `E*`s relative to the input `Chromosome`.
-    // TODO: Make this method capable of distinguishing matching elements by their internal parameters.
-    std::vector<double> compare(Chromosome<E>* thatChromosome_);
 
     // The criterium for comparing two `E*`s through the '<' operation.
     static bool element_comparison(E* thatElement_, E* thisElement_);

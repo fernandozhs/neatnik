@@ -5,9 +5,12 @@
   ----
   genus: the `Genus*` to be evolved by this `Experiment`.
 
+  Constructor:
+  -----------
+  initialization: initializes this `Experiment`.
+
   Methods:
   -------
-  status: prints this `Experiment`'s status.
   evolve: evolves this `Experiment`'s `Genus`.
   evaluate: evaluates the performance of the this `Experiment`'s `Genus`.
   performance: scores the performance of the input `Phenotype`.
@@ -19,6 +22,8 @@
 
 #pragma once
 
+#include <iostream>
+#include <iomanip>
 #include <vector>
 #include <algorithm>
 #include "../main/main.h"
@@ -44,9 +49,6 @@ public:
 
 
     // Methods:
-
-    // Prints this `Experiment`'s status.
-    void status(int cycle_);
 
     // Evolves this `Experiment`'s `Genus`.
     void evolve(int cycles_ = generational_cycles, bool verbose_ = true);

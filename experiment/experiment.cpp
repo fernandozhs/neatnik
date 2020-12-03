@@ -12,23 +12,23 @@ Experiment::Experiment(Genus* thatGenus_)
 
 // Methods:
 
-// Prints this `Experiment`'s status.
-void Experiment::status(int cycle_)
-{
-    //
-}
-
 // Evolves this `Experiment`'s `Genus`.
 void Experiment::evolve(int cycles_, bool verbose_)
 {
-    // Prints the this `Experiment`'s initial status.
-    if (verbose_) this->status(cycles_);
-
     // Evolves this `Experiment`'s `Genus` through a number of cycles.
     while (cycles_--)
     {
-        // Prints this `Experiment`'s current status.
-        if (verbose_) this->status(cycles_);
+        // Prints this `Experiment`'s progress.
+        if (verbose_)
+        {
+            std::cout << "Progress: ";
+            std::cout << std::right << std::setw(4) << std::setprecision(1) << std::fixed;
+            std::cout << 100 - 100*(double)cycles_/generational_cycles;
+            std::cout << "% ";
+            std::cout << "(" << generational_cycles - cycles_ << "/" << generational_cycles << ") ";
+            std::cout << "Highest Score: " << genus->front(DOMINANT)->front(DOMINANT)->score;
+            std::cout << "\r" << std::flush;
+        }
 
         // Evaluates the `Genus`' performance.
         this->evaluate();
@@ -40,11 +40,14 @@ void Experiment::evolve(int cycles_, bool verbose_)
         genus->spawn();
 
         // Assigns each spawned `Organism` to a new or existing `Species`.
-        genus->speciate()
+        genus->speciate();
     }
 
-    // Prints the this `Experiment`'s final status.
-    if (verbose_) this->status(cycles_);
+    // Warns that this `Experiment` has ended.
+    if (verbose_)
+    {
+        std::cout << std::endl << "Done." << std::endl;
+    }
 
     return;
 }
@@ -79,7 +82,7 @@ double Experiment::performance(Phenotype* thatPhenotype_)
     double score_ = 0.;
 
     // Assembles the input `Organism`'s `Phenotype`.
-    thatPhenotype->assemble();
+    thatPhenotype_->assemble();
 
     /*
       Tests the performance of the input `Organism`'s `Phenotype`.
