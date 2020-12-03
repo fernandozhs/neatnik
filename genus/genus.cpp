@@ -15,7 +15,7 @@ Genus::Genus(std::vector<Archetype> thoseArchetypes_)
 
 // Destructor:
 
-// Recursive destructor responsible for deleting this `Genus`, all its `Species`, and `Experiment`.
+// Recursive destructor responsible for deleting this `Genus` and all its `Species`.
 Genus::~Genus()
 {
     // Deletes each `Species` stored in this `Genus`

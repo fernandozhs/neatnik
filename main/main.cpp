@@ -1,4 +1,5 @@
 #include <iostream>
+#include "../io/io.h"
 #include "../utils/utils.h"
 #include "../elements/elements.h"
 #include "../genotype/chromosome.h"
@@ -114,6 +115,9 @@ int main()
     // Prints the best performing `Genotype`.
     Organism* bestOrganism = theGenus->front(DOMINANT)->front(DOMINANT);
 
+    Print(bestOrganism->genotype);
+
+    /*
     std::cout << "Nmbr. Species: " << theGenus->size() << std::endl;
     std::cout << "Score: " << std::setprecision(6) << std::fixed << bestOrganism->score << std::endl;
     std::cout << "Age: " << std::setprecision(6) << std::fixed << bestOrganism->age << std::endl;
@@ -122,10 +126,7 @@ int main()
 
     for (const auto& theLink : bestOrganism->genotype->links->retrieve({FORWARD, BIASING}, {ENABLED}))
     {
-        if (theLink->state)
-        {
-            std::cout << theLink->tag << " " << theLink->inNode->tag <<  " " << theLink->outNode->tag << " " << theLink->weight << std::endl;
-        }
+        std::cout << theLink->tag << " " << theLink->inNode->tag <<  " " << theLink->outNode->tag << " " << theLink->weight << std::endl;
     }
 
     std::cout << std::endl << "Nodes:" << std::endl;
@@ -134,6 +135,7 @@ int main()
     {
         std::cout << theNode->tag << " " << theNode->role << std::endl;
     }
+    */
 
     return 0;
 }

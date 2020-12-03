@@ -6,13 +6,16 @@ CC = g++
 
 all: build Neatnik; \
 
-debug: build/main.o build/utils.o build/elements.o build/chromosome.o build/genotype.o build/phenotype.o build/organism.o build/species.o build/experiment.o build/xor.o build/genus.o; \
+debug: build/main.o build/io.o build/utils.o build/elements.o build/chromosome.o build/genotype.o build/phenotype.o build/organism.o build/species.o build/experiment.o build/xor.o build/genus.o; \
 $(CC) $(CFLAGS) -pg $^ -o NEATenn
 
-Neatnik: build/main.o build/utils.o build/elements.o build/chromosome.o build/genotype.o build/phenotype.o build/organism.o build/species.o build/experiment.o build/xor.o build/genus.o; \
+Neatnik: build/main.o build/io.o build/utils.o build/elements.o build/chromosome.o build/genotype.o build/phenotype.o build/organism.o build/species.o build/experiment.o build/xor.o build/genus.o; \
 $(CC) $(CFLAGS) $^ -o $@
 
 build/main.o: main/main.cpp main/main.h; \
+$(CC) $(CFLAGS) -c $< -o $@
+
+build/io.o: io/io.cpp io/io.h; \
 $(CC) $(CFLAGS) -c $< -o $@
 
 build/utils.o: utils/utils.cpp utils/utils.h; \

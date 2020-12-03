@@ -21,13 +21,13 @@ void Experiment::evolve(int cycles_, bool verbose_)
         // Prints this `Experiment`'s progress.
         if (verbose_)
         {
-            std::cout << "Progress: ";
-            std::cout << std::right << std::setw(4) << std::setprecision(1) << std::fixed;
-            std::cout << 100 - 100*(double)cycles_/generational_cycles;
-            std::cout << "% ";
-            std::cout << "(" << generational_cycles - cycles_ << "/" << generational_cycles << ") ";
-            std::cout << "Highest Score: " << genus->front(DOMINANT)->front(DOMINANT)->score;
-            std::cout << "\r" << std::flush;
+            std::wcout << "Progress: ";
+            std::wcout << std::right << std::setw(4) << std::setprecision(1) << std::fixed;
+            std::wcout << 100 - 100*(double)cycles_/generational_cycles;
+            std::wcout << "% ";
+            std::wcout << "(" << generational_cycles - cycles_ << "/" << generational_cycles << ") - ";
+            std::wcout << "Highest Score: " << genus->front(DOMINANT)->front(DOMINANT)->score;
+            std::wcout << "\r" << std::flush;
         }
 
         // Evaluates the `Genus`' performance.
@@ -46,7 +46,7 @@ void Experiment::evolve(int cycles_, bool verbose_)
     // Warns that this `Experiment` has ended.
     if (verbose_)
     {
-        std::cout << std::endl << "Done." << std::endl;
+        std::wcout << std::endl;
     }
 
     return;

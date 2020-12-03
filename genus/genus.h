@@ -14,7 +14,7 @@
 
   Destructor:
   ----------
-  recursive: deletes this `Genus`, all its `Species`, and `Experiment`.
+  recursive: deletes this `Genus` and all its `Species`.
 
   Methods:
   -------
@@ -54,7 +54,6 @@
 #include "../genotype/genotype.h"
 #include "../organism/organism.h"
 #include "../genus/species.h"
-#include "../experiment/experiment.h"
 
 class Genus
 {
@@ -83,7 +82,7 @@ public:
 
     // Destructor:
 
-    // Recursive destructor responsible for deleting this `Genus`, all its `Species`, and `Experiment`.
+    // Recursive destructor responsible for deleting this `Genus` and all its `Species`.
     ~Genus();
 
 
