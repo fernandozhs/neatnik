@@ -25,7 +25,7 @@ int mutation_attempts = 10;
 // Number of attempts at producing an offspring `Organism`.
 int spawning_attempts = 10;
 
-// Bounding value for `Link` weights.
+// Bounding value for the generation and replacement of `Link` weights.
 double weight_bound = 2.0;
 
 // Perturbation power when altering `Link` weights.

@@ -16,7 +16,7 @@ neatnik.mutation_attempts = 10
 # Number of attempts at producing an offspring `Organism`.
 neatnik.spawning_attempts = 10
 
-# Bounding value for `Link` weights.
+# Bounding value for the generation and replacement of `Link` weights.
 neatnik.weight_bound = 2.0
 
 # Perturbation power when altering `Link` weights.
@@ -105,13 +105,13 @@ class XOR(neatnik.Experiment):
 # NEATnik:
 # -------
 
-# Defines the `vertices` of the base minimal `graph`.
+# Defines the `vertices` of the base minimal `graph`: 1 bias vertex, 2 input vertices, and 1 output vertex.
 vertices = [(0, None, neatnik.ENABLED, neatnik.BIAS, neatnik.IDENTITY, 0, 2),
             (1, None, neatnik.ENABLED, neatnik.INPUT, neatnik.IDENTITY, 0, 1),
             (2, None, neatnik.ENABLED, neatnik.INPUT, neatnik.IDENTITY, 0, 0),
             (3, None, neatnik.ENABLED, neatnik.OUTPUT, neatnik.LOGISTIC, 1, 1)]
 
-# Defines the `edges` of the base minimal `graph`.
+# Defines the `edges` of the base minimal `graph`: 1 biasing edge, and 2 forward edges.
 edges = [(None, None, neatnik.ENABLED, neatnik.BIASING, 0, 3, None),
          (None, None, neatnik.ENABLED, neatnik.FORWARD, 1, 3, None),
          (None, None, neatnik.ENABLED, neatnik.FORWARD, 2, 3, None)]

@@ -97,7 +97,7 @@ extern int mutation_attempts;
 // Number of attempts at spawning a new `Organism`.
 extern int spawning_attempts;
 
-// Bounding value for `Link` weights.
+// Bounding value for the generation and replacement of `Link` weights.
 extern double weight_bound;
 
 // Perturbation power when altering `Link` weights.
