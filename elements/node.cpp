@@ -1,9 +1,9 @@
-#include "node.h"
+#include "../elements/node.h"
 
 // Constructors:
 
 // Complete constructor for which all non-dynamic data specifying the `Node` is provided.
-Node::Node(long int key_, unsigned int tag_, element_state state_, node_role role_, activation function_, double x_, double y_)
+Node::Node(unsigned long int key_, unsigned int tag_, element_state state_, node_role role_, node_activation activation_, double x_, double y_)
 {
     // Assings this `Node` a reference key.
     key = key_;
@@ -17,16 +17,16 @@ Node::Node(long int key_, unsigned int tag_, element_state state_, node_role rol
     // Establishes this `Node`'s role within the artificial neural network.
     role = role_;
 
-    // Initializes this `Node`'s activation function.
-    function = function_;
+    // Initializes this `Node`'s activation.
+    activation = activation_;
 
     // Initializes this `Node`'s coordinates.
     x = x_;
     y = y_;
 }
 
-// Split constructor resposible for initializing a new `Node` instance placed half-way between two other `Node`s.
-Node::Node(long int key_, unsigned int tag_, element_state state_, node_role role_, Node* inNode_, Node* outNode_, activation function_)
+// Split constructor resposible for initializing a new `Node` located half-way between two other `Node`s.
+Node::Node(unsigned long int key_, unsigned int tag_, element_state state_, node_role role_, Node* inNode_, Node* outNode_, node_activation activation_)
 {
     // Assings this `Node` a reference key.
     key = key_;
@@ -40,8 +40,8 @@ Node::Node(long int key_, unsigned int tag_, element_state state_, node_role rol
     // Establishes this `Node`'s role within the artificial neural network.
     role = role_;
 
-    // Initializes this `Node`'s activation function.
-    function = function_;
+    // Initializes this `Node`'s activation.
+    activation = activation_;
 
     // Initializes this `Node`'s coordinates.
     x = (inNode_->x + outNode_->x)/2;
@@ -63,8 +63,8 @@ Node::Node(Node* thatNode_)
     // Copies that `Node`'s role in the artificial neural network.
     role = thatNode_->role;
 
-    // Copies that `Node`'s activation function.
-    function = thatNode_->function;
+    // Copies that `Node`'s activation.
+    activation = thatNode_->activation;
 
     // Copies that `Node`'s coordinates.
     x = thatNode_->x;
@@ -73,6 +73,34 @@ Node::Node(Node* thatNode_)
 
 
 // Methods:
+
+// Produces this `Node`'s output signal.
+double Node::activate()
+{
+    // Selects the function matching this `Node`'s activation.
+    switch (activation)
+    {
+        case HEAVISIDE:
+            // Heaviside activation function.
+            return Heaviside(inputs);
+            break;
+
+        case RELU:
+            // Rectified Linear Unit activation function.
+            return ReLU(inputs);
+            break;
+
+        case LOGISTIC:
+            // Logistic activation function.
+            return Logistic(inputs);
+            break;
+
+        case IDENTITY:
+            // Identity function.
+            return Identity(inputs);
+            break;
+    }
+}
 
 // Prompts this `Node` to produce and broadcast an output signal.
 void Node::engage()
@@ -86,7 +114,7 @@ void Node::engage()
     else
     {
         // Produces this `Node`'s output signal.
-        output = function(inputs);
+        output = this->activate();
 
         // Broadcasts this `Node`'s newly produced output signal.
         for (const auto& theLink_ : outLinks)
@@ -108,3 +136,14 @@ void Node::disengage()
 
     return;
 }
+
+// Produces this `Node`'s associated `Graph` `Vertex`.
+Vertex Node::graph()
+{
+    // Builds this `Node`'s associated `Vertex`.
+    Vertex theVertex_ (key, tag, state, role, activation, x, y);
+
+    // Returns the `Vertex`.
+    return theVertex_;
+}
+

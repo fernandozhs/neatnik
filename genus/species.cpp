@@ -1,9 +1,9 @@
-#include "species.h"
+#include "../genus/species.h"
 
 // Constructor:
 
-// Initializes this `Species` with `Organism`s characterized by minimal fully-connected `Genotype`s.
-Species::Species(Genus* thatGenus_, taxon_group group_, std::vector<Archetype> thoseArchetypes_)
+// Initialization constructor responsible for building a `Species` with `Organism`s characterized by minimal `Graph`s.
+Species::Species(Genus* thatGenus_, taxon_group group_, std::vector<Graph> thoseGraphs_)
 {
     // Assigns this `Species` to its taxon.
     genus = thatGenus_;
@@ -11,11 +11,11 @@ Species::Species(Genus* thatGenus_, taxon_group group_, std::vector<Archetype> t
     // Assigns this `Species` to a group within its taxon.
     group = group_;
 
-    // Creates `Organism`s characterized by minimal fully-connected `Genotype`s.
-    for (const auto& thatArchetype_ : thoseArchetypes_)
+    // Creates `Organism`s characterized minimal `Graph`s.
+    for (const auto& theGraph_ : thoseGraphs_)
     {
         // Initializes a new `Organism`.
-        Organism* newOrganism_ = new Organism(this, thatArchetype_);
+        Organism* newOrganism_ = new Organism(this, theGraph_);
 
         // Adds the newly created `Organism` to this `Species`.
         this->insert(newOrganism_);

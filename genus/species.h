@@ -10,7 +10,7 @@
 
   Constructor:
   -----------
-  initialization: initializes this `Species` with `Organism`s characterized by minimal fully-connected `Genotype`s.
+  initialization: builds a `Species` with `Organism`s characterized by minimal `Graph`s.
   speciation: originates this `Species` from its first `Organism`.
 
   Destructor:
@@ -46,11 +46,13 @@
 #include <unordered_map>
 #include <vector>
 #include <algorithm>
-#include "../main/main.h"
+#include "../neatnik/neatnik.h"
 #include "../utils/utils.h"
 #include "../genus/genus.h"
 #include "../organism/organism.h"
 
+
+// Defines a `Species`.
 class Species
 {
 public:
@@ -72,8 +74,8 @@ public:
 
     // Constructor:
 
-    // Initializes this `Species` with `Organism`s characterized by minimal fully-connected `Genotype`s.
-    Species(Genus* thatGenus_, taxon_group group_, std::vector<Archetype> thoseArchetypes_);
+    // Initialization constructor responsible for building a `Species` with `Organism`s characterized by minimal `Graph`s.
+    Species(Genus* thatGenus_, taxon_group group_, std::vector<Graph> thoseGraphs_);
 
     // Originates this `Species` from its first `Organism`.
     Species(Genus* thatGenus_, taxon_group group_, Organism* thatOrganism_);

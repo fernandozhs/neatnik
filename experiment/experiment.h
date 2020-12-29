@@ -7,13 +7,17 @@
 
   Constructor:
   -----------
-  initialization: initializes this `Experiment`.
+  initialization: initializes this `Experiment` by supplying it with a `Genus` to be evolved.
+
+  Destructor:
+  ----------
+  recursive: deletes this `Experiment` and its associated `Genus`.
 
   Methods:
   -------
   evolve: evolves this `Experiment`'s `Genus`.
   evaluate: evaluates the performance of the this `Experiment`'s `Genus`.
-  performance: scores the performance of the input `Phenotype`.
+  performance: scores the performance of the input `Organism`.
 */
 
 /*
@@ -26,8 +30,7 @@
 #include <iomanip>
 #include <vector>
 #include <algorithm>
-#include "../main/main.h"
-#include "../phenotype/phenotype.h"
+#include "../neatnik/neatnik.h"
 #include "../organism/organism.h"
 #include "../genus/species.h"
 #include "../genus/genus.h"
@@ -44,8 +47,14 @@ public:
 
     // Constructor:
 
-    // Initializes this `Experiment`.
+    // Initializes this `Experiment` by supplying it with a `Genus` to be evolved.
     Experiment(Genus* thatGenus_);
+
+
+    // Destructor:
+
+    // Recursive destructor responsible for deleting this `Experiment` and its associated `Genus`s.
+    virtual ~Experiment();
 
 
     // Methods:
@@ -56,6 +65,6 @@ public:
     // Evaluates the performance of this `Experiment`'s `Genus`.
     void evaluate();
 
-    // Scores the performance of the input `Phenotype`.
-    virtual double performance(Phenotype* thatPhenotype_);
+    // Scores the performance of the input `Organism`.
+    virtual double performance(Organism* thatOrganism_) = 0;
 };

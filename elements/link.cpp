@@ -1,27 +1,27 @@
-#include "link.h"
+#include "../elements/link.h"
 
 // Constructors:
 
 // Complete constructor for which all data specifying the `Link` is provided.
-Link::Link(long int key_, unsigned int tag_, element_state state_, link_role role_, Node* inNode_, Node* outNode_, double weight_)
+Link::Link(unsigned long int key_, unsigned int tag_, element_state state_, link_role role_, Node* inNode_, Node* outNode_, double weight_)
 {
-    // Assings this `Link` a reference key.
+    // Assigns this `Link` a reference key.
     key = key_;
 
     // Assigns this `Link` an identification tag.
     tag = tag_;
 
-    // Specifies whether this `Link` should be enabled at initialization.
+    // Specifies this `Link`'s state.
     state = state_;
 
     // Establishes this `Link`'s role in the artifical neural network.
     role = role_;
 
-    // Initializes the source and target `Node`s connected by this `Link`.
+    // Specifies the source and target `Node`s connected by this `Link`.
     inNode = inNode_;
     outNode = outNode_;
 
-    // Assigns a weight to the connection.
+    // Assigns this `Link` a weight.
     weight = weight_;
 }
 
@@ -64,4 +64,14 @@ void Link::engage()
     outNode->engage();
 
     return;
+}
+
+// Produces this `Link`'s associated `Graph` `Edge`.
+Edge Link::graph()
+{
+    // Builds this `Link`'s associated `Edge`.
+    Edge theEdge_ (key, tag, state, role, inNode->key, outNode->key, weight);
+
+    // Returns the `Edge`.
+    return theEdge_;
 }

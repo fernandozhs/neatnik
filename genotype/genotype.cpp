@@ -1,10 +1,13 @@
-#include "genotype.h"
+#include "../genotype/genotype.h"
 
-// Constructor:
+// Constructors:
 
-// Minimal fully-connected constructor.
-Genotype::Genotype(Organism* thatOrganism_, Archetype thatArchetype_)
+// Initialization constructor responsible for building a `Genotype` from a minimal `Graph`.
+Genotype::Genotype(Organism* thatOrganism_, Graph thatGraph_)
 {
+    // Initializes an auxiliary record of all user-defined `Vertex` labels.
+    std::unordered_map<unsigned long int, Node*> record_;
+
     // Assigns this `Genotype` to the pertinent `Organism`.
     organism = thatOrganism_;
 
@@ -12,21 +15,28 @@ Genotype::Genotype(Organism* thatOrganism_, Archetype thatArchetype_)
     links = new Chromosome<Link>();
     nodes = new Chromosome<Node>();
 
-    // Encodes the INPUT, BIAS, and OUTPUT `Node`s.
-    for (const auto& [state_, role_, function_, x_, y_] : thatArchetype_)
+    // Unpacks the input `Graph` into `Vertex`es and `Edge`s.
+    auto [vertexes_, edges_] = thatGraph_;
+
+    // Creates a `Node` from each `Vertex` in the input `Graph`.
+    for (const auto& [label_, ignore_, state_, role_, activation_, x_, y_] : vertexes_)
     {
         // Encodes the new `Node`.
-        this->encode(state_, role_, NODE, function_, x_, y_);
+        Node* newNode_ = this->encode(state_, role_, NODE, activation_, x_, y_);
+
+        // Records the new `Node*` under its user-defined `Vertex` label.
+        record_.insert(std::make_pair(label_, newNode_));
     }
 
-    // Encodes FORWARD and BIASING `Link`s, fully connecting the above-created `Node`s.
-    for (const auto& inNode_ : nodes->retrieve({INPUT, BIAS}, {ENABLED}))
+    // Creates a `Link` from each `Edge` in the input `Graph`.
+    for (const auto& [ignore_, ignore__, state_, role_, in_label_, out_label_, weight_] : edges_)
     {
-        for (const auto& outNode_ : nodes->retrieve({OUTPUT}, {ENABLED}))
-        {
-            // Encodes a new `Link` joining the current source and target `Node`s.
-            this->encode((link_role)inNode_->role, LINK, inNode_, outNode_, U(-weight_bound, weight_bound));
-        }
+        // Locates the new `Link`'s source and target `Node`s through their user-defined `Vertex` labels.
+        Node* inNode_ = record_[in_label_];
+        Node* outNode_ = record_[out_label_];
+
+        // Encodes the new `Link`.
+        this->encode(role_, LINK, inNode_, outNode_, weight_.value_or(U(-weight_bound, weight_bound)));
     }
 }
 
@@ -59,6 +69,38 @@ Genotype::Genotype(Organism* thatOrganism_, Genotype* thatGenotype_)
     }
 }
 
+// Constructs a `Genotype` from an input `Graph`.
+Genotype::Genotype(Graph thatGraph_)
+{
+    // Does not assign this `Genotype` to any `Organism`.
+    organism = nullptr;
+
+    // Initializes this `Genotype`'s `Chromosome`s.
+    links = new Chromosome<Link>();
+    nodes = new Chromosome<Node>();
+
+    // Unpacks the input `Graph` into `Vertex`es and `Edge`s.
+    auto [vertexes_, edges_] = thatGraph_;
+
+    // Creates a `Node` from each `Vertex` in the input `Graph`.
+    for (const auto& [key_, tag_, state_, role_, activation_, x_, y_] : vertexes_)
+    {
+        // Inserts the new `Node`.
+        Node* newNode_ = nodes->insert(new Node(key_, tag_.value(), state_, role_, activation_, x_, y_));
+    }
+
+    // Creates a `Link` from each `Edge` in the input `Graph`.
+    for (const auto& [key_, tag_, state_, role_, in_key_, out_key_, weight_] : edges_)
+    {
+        // Indentifies the source and target `Node`s to be joined by the new `Link`.
+        Node* inNode_ = nodes->find(in_key_);
+        Node* outNode_ = nodes->find(out_key_);
+
+        // Inserts the new `Link`.
+        links->insert(new Link(key_.value(), tag_.value(), state_, role_, inNode_, outNode_, weight_.value()));
+    }
+}
+
 
 // Destructor:
 
@@ -84,7 +126,7 @@ int Genotype::size()
 bool Genotype::contain(int role_, element_type type_, unsigned int in_tag_, unsigned int out_tag_)
 {
     // Generates the search key associated with the `Link` or `Node` of interest.
-    long int key_ = Key(role_, type_, in_tag_, out_tag_);
+    unsigned long int key_ = Key(role_, type_, in_tag_, out_tag_);
 
     // Inspects the appropriate `Chromosome`.
     if (type_ == LINK)
@@ -103,7 +145,7 @@ bool Genotype::contain(int role_, element_type type_, unsigned int in_tag_, unsi
 Link* Genotype::encode(link_role role_, element_type type_, Node* inNode_, Node* outNode_, double weight_)
 {
     // Retrieves the `Genus` log entry matching the new `Link`.
-    std::pair<long int, unsigned int> log_ = organism->species->genus->tag(role_, type_, inNode_->tag, outNode_->tag);
+    std::pair<unsigned long int, unsigned int> log_ = organism->species->genus->tag(role_, type_, inNode_->tag, outNode_->tag);
 
     // Creates the new `Link`.
     Link* newLink_ = new Link(log_.first, log_.second, ENABLED, role_, inNode_, outNode_, weight_);
@@ -113,26 +155,26 @@ Link* Genotype::encode(link_role role_, element_type type_, Node* inNode_, Node*
 }
 
 // Encodes a new `Node` into this `Genotype`.
-Node* Genotype::encode(node_role role_, element_type type_, Node* inNode_, Node* outNode_, activation function_)
+Node* Genotype::encode(node_role role_, element_type type_, Node* inNode_, Node* outNode_, node_activation activation_)
 {
     // Retrieves the `Genus` log entry matching the new `Node`.
-    std::pair<long int, unsigned int> log_ = organism->species->genus->tag(role_, type_, inNode_->tag, outNode_->tag);
+    std::pair<unsigned long int, unsigned int> log_ = organism->species->genus->tag(role_, type_, inNode_->tag, outNode_->tag);
 
     // Creates the new `Node`.
-    Node* newNode_ = new Node(log_.first, log_.second, ENABLED, role_, inNode_, outNode_, function_);
+    Node* newNode_ = new Node(log_.first, log_.second, ENABLED, role_, inNode_, outNode_, activation_);
 
     // Inserts the new `Node` into the appropriate `Chromosome`.
     return nodes->insert(newNode_);
 }
 
 // Encodes a new `Node` into this `Genotype`.
-Node* Genotype::encode(element_state state_, node_role role_, element_type type_, activation function_, int x_, int y_)
+Node* Genotype::encode(element_state state_, node_role role_, element_type type_, node_activation activation_, int x_, int y_)
 {
     // Retrieves the `Genus` log entry matching the new `Node`.
-    std::pair<long int, unsigned int> log_ = organism->species->genus->tag(role_, type_, x_, y_);
+    std::pair<unsigned long int, unsigned int> log_ = organism->species->genus->tag(role_, type_, x_, y_);
 
     // Creates the new `Node`.
-    Node* newNode_ = new Node(log_.first, log_.second, state_, role_, function_, x_, y_);
+    Node* newNode_ = new Node(log_.first, log_.second, state_, role_, activation_, x_, y_);
 
     // Inserts the new `Node` into the appropriate `Chromosome`.
     return nodes->insert(newNode_);
@@ -355,27 +397,11 @@ void Genotype::alter_nodes()
     // Attempts to alter each ENABLED HIDDEN `Node`.
     for (const auto& theNode_ : nodes->retrieve({HIDDEN}, {ENABLED}))
     {
-        // Samples the the probability mass function for altering a `Node`'s activation function.
-        switch (P(altering_function))
+        // Samples the probability mass function for altering a `Node`'s activation.
+        if (auto sample_ = P(altering_activation))
         {
-            case HEAVISIDE:
-                // Equips the `Node` with the Heaviside activation function.
-                theNode_->function = Heaviside;
-                break;
-
-            case RELU:
-                // Equips the `Node` with the Rectified Linear Unit activation function.
-                theNode_->function = ReLU;
-                break;
-
-            case LOGISTIC:
-                // Equips the `Node` with the Logistic activation function.
-                theNode_->function = Logistic;
-                break;
-
-            default:
-                // Leaves the `Node` unaltered.
-                break;
+            // Equips the `Node` with the sampled activation.
+            theNode_->activation = (node_activation)sample_;
         }
     }
 
@@ -442,7 +468,7 @@ void Genotype::add_node(link_role role_, int attempts_)
         links->toggle(theLink_, DISABLED);
 
         // Encodes the new HIDDEN `Node` and its associated `Link`s.
-        newNode_ = this->encode(HIDDEN, NODE, theLink_->inNode, theLink_->outNode, ReLU);
+        newNode_ = this->encode(HIDDEN, NODE, theLink_->inNode, theLink_->outNode, RELU);
         this->encode(role_, LINK, theLink_->inNode, newNode_, 1.);
         this->encode(role_, LINK, newNode_, theLink_->outNode, theLink_->weight);
 
@@ -513,7 +539,7 @@ void Genotype::assimilate_nodes(Chromosome<Node>* thatChromosome_)
         if (P(assimilating_function, thatNode_ != nullptr))
         {
             // Assimilates the homologous `Node` by absorbing its activation function.
-            theNode_->function = thatNode_->function;
+            theNode_->activation = thatNode_->activation;
         }
     }
 
@@ -582,4 +608,34 @@ double Genotype::compatibility(Genotype* thatGenotype_)
 
     // Returns the degree of compatibility with the input `Genotype`.
     return std::inner_product(comparison_.begin(), comparison_.end(), compatibility_weights.begin(), 0.);
+}
+
+// Produces this `Genotype`'s associated `Graph`.
+Graph Genotype::graph()
+{
+    // Initializes the output `Graph`.
+    Graph theGraph_;
+
+    // Produces a `Vertex` from each ENABLED `Node`.
+    for (const auto& theNode_ : nodes->retrieve({INPUT, HIDDEN, BIAS, OUTPUT}, {ENABLED}))
+    {
+        // Produces the current `Node`'s associated `Vertex`.
+        Vertex theVertex_ = theNode_->graph();
+
+        // Inserts the new `Vertex` into the output `Graph`.
+        std::get<NODE>(theGraph_).push_back(theVertex_);
+    }
+
+    // Produces an `Edge` from each ENABLED `Link`.
+    for (const auto& theLink_ : links->retrieve({FORWARD, RECURRENT, BIASING, LOOPED}, {ENABLED}))
+    {
+        // Produces the current `Link`'s associated `Edge`.
+        Edge theEdge_ = theLink_->graph();
+
+        // Inserts the new `Edge` into the output `Graph`.
+        std::get<LINK>(theGraph_).push_back(theEdge_);
+    }
+
+    // Returns this `Genotype`'s associated `Graph`.
+    return theGraph_;
 }

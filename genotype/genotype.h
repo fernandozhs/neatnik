@@ -3,13 +3,15 @@
 
   Data:
   ----
+  organism: the `Organism*` associated with this `Genotype`.
   links: a `Chromosome<Link>*` encoding the `Link`s which make up this `Genotype`.
   nodes: a `Chromosome<Node>*` encoding the `Node`s which make up this `Genotype`.
 
   Constructors:
   ------------
-  minimal fully-connected: constructs a fully-connected `Genotype` containing no HIDDEN `Node`s.
+  initialization: builds a `Genotype` from a minimal `Graph`.
   copy: makes a deep copy of the input `Genotype`.
+  reconstruction: constructs a `Genotype` from an input `Graph`.
 
   Destructor:
   ----------
@@ -31,6 +33,7 @@
   assimilate_links: attempts to assimilate each homologous `Link` belonging to the input `Chromosome`.
   assimilate_nodes: attempts to assimilate each homologous `Node` belonging to the input `Chromosome`.
   compatibility: computes the degree of compatibility with the input `Genotype`.
+  graph: produces this `Genotype`'s associated `Graph`.
 */
 
 /*
@@ -39,11 +42,13 @@
 
 #pragma once
 
+#include <pybind11/pybind11.h>
 #include <utility>
+#include <optional>
 #include <unordered_set>
 #include <algorithm>
 #include <numeric>
-#include "../main/main.h"
+#include "../neatnik/neatnik.h"
 #include "../utils/utils.h"
 #include "../elements/elements.h"
 #include "../genotype/chromosome.cpp"
@@ -58,7 +63,7 @@ public:
 
     // Data:
 
-    // Pointer to the `Organism` associated with this `Genotype`.
+    // The `Organism*` associated with this `Genotype`.
     Organism* organism;
 
     // `Chromosome<E>*`s encoding the `E`s which make up this `Genotype`.
@@ -66,14 +71,17 @@ public:
     Chromosome<Node>* nodes;
 
 
-    // Constructor:
+    // Constructors:
     // TODO: Add more options for `Genotype` initialization.
 
-    // Minimal fully-connected constructor.
-    Genotype(Organism* thatOrganism_, Archetype thatArchetype_);
+    // Initialization constructor responsible for building a `Genotype` from a minimal `Graph`.
+    Genotype(Organism* thatOrganism_, Graph thatGraph_);
 
     // Copy constructor responsible for making a deep copy of the input `Genotype`.
     Genotype(Organism* thatOrganism_, Genotype* thatGenotype_);
+
+    // Constructs a `Genotype` from an input `Graph`.
+    Genotype(Graph thatGraph_);
 
 
     // Destructor:
@@ -94,10 +102,10 @@ public:
     Link* encode(link_role role_, element_type type_, Node* inNode_, Node* outNode_, double weight_);
 
     // Encodes a new `Node` into this `Genotype`.
-    Node* encode(node_role role_, element_type type_, Node* inNode_, Node* outNode_, activation function_);
+    Node* encode(node_role role_, element_type type_, Node* inNode_, Node* outNode_, node_activation activation_);
 
     // Encodes a new `Node` into this `Genotype`.
-    Node* encode(element_state state_, node_role role_, element_type type_, activation function_, int x_, int y_);
+    Node* encode(element_state state_, node_role role_, element_type type_, node_activation activation_, int x_, int y_);
 
     // Mutates this `Genotype`.
     // TODO: Make it possible to set the rate at which structural and parameter mutations occur.
@@ -136,4 +144,7 @@ public:
 
     // Computes the degree of compatibility with the input `Genotype`.
     double compatibility(Genotype* thatGenotype_);
+
+    // Produces this `Genotype`'s associated `Graph`.
+    Graph graph();
 };

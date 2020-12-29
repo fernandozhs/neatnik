@@ -1,4 +1,4 @@
-#include "chromosome.h"
+#include "../genotype/chromosome.h"
 
 // Constructor:
 
@@ -65,7 +65,7 @@ typename std::vector<E*>::iterator Chromosome<E>::end(int locus_)
 
 // Retrieves the `E*` with a matching key.
 template <class E>
-E* Chromosome<E>::find(long int key_)
+E* Chromosome<E>::find(unsigned long int key_)
 {
     // Searches for a log entry with a matching key.
     auto match_ = logbook.find(key_);
@@ -88,7 +88,7 @@ template <class E>
 E* Chromosome<E>::insert(E* thatElement_)
 {
     // Creates a new log for the input `E*`.
-    std::pair<long int, E*> log_ (thatElement_->key, thatElement_);
+    std::pair<unsigned long int, E*> log_ (thatElement_->key, thatElement_);
 
     // Logs the input `E*`.
     logbook.insert(log_);
@@ -219,7 +219,7 @@ std::vector<E*> Chromosome<E>::sort(const std::vector<int> roles_, const std::ve
     return thoseElements_;
 }
 
-// The criterion for comparing two `E*`s through the '<' operation.
+// The criterion for comparing two `E*`s.
 template <class E>
 bool Chromosome<E>::element_comparison(E* thatElement_, E* thisElement_)
 {

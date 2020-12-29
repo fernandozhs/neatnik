@@ -2,11 +2,20 @@
 
 // Constructor:
 
-// Initializes this `Experiment`.
+// Initializes this `Experiment` by supplying it with a `Genus` to be evolved.
 Experiment::Experiment(Genus* thatGenus_)
 {
     // Specifies the `Genus` to be evolved by this `Experiment`.
     genus = thatGenus_;
+}
+
+
+// Destructor:
+
+// Deletes this `Experiment`.
+Experiment::~Experiment()
+{
+    // Deletes this `Experiment`.
 }
 
 
@@ -21,13 +30,13 @@ void Experiment::evolve(int cycles_, bool verbose_)
         // Prints this `Experiment`'s progress.
         if (verbose_)
         {
-            std::wcout << "Progress: ";
-            std::wcout << std::right << std::setw(4) << std::setprecision(1) << std::fixed;
-            std::wcout << 100 - 100*(double)cycles_/generational_cycles;
-            std::wcout << "% ";
-            std::wcout << "(" << generational_cycles - cycles_ << "/" << generational_cycles << ") - ";
-            std::wcout << "Highest Score: " << genus->front(DOMINANT)->front(DOMINANT)->score;
-            std::wcout << "\r" << std::flush;
+            std::cout << "Progress: ";
+            std::cout << std::right << std::setw(4) << std::setprecision(1) << std::fixed;
+            std::cout << 100 - 100*(double)cycles_/generational_cycles;
+            std::cout << "% ";
+            std::cout << "(" << generational_cycles - cycles_ << "/" << generational_cycles << ") - ";
+            std::cout << "Highest Score: " << genus->front(DOMINANT)->front(DOMINANT)->score;
+            std::cout << "\r" << std::flush;
         }
 
         // Evaluates the `Genus`' performance.
@@ -46,7 +55,7 @@ void Experiment::evolve(int cycles_, bool verbose_)
     // Warns that this `Experiment` has ended.
     if (verbose_)
     {
-        std::wcout << std::endl;
+        std::cout << std::endl;
     }
 
     return;
@@ -64,7 +73,7 @@ void Experiment::evaluate()
         // Evaluates and accumulates each CONTESTANT `Organism`'s score.
         for (const auto& theOrganism_ : theSpecies_->retrieve({CONTESTANT}))
         {
-            theOrganism_->score = this->performance(theOrganism_->phenotype);
+            theOrganism_->score = this->performance(theOrganism_);
             theSpecies_->rank += theOrganism_->score;
         }
 
@@ -73,21 +82,4 @@ void Experiment::evaluate()
     }
 
     return;
-}
-
-// Scores the performance of the input `Phenotype`.
-double Experiment::performance(Phenotype* thatPhenotype_)
-{
-    // Initializes the return variable.
-    double score_ = 0.;
-
-    // Assembles the input `Organism`'s `Phenotype`.
-    thatPhenotype_->assemble();
-
-    /*
-      Tests the performance of the input `Organism`'s `Phenotype`.
-    */
-
-    // Returns the `Organism`'s score based on its `Phenotype` performance.
-    return score_;
 }

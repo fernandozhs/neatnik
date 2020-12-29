@@ -3,7 +3,7 @@
 
   Data:
   ----
-  logbook: an `std::unordered_map<long int, E*>` logging all `E` elements of a `Genotype`.
+  logbook: an `std::unordered_map<unsigned long int, E*>` logging all `E` elements of a `Genotype`.
   genes: an `std::unordered_map<int, std::vector<E*>>` cataloguing the `E` elements of a `Genotype`.
 
   Constructor:
@@ -26,7 +26,8 @@
   random: selects a random `E*` with matching role(s) and state(s).
   retrieve: retrieves all `E*`s with matching role(s) and state(s).
   sort: sorts all `E*`s with matching role(s) and state(s) according to their identification tags.
-  element_comparison: the criterion for comparing two `E*`s through the '<' operation.
+  element_comparison: the criterion for comparing two `E*`s.
+  data: fetches this `Chromosome`'s data.
 */
 
 /*
@@ -39,7 +40,7 @@
 #include <vector>
 #include <utility>
 #include <algorithm>
-#include "../main/main.h"
+#include "../neatnik/neatnik.h"
 #include "../utils/utils.h"
 
 template <class E>
@@ -50,7 +51,7 @@ public:
     // Data:
 
     // The log of all `E` elements in this `Chromosome`.
-    std::unordered_map<long int, E*> logbook;
+    std::unordered_map<unsigned long int, E*> logbook;
 
     // A catalog of `E` elements organized by their roles and states.
     std::unordered_map<int, std::vector<E*>> genes;
@@ -80,7 +81,7 @@ public:
     typename std::vector<E*>::iterator end(int locus_);
 
     // Retrieves the `E*` with a matching key.
-    E* find(long int key_);
+    E* find(unsigned long int key_);
 
     // Inserts an `E*` into this `Chromosome`.
     E* insert(E* thatElement_);
@@ -100,6 +101,6 @@ public:
     // Sorts all `E*`s with matching role(s) and state(s) according to their identification tags.
     std::vector<E*> sort(const std::vector<int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1});
 
-    // The criterium for comparing two `E*`s through the '<' operation.
+    // The criterium for comparing two `E*`s.
     static bool element_comparison(E* thatElement_, E* thisElement_);
 };

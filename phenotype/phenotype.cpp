@@ -1,4 +1,4 @@
-#include "phenotype.h"
+#include "../phenotype/phenotype.h"
 
 // Constructor:
 

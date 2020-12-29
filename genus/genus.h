@@ -4,13 +4,13 @@
   Data:
   ----
   tag_counter: an `unsigned integer` which keeps track of the total number of logged `Link`s and `Node`s.
-  logbook: an `std::unordered_map<long int, unsigned int>` logging all `Link`s and `Node`s in this `Genus`.
+  logbook: an `std::unordered_map<unsigned long int, unsigned int>` logging all `Link`s and `Node`s in this `Genus`.
   species: an `std::unordered_map<int, std::vector<Species*>>` cataloguing all `Species` in this `Genus`.
   organisms: an `std::vector<Organism*>` storing this `Genus`' next generation of `Organisms*`.
 
   Constructor:
   -----------
-  initialization: initializes this `Genus` with `Organism`s characterized by minimal fully-connected `Genotype`s.
+  initialization: builds a `Genus` with `Organism`s characterized by minimal `Graph`s.
 
   Destructor:
   ----------
@@ -49,12 +49,14 @@
 #include <vector>
 #include <utility>
 #include <algorithm>
-#include "../main/main.h"
+#include "../neatnik/neatnik.h"
 #include "../utils/utils.h"
 #include "../genotype/genotype.h"
 #include "../organism/organism.h"
 #include "../genus/species.h"
 
+
+// Defines a `Genus`.
 class Genus
 {
 public:
@@ -65,7 +67,7 @@ public:
     unsigned int tag_counter = 0;
 
     // The log of all `Link`s and `Node`s in this `Genus`.
-    std::unordered_map<long int, unsigned int> logbook;
+    std::unordered_map<unsigned long int, unsigned int> logbook;
 
     // A catalog of `Species*` organized by group.
     std::unordered_map<int, std::vector<Species*>> species;
@@ -76,8 +78,8 @@ public:
 
     // Constructor:
 
-    // Initializes this `Genus` with `Organism`s characterized by minimal fully-connected `Genotype`s.
-    Genus(std::vector<Archetype> thoseArchetypes_);
+    // Initialization constructor responsible for building a `Genus` with `Organism`s characterized by minimal `Graph`s.
+    Genus(std::vector<Graph> thoseGraphs_);
 
 
     // Destructor:
@@ -89,10 +91,10 @@ public:
     // Methods:
 
     // Tags a `Link` or `Node` with a new or existing identification tag.
-    std::pair<long int, unsigned int> tag(int role_, element_type type_, unsigned int in_tag_, unsigned int out_tag_);
+    std::pair<unsigned long int, unsigned int> tag(int role_, element_type type_, unsigned int in_tag_, unsigned int out_tag_);
 
     // Logs a new `Link` or `Node`.
-    std::pair<long int, unsigned int> log(long int key_);
+    std::pair<unsigned long int, unsigned int> log(unsigned long int key_);
 
     // Retrieves the total number of stored `Species` from the matching group(s).
     int size(const std::vector<int> groups_ = {0, 1});

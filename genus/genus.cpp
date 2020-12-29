@@ -1,12 +1,12 @@
-#include "genus.h"
+#include "../genus/genus.h"
 
 // Constructor:
 
-// Initializes this `Genus` with `Organism`s characterized by minimal fully-connected `Genotype`s.
-Genus::Genus(std::vector<Archetype> thoseArchetypes_)
+// Initialization constructor responsible for building a `Genus` with `Organism`s characterized by minimal `Graph`s.
+Genus::Genus(std::vector<Graph> thoseGraphs_)
 {
-    // Initializes a new `Species` with `Organism`s characterized by minimal fully-connected `Genotype`s.
-    Species* newSpecies_ = new Species(this, DOMINANT, thoseArchetypes_);
+    // Initializes a new `Species` with `Organism`s characterized by minimal `Graph`s.
+    Species* newSpecies_ = new Species(this, DOMINANT, thoseGraphs_);
 
     // Inserts the new `Species*` into this `Genus`.
     this->insert(newSpecies_);
@@ -29,10 +29,10 @@ Genus::~Genus()
 // Methods:
 
 // Tags a `Link` or `Node` with a new or existing identification tag.
-std::pair<long int, unsigned int> Genus::tag(int role_, element_type type_, unsigned int in_tag_, unsigned int out_tag_)
+std::pair<unsigned long int, unsigned int> Genus::tag(int role_, element_type type_, unsigned int in_tag_, unsigned int out_tag_)
 {
     // Generates the search key associated with the `Link` or `Node` of interest.
-    long int key_ = Key(role_, type_, in_tag_, out_tag_);
+    unsigned long int key_ = Key(role_, type_, in_tag_, out_tag_);
 
     // Searches for a log entry matching the `Link` or `Node` of interest.
     auto match_ = logbook.find(key_);
@@ -51,10 +51,10 @@ std::pair<long int, unsigned int> Genus::tag(int role_, element_type type_, unsi
 }
 
 // Logs a new `Link` or `Node`.
-std::pair<long int, unsigned int> Genus::log(long int key_)
+std::pair<unsigned long int, unsigned int> Genus::log(unsigned long int key_)
 {
     // Creates a new log.
-    std::pair<long int, unsigned int> log_ (key_, tag_counter);
+    std::pair<unsigned long int, unsigned int> log_ (key_, tag_counter);
 
     // Increments the identification tag counter.
     tag_counter++;
