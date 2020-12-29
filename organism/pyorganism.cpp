@@ -18,5 +18,17 @@ void bind_Organism(pybind11::module& m)
 
         // Methods:
         .def("react", &Organism::react)
-        .def("graph", &Organism::graph);
+        .def("graph", &Organism::graph)
+        .def(pybind11::pickle(
+            // __getstate__
+            [](const Organism& thatOrganism_)
+            {
+                return thatOrganism_.graph();
+            },
+            // __setstate__
+            [](Graph thatGraph_)
+            {
+                return Organism(thatGraph_);
+            }
+        ));
 }
