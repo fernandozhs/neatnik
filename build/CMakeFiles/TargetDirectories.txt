@@ -1,5 +1,0 @@
-/Users/Fernando/Documents/Code/Test/Neatnik/build/CMakeFiles/rebuild_cache.dir
-/Users/Fernando/Documents/Code/Test/Neatnik/build/CMakeFiles/edit_cache.dir
-/Users/Fernando/Documents/Code/Test/Neatnik/build/CMakeFiles/neatnik.dir
-/Users/Fernando/Documents/Code/Test/Neatnik/build/extern/pybind11/CMakeFiles/rebuild_cache.dir
-/Users/Fernando/Documents/Code/Test/Neatnik/build/extern/pybind11/CMakeFiles/edit_cache.dir

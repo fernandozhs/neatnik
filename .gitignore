@@ -1,0 +1,4 @@
+/build
+/__pycache__
+/extern/pybind11/build/**
+neatnik.so
