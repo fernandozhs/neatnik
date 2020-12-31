@@ -85,20 +85,21 @@ neatnik.spawning_organism = [0.4, 0.6]
 class XOR(neatnik.Experiment):
     """ Drives the evolution of an 'exclusive or' operator within a `neatnik.Genus`. """
 
-    # This experiment's target behavior.
-    targets = [0, 1, 1, 0]
+    # The input `stimuli` and expected `response` of a XOR operator.
+    stimuli = [[1, 0, 0], [1, 1, 0], [1, 0, 1], [1, 1, 1]]
+    response = [0, 1, 1, 0]
 
     # Performance:
     def performance(self, organism : neatnik.Organism) -> float:
         """ Scores the performance of the input `neatnik.Organism`. """
 
-        # Extracts the input organism's reaction to a set of stimuli.
-        reactions = organism.react([[1, 0, 0], [1, 1, 0], [1, 0, 1], [1, 1, 1]])
+        # Extracts the input `organism`'s reactions to the XOR operator stimuli.
+        reactions = organism.react(self.stimuli)
 
-        # Computes the organism's reaction residuals with respect to the experiment's target behavior.
-        residuals = [abs(sum(r) - t) for r, t in zip(reactions, self.targets)]
+        # Computes the `organism`'s reaction residuals with respect to the XOR operator `response`.
+        residuals = [abs(sum(r) - t) for r, t in zip(reactions, self.response)]
 
-        # Returns the organism's score.
+        # Returns the `organism`'s score.
         return 4 - sum(residuals)
 
 

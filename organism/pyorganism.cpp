@@ -28,7 +28,7 @@ void bind_Organism(pybind11::module& m)
             // __setstate__
             [](Graph thatGraph_)
             {
-                return Organism(thatGraph_);
+                return new Organism(thatGraph_);
             }
         ));
 }

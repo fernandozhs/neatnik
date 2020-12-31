@@ -86,7 +86,7 @@ Genotype::Genotype(Graph thatGraph_)
     for (const auto& [key_, tag_, state_, role_, activation_, x_, y_] : vertexes_)
     {
         // Inserts the new `Node`.
-        Node* newNode_ = nodes->insert(new Node(key_, tag_.value(), state_, role_, activation_, x_, y_));
+        nodes->insert(new Node(key_, tag_.value(), state_, role_, activation_, x_, y_));
     }
 
     // Creates a `Link` from each `Edge` in the input `Graph`.

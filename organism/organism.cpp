@@ -140,7 +140,7 @@ std::vector<std::vector<double>> Organism::react(std::vector<std::vector<double>
 }
 
 // Produces the `Graph` associated with this `Organism`'s `Genotype`.
-Graph Organism::graph()
+Graph Organism::graph() const
 {
     // Returns the `Graph` associated with this `Organism`'s `Genotype`.
     return genotype->graph();

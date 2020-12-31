@@ -90,5 +90,5 @@ public:
     std::vector<std::vector<double>> react(std::vector<std::vector<double>> stimuli_);
 
     // Produces the `Graph` associated with this `Organism`'s `Genotype`.
-    Graph graph();
+    Graph graph() const;
 };
