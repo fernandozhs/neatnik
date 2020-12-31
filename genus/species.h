@@ -24,8 +24,8 @@
   end: retrieves an iterator at the end of a given group.
   front: retrieves the first `Organism*` of a given group.
   back: retrieves the last `Organism*` of a given group.
-  insert: inserts an `Organism*`s into this `Species`.
-  remove: removes an `Organism*`s from this `Species`.
+  insert: inserts an `Organism*` into this `Species`.
+  remove: removes an `Organism*` from this `Species`.
   purge: purges `Organism*`s from this `Species`.
   toggle: toggles the group associated with the input `Organism*`.
   random: selects a random `Organism*` from the matching group(s).

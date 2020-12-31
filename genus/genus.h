@@ -23,15 +23,15 @@
   size: retrieves the total number of stored `Organism`s from the matching group(s).
   begin: retrieves an iterator at the beginning of a given group.
   end: retrieves an iterator at the end of a given group.
-  front: retrieves the first `Organism*` of a given group.
-  back: retrieves the last `Organism*` of a given group.
-  insert: inserts an `Organism*`s into this `Group`.
-  remove: removes an `Organism*`s from this `Group`.
-  purge: purges `Organism*`s from this `Species`.
-  toggle: toggles the group associated with the input `Organism*`.
-  random: selects a random `Organism*` from the matching group(s).
-  retrieve: retrieves all `Organism*`s from the matching group(s).
-  sort: sorts all `Organism*`s from the matching group(s) according to their performance.
+  front: retrieves the first `Species*` of a given group.
+  back: retrieves the last `Species*` of a given group.
+  insert: inserts a `Species*` into this `Genus`.
+  remove: removes a `Species*` from this `Genus`.
+  purge: purges `Species*` from this `Species`.
+  toggle: toggles the group associated with the input `Species*`.
+  random: selects a random `Species*` from the matching group(s).
+  retrieve: retrieves all `Species*` from the matching group(s).
+  sort: sorts all `Species*` from the matching group(s) according to their performance.
   select: finds the best performing `Organism`s and purges stagnated `Species`.
   spawn: spawns a new generation of `Organism`s.
   speciate: assigns spawned `Organism`s to new or existing `Species`.
@@ -111,10 +111,10 @@ public:
     // Retrieves the last `Species*` of a given group.
     Species* back(int group_);
 
-    // Inserts a `Species*`s into this `Genus`.
+    // Inserts a `Species*` into this `Genus`.
     Species* insert(Species* thatSpecies_);
 
-    // Removes a `Species*`s from this `Genus`.
+    // Removes a `Species*` from this `Genus`.
     Species* remove(Species* thatSpecies_);
 
     // Purges a `Species*` from this `Genus`.

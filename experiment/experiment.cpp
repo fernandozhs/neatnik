@@ -64,7 +64,7 @@ void Experiment::evolve(int cycles_, bool verbose_)
 // Evaluates the performance of this `Experiment`'s `Genus`.
 void Experiment::evaluate()
 {
-    // Evaluates the performance score of each `Species`.
+    // Evaluates the performance of each `Species`.
     for (const auto& theSpecies_ : genus->retrieve({DOMINANT, CONTESTANT}))
     {
         // Resets the current `Species`' rank.
