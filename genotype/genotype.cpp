@@ -378,13 +378,20 @@ void Genotype::add_link(link_role role_, int attempts_)
 // Attempts to enable a DISABLED INPUT `Node` belonging to this `Genotype`.
 void Genotype::enable_node()
 {
-    // Retrieves a random DISABLED `Link`.
-    Node* theNode_ = nodes->random({INPUT}, {DISABLED});
+    // Retrieves a random DISABLED INPUT `Node`.
+    Node* inNode_ = nodes->random({INPUT}, {DISABLED});
 
-    // Enables the selected `Link`, if any has been found.
-    if (theNode_ != nullptr)
+    // Checks whether a DISABLED INPUT `Node` has been found.
+    if (inNode_ != nullptr)
     {
+        // Enables the selected INPUT `Node`.
         nodes->toggle(theNode_, ENABLED);
+
+        // Retrieves and a random HIDDEN or OUTPUT `Node`.
+        Node* outNode_ = nodes->random({HIDDEN, OUTPUT}, {ENABLED});
+
+        // Encodes a FORWARD `Link` connecting the two selected `Node`s.
+        this->encode(FORWARD, LINK, inNode_, outNode_, U(-weight_bound, weight_bound));
     }
 
     return;
