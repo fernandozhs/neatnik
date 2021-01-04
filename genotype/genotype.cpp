@@ -387,8 +387,8 @@ void Genotype::enable_node()
         // Enables the selected INPUT `Node`.
         nodes->toggle(theNode_, ENABLED);
 
-        // Retrieves and a random HIDDEN or OUTPUT `Node`.
-        Node* outNode_ = nodes->random({HIDDEN, OUTPUT}, {ENABLED});
+        // Retrieves and a random OUTPUT `Node`.
+        Node* outNode_ = nodes->random({OUTPUT}, {ENABLED})
 
         // Encodes a FORWARD `Link` connecting the two selected `Node`s.
         this->encode(FORWARD, LINK, inNode_, outNode_, U(-weight_bound, weight_bound));
