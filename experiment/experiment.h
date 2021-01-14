@@ -3,19 +3,23 @@
 
   Data:
   ----
+  parameters: the `Parameters*` which characterize this `Experiment`.
+  vertexes: a `std::vector<Vertex>` encoding the `Vertex`es of this `Experiment`'s starting minimal `Graph`.
+  edges: a `std::vector<Edge>` encoding the `Edge`s of this `Experiment`'s starting minimal `Graph`.
   genus: the `Genus*` to be evolved by this `Experiment`.
 
   Constructor:
   -----------
-  initialization: initializes this `Experiment` by supplying it with a `Genus` to be evolved.
+  initialization: initializes this `Experiment`.
 
   Destructor:
   ----------
-  recursive: deletes this `Experiment` and its associated `Genus`.
+  recursive: recursively deletes this `Experiment` and its associated `Parameters` and `Genus`.
 
   Methods:
   -------
-  evolve: evolves this `Experiment`'s `Genus`.
+  populate: populates this `Experiment`'s `Genus`.
+  run: runs this `Experiment`.
   evaluate: evaluates the performance of the this `Experiment`'s `Genus`.
   performance: scores the performance of the input `Organism`.
 */
@@ -31,6 +35,7 @@
 #include <vector>
 #include <algorithm>
 #include "../neatnik/neatnik.h"
+#include "../experiment/parameters.h"
 #include "../organism/organism.h"
 #include "../genus/species.h"
 #include "../genus/genus.h"
@@ -41,26 +46,36 @@ public:
 
     // Data:
 
-    // The `Genus` to be evolved by this `Experiment`.
+    // This `Experiment`'s `Parameters*`.
+    Parameters* parameters;
+
+    // A `std::vector<Vertex>` and `std::vector<Edge>` encoding this `Experiment`'s starting minimal `Graph`.
+    std::vector<Vertex> vertexes;
+    std::vector<Edge> edges;
+
+    // The `Genus*` to be evolved by this `Experiment`.
     Genus* genus;
 
 
     // Constructor:
 
-    // Initializes this `Experiment` by supplying it with a `Genus` to be evolved.
-    Experiment(Genus* thatGenus_);
+    // Constructor responsible for initializing this `Experiment`.
+    Experiment();
 
 
     // Destructor:
 
-    // Recursive destructor responsible for deleting this `Experiment` and its associated `Genus`s.
+    // Destructor responsible for recursively deleting this `Experiment` and its associated `Parameters` and `Genus`.
     virtual ~Experiment();
 
 
     // Methods:
 
-    // Evolves this `Experiment`'s `Genus`.
-    void evolve(int cycles_ = generational_cycles, bool verbose_ = true);
+    // Populates this `Experiment`'s `Genus`.
+    void populate();
+
+    // Runs this `Experiment`.
+    void run(bool verbose_ = true);
 
     // Evaluates the performance of this `Experiment`'s `Genus`.
     void evaluate();

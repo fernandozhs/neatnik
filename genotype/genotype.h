@@ -4,18 +4,19 @@
   Data:
   ----
   organism: the `Organism*` associated with this `Genotype`.
+  parameters: the `Parameters*` responsible for shaping this `Genotype`'s development.
   links: a `Chromosome<Link>*` encoding the `Link`s which make up this `Genotype`.
   nodes: a `Chromosome<Node>*` encoding the `Node`s which make up this `Genotype`.
 
   Constructors:
   ------------
-  initialization: builds a `Genotype` from a minimal `Graph`.
+  initialization: initializes this `Genotype` from a minimal `Graph`.
   copy: makes a deep copy of the input `Genotype`.
-  reconstruction: constructs a `Genotype` from an input `Graph`.
+  replication: replicates a `Genotype` from its associated `Graph`.
 
   Destructor:
   ----------
-  recursive: deletes this `Genotype` and its `Chromosome`s.
+  recursive: recursively deletes this `Genotype` and its `Chromosome`s.
 
   Methods:
   -------
@@ -54,9 +55,9 @@
 #include "../genotype/chromosome.cpp"
 #include "../organism/organism.h"
 #include "../genus/genus.h"
+#include "../experiment/parameters.h"
+#include "../experiment/experiment.h"
 
-
-// Defines a `Genotype`.
 class Genotype
 {
 public:
@@ -66,6 +67,9 @@ public:
     // The `Organism*` associated with this `Genotype`.
     Organism* organism;
 
+    // The `Parameters*` responsible for shaping this `Genotype`'s development.
+    Parameters* parameters;
+
     // `Chromosome<E>*`s encoding the `E`s which make up this `Genotype`.
     Chromosome<Link>* links;
     Chromosome<Node>* nodes;
@@ -74,19 +78,19 @@ public:
     // Constructors:
     // TODO: Add more options for `Genotype` initialization.
 
-    // Initialization constructor responsible for building a `Genotype` from a minimal `Graph`.
+    // Constructor responsible for initializing this `Genotype` from a minimal `Graph`.
     Genotype(Organism* thatOrganism_, Graph thatGraph_);
 
     // Copy constructor responsible for making a deep copy of the input `Genotype`.
     Genotype(Organism* thatOrganism_, Genotype* thatGenotype_);
 
-    // Constructs a `Genotype` from an input `Graph`.
+    // Constructor responsible for replicating a `Genotype` from its associated `Graph`.
     Genotype(Graph thatGraph_);
 
 
     // Destructor:
 
-    // Recursive destructor.
+    // Destructor responsible for recursively deleting this `Genotype` and its `Chromosome`s.
     ~Genotype();
 
 
@@ -119,10 +123,10 @@ public:
     void alter_links();
 
     // Attempts to add a new `Link` to this `Genotype`.
-    void add_link(link_role role_, int attempts_ = mutation_attempts);
+    void add_link(link_role role_);
 
     // Enables a DISABLED INPUT `Node` belonging to this `Genotype`.
-    void enable_node();
+    void enable_node(node_role role_);
 
     // Attempts to alter the activation function of each ENABLED HIDDEN `Node` belonging to this `Genotype`.
     // TODO: Make the alterations more likely for newer `Node`s, leaving the older and more time-tested ones relatively unaltered.
@@ -130,7 +134,7 @@ public:
 
     // Attempts to add a new HIDDEN `Node` to this `Genotype`.
     // TODO: Make the splitting of newer `Link`s less likely, avoiding deleterious chain splittings in young `Organisms`.
-    void add_node(link_role role_, int attempts_ = mutation_attempts);
+    void add_node(link_role role_);
 
     // Assimilates the homologous `Link`s and `Node`s belonging to the input `Genotype`.
     // TODO: Make it so that `Genotype`s can also fuse during crossover.

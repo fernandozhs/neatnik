@@ -12,13 +12,13 @@
 
   Constructors:
   ------------
-  initialization: builds an `Organism` characterized by a minimal `Graph`.
+  initialization: initializes this `Organism` from a minimal `Graph`.
   copy: makes a deep copy of the input `Organism`.
-  reconstruction: constructs an `Organism` from an input `Graph`.
+  replication: replicates an `Organism` from its `Genotype`'s associated `Graph`.
 
   Destructor:
   ----------
-  recursive: deletes this `Organism`, as well as its associated `Genotype` and `Phenotype`.
+  recursive: recursively deletes this `Organism`, and its associated `Genotype` and `Phenotype`.
 
   Methods:
   -------
@@ -62,19 +62,19 @@ public:
 
     // Constructors:
 
-    // Initialization constructor responsible for building an `Organism` characterized by a minimal `Graph`.
+    // Constructor responsible for initializing this `Organism` from a minimal `Graph`.
     Organism(Species* thatSpecies_, Graph thatGraph_);
 
     // Copy constructor responsible for making a deep copy of the input `Organism`.
     Organism(Organism* thatOrganism_);
 
-    // Constructs an `Organism` from an input `Graph`.
+    // Constructor responsible for replicating an `Organism` from its `Genotype`'s associated `Graph`.
     Organism(Graph thatGraph_);
 
 
     // Destructor:
 
-    // Recursive destructor.
+    // Destructor responsible for recursively deleteing this `Organism`, and its associated `Genotype` and `Phenotype`.
     ~Organism();
 
 

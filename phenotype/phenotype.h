@@ -8,7 +8,7 @@
 
   Constructor:
   ------------
-  initialization: initializes the `Phenotype` associated with an `Organisms`.
+  initialization: initializes this `Phenotype` and assigns it to its associated `Organism`.
 
   Methods:
   -------
@@ -28,8 +28,6 @@
 #include "../neatnik/neatnik.h"
 #include "../organism/organism.h"
 
-
-// Defines a `Genotype`.
 class Phenotype
 {
 public:
@@ -45,7 +43,7 @@ public:
 
     // Constructor:
 
-    // Initialization constructor.
+    // Constructor responsible for initializing this `Phenotype` and assigns it to its associated `Organism`.
     Phenotype(Organism* organism_);
 
 

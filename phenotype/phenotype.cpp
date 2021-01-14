@@ -2,7 +2,7 @@
 
 // Constructor:
 
-// Initialization constructor.
+// Constructor responsible for initializing this `Phenotype` and assigns it to its associated `Organism`.
 Phenotype::Phenotype(Organism* organism_)
 {
     // Assigns this `Phenotype` to an `Organism`.

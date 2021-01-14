@@ -26,6 +26,8 @@ pybind11_add_module(neatnik ${PROJECT_SOURCE_DIR}/utils/utils.h
                             ${PROJECT_SOURCE_DIR}/genus/species.cpp
                             ${PROJECT_SOURCE_DIR}/genus/genus.h
                             ${PROJECT_SOURCE_DIR}/genus/genus.cpp
+                            ${PROJECT_SOURCE_DIR}/experiment/parameters.h
+                            ${PROJECT_SOURCE_DIR}/experiment/parameters.cpp
                             ${PROJECT_SOURCE_DIR}/experiment/experiment.h
                             ${PROJECT_SOURCE_DIR}/experiment/experiment.cpp
                             ${PROJECT_SOURCE_DIR}/neatnik/neatnik.h
@@ -36,6 +38,8 @@ pybind11_add_module(neatnik ${PROJECT_SOURCE_DIR}/utils/utils.h
                             ${PROJECT_SOURCE_DIR}/genus/pyspecies.cpp
                             ${PROJECT_SOURCE_DIR}/genus/pygenus.h
                             ${PROJECT_SOURCE_DIR}/genus/pygenus.cpp
+                            ${PROJECT_SOURCE_DIR}/experiment/pyparameters.h
+                            ${PROJECT_SOURCE_DIR}/experiment/pyparameters.cpp
                             ${PROJECT_SOURCE_DIR}/experiment/pyexperiment.h
                             ${PROJECT_SOURCE_DIR}/experiment/pyexperiment.cpp
                             ${PROJECT_SOURCE_DIR}/neatnik/pyneatnik.h

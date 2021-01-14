@@ -2,7 +2,7 @@
 
 // Constructor:
 
-// Initialization constructor responsible for creating an empty `Chromosome`.
+// Constructor responsible for initializing this `Chromosome` in a clean slate.
 template <class E>
 Chromosome<E>::Chromosome()
 {
@@ -12,7 +12,7 @@ Chromosome<E>::Chromosome()
 
 // Destructor:
 
-// Recursive destructor responsible for deleting this `Chromosome` and all the `E` elements it encodes.
+// Destructor responsible for recursively deleting this `Chromosome` and all the `E` elements it encodes.
 template <class E>
 Chromosome<E>::~Chromosome()
 {

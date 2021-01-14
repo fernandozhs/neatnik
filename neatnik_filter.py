@@ -2,13 +2,13 @@ import neatnik
 import numpy as np
 
 
-# Defines the `XOR` `neatnik.Experiment`.
-class XOR(neatnik.Experiment):
+# Defines the `Filter` `neatnik.Experiment`.
+class Filter(neatnik.Experiment):
     """ Drives the evolution of an 'exclusive or' operator. """
 
     # Constructor:
     def __init__(self) -> None:
-        """ Initializes this `XOR` `neatnik.Experiment`. """
+        """ Initializes this `Filter` `neatnik.Experiment`. """
 
         # Initializes the base `neatnik.Experiment`.
         neatnik.Experiment.__init__(self)
@@ -38,7 +38,7 @@ class XOR(neatnik.Experiment):
         self.parameters.assimilating_activation = [1., 0.]
         self.parameters.spawning_organism = [0.4, 0.6]
 
-        # Sets the base network graph associated with the first generation of `XOR` `neatnik.Organism`s.
+        # Sets the base network graph associated with the first generation of `Filter`ing `neatnik.Organism`s.
         self.vertexes = [
             (0,  None, neatnik.ENABLED, neatnik.BIAS,   neatnik.IDENTITY, 0, 2),
             (1,  None, neatnik.ENABLED, neatnik.INPUT,  neatnik.IDENTITY, 0, 1),
@@ -55,22 +55,22 @@ class XOR(neatnik.Experiment):
     def performance(self, organism : neatnik.Organism) -> float:
         """ Scores the performance of the input `neatnik.Organism`. """
 
-        # The input `stimuli` and expected `responses` of an 'exclusive or' operator.
+        # The input `stimuli` and expected `response` of an 'exclusive or' operator.
         stimuli = np.array([[1, 0, 0], [1, 1, 0], [1, 0, 1], [1, 1, 1]])
-        responses = np.array([[0], [1], [1], [0]])
+        response = np.array([[0], [1], [1], [0]])
 
         # Extracts the input `organism`'s reactions to the above stimuli.
         reactions = organism.react(stimuli)
 
-        # Computes the `organism`'s score by comparing its `reactions` to the expected `responses`.
-        score = 4 - np.abs(reactions - responses).flatten().sum()
+        # Computes the `organism`'s score by comparing its `reactions` to the expected `response`.
+        score = 4 - np.abs(reactions - response).flatten().sum()
 
         # Returns the `organism`'s score.
         return score
 
 
-# Creates and populates a `XOR` `neatnik.Experiment`.
-experiment = XOR()
+# Creates and populates a `Filter` `neatnik.Experiment`.
+experiment = Filter()
 experiment.populate()
 
 # Runs the `XOR` `neatnik.Experiment`.

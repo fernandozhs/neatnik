@@ -2,11 +2,14 @@
 
 // Constructor:
 
-// Initialization constructor responsible for building a `Species` with `Organism`s characterized by minimal `Graph`s.
+// Constructor responsible for populating this `Species` with `Organism`s initialized from minimal `Graph`s.
 Species::Species(Genus* thatGenus_, taxon_group group_, std::vector<Graph> thoseGraphs_)
 {
     // Assigns this `Species` to its taxon.
     genus = thatGenus_;
+
+    // Creates a shortcut to the `Parameters` shaping this `Genus`'s evolution.
+    parameters = genus->experiment->parameters;
 
     // Assigns this `Species` to a group within its taxon.
     group = group_;
@@ -26,11 +29,14 @@ Species::Species(Genus* thatGenus_, taxon_group group_, std::vector<Graph> those
     this->toggle(thatOrganism_, DOMINANT);
 }
 
-// Originates this `Species` from its first `Organism`.
+// Constructor responsible for initializing this `Species` from its first representative `Organism`.
 Species::Species(Genus* thatGenus_, taxon_group group_, Organism* thatOrganism_)
 {
     // Assigns this `Species` to its taxon.
     genus = thatGenus_;
+
+    // Creates a shortcut to the `Parameters` shaping this `Genus`'s evolution.
+    parameters = genus->experiment->parameters;
 
     // Assigns this `Species` to a group within its taxon.
     group = group_;
@@ -45,7 +51,7 @@ Species::Species(Genus* thatGenus_, taxon_group group_, Organism* thatOrganism_)
 
 // Destructor:
 
-// Recursive destructor responsible for deleting this `Species` and all its `Organism`s.
+// Destructor responsible for recursively deleting this `Species` and all its `Organism`s.
 Species::~Species()
 {
     // Deletes each `Organism` stored in this `Species`
@@ -264,7 +270,7 @@ void Species::select()
     }
 
     // The threshold beyond which `Organism`s are purged.
-    auto threshold_ = ++thoseOrganisms_.begin() + this->size()*(1 - rejection_fraction);
+    auto threshold_ = ++thoseOrganisms_.begin() + this->size()*(1 - parameters->rejection_fraction);
 
     // Ages the threshold-clearing `Organism`s and purges the remainder.
     for (auto that_ = thoseOrganisms_.begin(); that_ != thoseOrganisms_.end(); ++that_)
@@ -283,17 +289,17 @@ void Species::select()
 }
 
 // Attempts to issue a new `Organism`.
-Organism* Species::spawn(int attempts_)
+Organism* Species::spawn()
 {
     // The parent `Organism*`s.
     Organism* thatOrganism_;
     Organism* thisOrganism_;
 
     // Selects the process by which a new `Organism` will be issued.
-    auto process_ = P(spawning_organism, this->size({CONTESTANT}));
+    auto process_ = P(parameters->spawning_organism, this->size({CONTESTANT}));
 
     // Attempts to issue a new `Organism` from this `Species`.
-    while (attempts_--)
+    for (int attempts_ = parameters->spawning_attempts; attempts_; --attempts_)
     {
         // Randomly chooses the parent `Organism`s.
         switch (process_)
@@ -370,7 +376,7 @@ bool Species::organism_compatibility(Organism* thatOrganism_)
     Organism* thisOrganism_ = this->front(DOMINANT);
 
     // Selects compatible `Organism*`s.
-    return thatOrganism_->genotype->compatibility(thisOrganism_->genotype) < compatibility_threshold;
+    return thatOrganism_->genotype->compatibility(thisOrganism_->genotype) < parameters->compatibility_threshold;
 }
 
 // The comparison criterion for `Organism*`s.

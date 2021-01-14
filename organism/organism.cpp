@@ -2,7 +2,7 @@
 
 // Constructors:
 
-// Initialization constructor responsible for building an `Organism` characterized by a minimal `Graph`.
+// Constructor responsible for initializing this `Organism` from a minimal `Graph`.
 Organism::Organism(Species* thatSpecies_, Graph thatGraph_)
 {
     // Assigns this `Organism` to its taxon.
@@ -46,7 +46,7 @@ Organism::Organism(Organism* thatOrganism_)
     score = thatOrganism_->score;
 }
 
-// Reconstructs an `Organism` from an input `Graph`.
+// Constructor responsible for replicating an `Organism` from its `Genotype`'s associated `Graph`.
 Organism::Organism(Graph thatGraph_)
 {
     // Does not assigns this `Organism` to any taxon.
@@ -62,7 +62,7 @@ Organism::Organism(Graph thatGraph_)
 
 // Destructor:
 
-// Recursive destructor.
+// Destructor responsible for recursively deleteing this `Organism`, and its associated `Genotype` and `Phenotype`.
 Organism::~Organism()
 {
     // Deletes this `Organism`'s `Genotype`.

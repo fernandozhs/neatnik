@@ -1,10 +1,20 @@
 import neatnik
 import numpy as np
+from mpi4py import MPI
 
+
+# Initializes MPI.
+comm = MPI.COMM_WORLD
+size = comm.Get_size()
+rank = comm.Get_rank()
 
 # Defines the `XOR` `neatnik.Experiment`.
 class XOR(neatnik.Experiment):
     """ Drives the evolution of an 'exclusive or' operator. """
+
+    # Makes `XOR` MPI-aware.
+    global rank
+    global size
 
     # Constructor:
     def __init__(self) -> None:
@@ -14,7 +24,7 @@ class XOR(neatnik.Experiment):
         neatnik.Experiment.__init__(self)
 
         # Sets the `XOR` `neatnik.Parameters`.
-        self.parameters.generational_cycles = 150
+        self.parameters.generational_cycles = 100
         self.parameters.population_size = 100
         self.parameters.mutation_attempts = 10
         self.parameters.spawning_attempts = 10
@@ -55,23 +65,51 @@ class XOR(neatnik.Experiment):
     def performance(self, organism : neatnik.Organism) -> float:
         """ Scores the performance of the input `neatnik.Organism`. """
 
-        # The input `stimuli` and expected `responses` of an 'exclusive or' operator.
-        stimuli = np.array([[1, 0, 0], [1, 1, 0], [1, 0, 1], [1, 1, 1]])
-        responses = np.array([[0], [1], [1], [0]])
+        # Master process:
+        if rank == 0:
+            # Broadcasts the input `organism` to the worker processes.
+            comm.bcast(kill, root=0)
+            comm.bcast(organism, root=0)
+
+        # The input `stimuli` and expected `response` of an 'exclusive or' operator.
+        stimuli = np.array([[1, 0, 0], [1, 1, 0], [1, 0, 1], [1, 1, 1]])[rank::size]
+        response = np.array([[0], [1], [1], [0]])[rank::size]
 
         # Extracts the input `organism`'s reactions to the above stimuli.
         reactions = organism.react(stimuli)
 
-        # Computes the `organism`'s score by comparing its `reactions` to the expected `responses`.
-        score = 4 - np.abs(reactions - responses).flatten().sum()
+        # Computes the `organism`'s partial score by comparing its `reactions` to the expected `response`.
+        score = np.shape(stimuli)[0] - np.abs(reactions - response).flatten().sum()
+
+        # Sums the input `organism`'s scores obtained by each process.
+        score = comm.reduce(score, op=MPI.SUM, root=0)
 
         # Returns the `organism`'s score.
         return score
 
 
-# Creates and populates a `XOR` `neatnik.Experiment`.
+# Initializes a all relevant objects.
 experiment = XOR()
-experiment.populate()
+organism = None
+kill = False
 
-# Runs the `XOR` `neatnik.Experiment`.
-experiment.run()
+# Master process:
+if rank == 0:
+    # Populates and runs the `XOR` `neatnik.Experiment`.
+    experiment.populate()
+    experiment.run()
+
+    # Kills all worker processes.
+    kill = True
+    comm.bcast(kill, root=0)
+
+# Worker processes:
+else:
+    # Work until told not to.
+    while not(comm.bcast(kill, root=0)):
+        # Scores the broadcasted `organism`.
+        organism = comm.bcast(organism, root=0)
+        experiment.performance(organism)
+
+# Finalizes MPI.
+MPI.Finalize()

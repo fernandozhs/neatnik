@@ -2,10 +2,16 @@
 
 // Constructor:
 
-// Initialization constructor responsible for building a `Genus` with `Organism`s characterized by minimal `Graph`s.
-Genus::Genus(std::vector<Graph> thoseGraphs_)
+// Constructor responsible for populating this `Genus` with `Organism`s initialized by minimal `Graph`s.
+Genus::Genus(Experiment* thatExperiment_, std::vector<Graph> thoseGraphs_)
 {
-    // Initializes a new `Species` with `Organism`s characterized by minimal `Graph`s.
+    // Assigns this `Genus` to the pertinent `Experiment`.
+    experiment = thatExperiment_;
+
+    // Creates a shortcut to the `Parameters` shaping this `Genus`'s evolution.
+    parameters = experiment->parameters;
+
+    // Initializes a new `Species` with `Organism`s initializes from minimal `Graph`s.
     Species* newSpecies_ = new Species(this, DOMINANT, thoseGraphs_);
 
     // Inserts the new `Species*` into this `Genus`.
@@ -290,11 +296,14 @@ void Genus::select()
 }
 
 // Spawns a new generation of `Organism`s.
-void Genus::spawn(int allocation_)
+void Genus::spawn()
 {
     // A parent `Species*` and a `std::vector<double>` containing each parent `Species` rank.
     Species* theSpecies_;
     std::vector<double> ranks_;
+
+    // Retrieves the number of `Organism`s to be allocated.
+    int allocation_ = parameters->population_size;
 
     // Extracts the ranks of all parent `Species` and adjusts the input allocation.
     for (const auto& theSpecies_ : this->retrieve({DOMINANT, CONTESTANT}))
@@ -367,7 +376,7 @@ bool Genus::species_rejection(Species* thatSpecies_)
     Organism* thatOrganism_ = thatSpecies_->front(DOMINANT);
 
     // Rejects `Species*` which are stagnated.
-    return thatOrganism_->age > stagnation_threshold && thatSpecies_ != thisSpecies_;
+    return thatOrganism_->age > parameters->stagnation_threshold && thatSpecies_ != thisSpecies_;
 }
 
 // The criterion for comparing two `Species*`.

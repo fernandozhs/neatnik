@@ -13,7 +13,7 @@ void bind_Organism(pybind11::module& m)
         .def_readwrite("age", &Organism::age)
         .def_readwrite("score", &Organism::score)
 
-        // Constructors:
+        // Constructor:
         .def(pybind11::init<Graph>())
 
         // Methods:

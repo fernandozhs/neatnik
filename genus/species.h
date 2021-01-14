@@ -4,18 +4,19 @@
   Data:
   ----
   genus: a `Genus*` specifying the taxon to which this `Species` belongs.
+  parameters: the `Parameters*` shaping this `Species`' evolution.
   group: an `enum` (`taxon_group`) specifying the group to which this `Species` belongs within its taxon.
   organisms: an `std::unordered_map<int, std::vector<Organism*>>` cataloguing all `Organism`s in this `Species`.
   rank: a `double` storing this `Species`' rank.
 
   Constructor:
   -----------
-  initialization: builds a `Species` with `Organism`s characterized by minimal `Graph`s.
-  speciation: originates this `Species` from its first `Organism`.
+  population: populates this `Species` with `Organism`s initialized from minimal `Graph`s.
+  speciation: initializes this `Species` from its first representative `Organism`.
 
   Destructor:
   ----------
-  recursive: deletes this `Species` and all its `Organism`s.
+  recursive: recursively deletes this `Species` and all its `Organism`s.
 
   Methods:
   -------
@@ -48,11 +49,11 @@
 #include <algorithm>
 #include "../neatnik/neatnik.h"
 #include "../utils/utils.h"
-#include "../genus/genus.h"
 #include "../organism/organism.h"
+#include "../genus/genus.h"
+#include "../experiment/parameters.h"
+#include "../experiment/experiment.h"
 
-
-// Defines a `Species`.
 class Species
 {
 public:
@@ -61,6 +62,9 @@ public:
 
     // The taxon to which this `Species` belongs.
     Genus* genus;
+
+    // The `Parameters*` shaping this `Species`' evolution.
+    Parameters* parameters;
 
     // The group to which this `Species` belongs.
     taxon_group group;
@@ -74,16 +78,16 @@ public:
 
     // Constructor:
 
-    // Initialization constructor responsible for building a `Species` with `Organism`s characterized by minimal `Graph`s.
+    // Constructor responsible for populating this `Species` with `Organism`s initialized from minimal `Graph`s.
     Species(Genus* thatGenus_, taxon_group group_, std::vector<Graph> thoseGraphs_);
 
-    // Originates this `Species` from its first `Organism`.
+    // Constructor responsible for initializing this `Species` from its first representative `Organism`.
     Species(Genus* thatGenus_, taxon_group group_, Organism* thatOrganism_);
 
 
     // Destructor:
 
-    // Recursive destructor responsible for deleting this `Species` and all its `Organism`s.
+    // Destructor responsible for recursively deleting this `Species` and all its `Organism`s.
     ~Species();
 
 
@@ -132,7 +136,7 @@ public:
     void select();
 
     // Attempts to issue a new `Organism`.
-    Organism* spawn(int attempts_ = spawning_attempts);
+    Organism* spawn();
 
     // The compatibility criterion for `Organism*`s.
     bool organism_compatibility(Organism* thatOrganism_);

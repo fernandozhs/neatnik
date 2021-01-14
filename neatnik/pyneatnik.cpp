@@ -24,10 +24,10 @@ void bind_NEATnik(pybind11::module& m)
         .export_values();
 
     pybind11::enum_<node_role>(m, "NodeRole")
-        .value("INPUT", INPUT)
         .value("HIDDEN", HIDDEN)
-        .value("BIAS", BIAS)
         .value("OUTPUT", OUTPUT)
+        .value("BIAS", BIAS)
+        .value("INPUT", INPUT)
         .export_values();
 
     pybind11::enum_<node_activation>(m, "NodeActivation")
@@ -41,33 +41,4 @@ void bind_NEATnik(pybind11::module& m)
         .value("DOMINANT", DOMINANT)
         .value("CONTESTANT", CONTESTANT)
         .export_values();
-
-
-    // General Parameters:
-    m.attr("generational_cycles") = generational_cycles;
-    m.attr("population_size") = population_size;
-    m.attr("mutation_attempts") = mutation_attempts;
-    m.attr("spawning_attempts") = spawning_attempts;
-    m.attr("weight_bound") = weight_bound;
-    m.attr("perturbation_power") = perturbation_power;
-    m.attr("compatibility_weights") = compatibility_weights;
-    m.attr("rejection_fraction") = rejection_fraction;
-    m.attr("stagnation_threshold") = stagnation_threshold;
-    m.attr("compatibility_threshold") = compatibility_threshold;
-
-
-    // Probability Mass Functions:
-    m.attr("enabling_link") = enabling_link;
-    m.attr("altering_links") = altering_links;
-    m.attr("altering_weight") = altering_weight;
-    m.attr("adding_link") = adding_link;
-    m.attr("enabling_node") = enabling_node;
-    m.attr("altering_nodes") = altering_nodes;
-    m.attr("altering_activation") = altering_activation;
-    m.attr("adding_node") = adding_node;
-    m.attr("assimilating_links") = assimilating_links;
-    m.attr("assimilating_nodes") = assimilating_nodes;
-    m.attr("assimilating_weight") = assimilating_weight;
-    m.attr("assimilating_function") = assimilating_function;
-    m.attr("spawning_organism") = spawning_organism;
 }

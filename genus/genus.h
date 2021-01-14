@@ -3,6 +3,8 @@
 
   Data:
   ----
+  experiment: the `Experiment*` to which this `Genus` is associated.
+  parameters: the `Parameters*` shaping this `Genus`'s evolution.
   tag_counter: an `unsigned integer` which keeps track of the total number of logged `Link`s and `Node`s.
   logbook: an `std::unordered_map<unsigned long int, unsigned int>` logging all `Link`s and `Node`s in this `Genus`.
   species: an `std::unordered_map<int, std::vector<Species*>>` cataloguing all `Species` in this `Genus`.
@@ -10,11 +12,11 @@
 
   Constructor:
   -----------
-  initialization: builds a `Genus` with `Organism`s characterized by minimal `Graph`s.
+  population: populates this `Genus` with `Organism`s initialized from minimal `Graph`s.
 
   Destructor:
   ----------
-  recursive: deletes this `Genus` and all its `Species`.
+  recursive: recursively deletes this `Genus` and all its `Species`.
 
   Methods:
   -------
@@ -54,14 +56,20 @@
 #include "../genotype/genotype.h"
 #include "../organism/organism.h"
 #include "../genus/species.h"
+#include "../experiment/parameters.h"
+#include "../experiment/experiment.h"
 
-
-// Defines a `Genus`.
 class Genus
 {
 public:
 
     // Data:
+
+    // The `Experiment*` to which this `Genus` is associated.
+    Experiment* experiment;
+
+    // The `Parameters*` shaping this `Genus`'s evolution.
+    Parameters* parameters;
 
     // A counter storing the identification tag which was last assigned to a `Link` or `Node`.
     unsigned int tag_counter = 0;
@@ -78,13 +86,13 @@ public:
 
     // Constructor:
 
-    // Initialization constructor responsible for building a `Genus` with `Organism`s characterized by minimal `Graph`s.
-    Genus(std::vector<Graph> thoseGraphs_);
+    // Constructor responsible for populating this `Genus` with `Organism`s initialized by minimal `Graph`s.
+    Genus(Experiment* thatExperiment_, std::vector<Graph> thoseGraphs_);
 
 
     // Destructor:
 
-    // Recursive destructor responsible for deleting this `Genus` and all its `Species`.
+    // Destructor responsible for recursively deleting this `Genus` and all its `Species`.
     ~Genus();
 
 
@@ -139,7 +147,7 @@ public:
     void select();
 
     // Spawns a new generation of `Organism`s.
-    void spawn(int allocation_ = population_size);
+    void spawn();
 
     // Assigns spawned `Organism`s to new or existing `Species`.
     void speciate();

@@ -2,39 +2,55 @@
 
 // Constructor:
 
-// Initializes this `Experiment` by supplying it with a `Genus` to be evolved.
-Experiment::Experiment(Genus* thatGenus_)
+// Constructor responsible for initializing this `Experiment`.
+Experiment::Experiment()
 {
-    // Specifies the `Genus` to be evolved by this `Experiment`.
-    genus = thatGenus_;
+    // Initializes this this `Experiment`'s `Parameters`.
+    parameters = new Parameters();
 }
 
 
 // Destructor:
 
-// Deletes this `Experiment`.
+// Destructor responsible for recursively deleting this `Experiment` and its associated `Parameters` and `Genus`.
 Experiment::~Experiment()
 {
-    // Deletes this `Experiment`.
+    // Deletes this `Experiment`'s `Parameters`.
+    delete parameters;
+
+    // Deletes this `Experiment`'s `Genus`.
+    delete genus;
 }
 
 
 // Methods:
 
-// Evolves this `Experiment`'s `Genus`.
-void Experiment::evolve(int cycles_, bool verbose_)
+// Populates this `Experiment`'s `Genus`.
+void Experiment::populate()
 {
-    // Evolves this `Experiment`'s `Genus` through a number of cycles.
-    while (cycles_--)
+    // Initializes this `Experiment`'s starting minimal `Graph`s.
+    std::vector<Graph> thoseGraphs_ (parameters->population_size, Graph(vertexes, edges));
+
+    // Populates this `Experiment`'s `Genus` with `Organism`s initialized from such minimal `Graph`s.
+    genus = new Genus(this, thoseGraphs_);
+
+    return;
+}
+
+// Runs this `Experiment`.
+void Experiment::run(bool verbose_)
+{
+    // Runs this `Experiment`.
+    for (int cycles_ = parameters->generational_cycles; cycles_; --cycles_)
     {
         // Prints this `Experiment`'s progress.
         if (verbose_)
         {
             std::cout << "Progress: ";
             std::cout << std::right << std::setw(4) << std::setprecision(1) << std::fixed;
-            std::cout << 100 - 100*(double)cycles_/generational_cycles;
+            std::cout << 100 - 100*(double)cycles_/parameters->generational_cycles;
             std::cout << "% ";
-            std::cout << "(" << generational_cycles - cycles_ << "/" << generational_cycles << ") - ";
+            std::cout << "(" << parameters->generational_cycles - cycles_ << "/" << parameters->generational_cycles << ") - ";
             std::cout << "Highest Score: " << genus->front(DOMINANT)->front(DOMINANT)->score;
             std::cout << "\r" << std::flush;
         }

@@ -8,11 +8,11 @@
 
   Constructor:
   -----------
-  initialization: creates an empty `Chromosome`.
+  initialization: initializes this `Chromosome` in a clean slate.
 
   Destructor:
   ----------
-  resursive: deletes this `Chromosome` and all the `E` elements it encodes.
+  resursive: recursively deletes this `Chromosome` and all the `E` elements it encodes.
 
   Methods:
   -------
@@ -59,13 +59,13 @@ public:
 
     // Constructors:
 
-    // Initialization constructor responsible for creating an empty `Chromosome`.
+    // Constructor responsible for initializing this `Chromosome` in a clean slate.
     Chromosome();
 
 
     // Destructor:
 
-    // Recursive destructor responsible for deleting this `Chromosome` and all the `E` elements it encodes.
+    // Destructor responsible for recursively deleting this `Chromosome` and all the `E` elements it encodes.
     ~Chromosome();
 
 
