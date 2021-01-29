@@ -99,3 +99,10 @@ void Experiment::evaluate()
 
     return;
 }
+
+// Produces the `Graph` associated with this `Experiment`'s DOMINANT `Organism`'s `Genotype`.
+Graph Experiment::graph()
+{
+    // Returns the `Graph` associated with the DOMINANT `Organism`'s `Genotype`.
+    return genus->front(DOMINANT)->front(DOMINANT)->graph();
+}

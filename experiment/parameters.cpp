@@ -47,8 +47,8 @@ Parameters::Parameters()
     // P.M.F. for adding a `Link` of a given role: {FAILURE, FORWARD, RECURRENT, BIASING, LOOPED}.
     adding_link = {0., 0., 0., 0., 0.};
 
-    // P.M.F. for enabling a DISABLED INPUT `Node`: {FAILURE, SUCCESS}.
-    enabling_node = {0., 0.};
+    // P.M.F. for enabling a DISABLED INPUT `Node` and connecting it to another `Node` of a given role: {FAILURE, HIDDEN, OUTPUT}.
+    enabling_node = {0., 0., 0.};
 
     // P.M.F. for altering each HIDDEN `Node`: {FAILURE, SUCCESS}.
     altering_nodes = {0., 0.};

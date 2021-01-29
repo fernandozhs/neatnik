@@ -21,6 +21,7 @@
   populate: populates this `Experiment`'s `Genus`.
   run: runs this `Experiment`.
   evaluate: evaluates the performance of the this `Experiment`'s `Genus`.
+  graph: produces the `Graph` associated with this `Experiment`'s DOMINANT `Organism`'s `Genotype`.
   performance: scores the performance of the input `Organism`.
 */
 
@@ -79,6 +80,9 @@ public:
 
     // Evaluates the performance of this `Experiment`'s `Genus`.
     void evaluate();
+
+    // Produces the `Graph` associated with this `Experiment`'s DOMINANT `Organism`'s `Genotype`.
+    Graph graph();
 
     // Scores the performance of the input `Organism`.
     virtual double performance(Organism* thatOrganism_) = 0;

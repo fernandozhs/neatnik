@@ -29,5 +29,6 @@ void bind_Experiment(pybind11::module& m)
         .def("populate", &Experiment::populate)
         .def("run", &Experiment::run, pybind11::arg("verbose") = true)
         .def("evaluate", &Experiment::evaluate)
+        .def("graph", &Experiment::graph)
         .def("performance", &Experiment::performance);
 }
