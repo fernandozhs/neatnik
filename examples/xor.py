@@ -40,10 +40,10 @@ class XOR(neatnik.Experiment):
 
         # Sets the base network graph associated with the first generation of `XOR` `neatnik.Organism`s.
         self.vertexes = [
-            (0,  None, neatnik.ENABLED, neatnik.BIAS,   neatnik.IDENTITY, 0, 2),
-            (1,  None, neatnik.ENABLED, neatnik.INPUT,  neatnik.IDENTITY, 0, 1),
-            (2,  None, neatnik.ENABLED, neatnik.INPUT,  neatnik.IDENTITY, 0, 0),
-            (3,  None, neatnik.ENABLED, neatnik.OUTPUT, neatnik.LOGISTIC, 1, 1),
+            (0, None, neatnik.ENABLED, neatnik.BIAS,   neatnik.IDENTITY, 0, 2),
+            (1, None, neatnik.ENABLED, neatnik.INPUT,  neatnik.IDENTITY, 0, 1),
+            (2, None, neatnik.ENABLED, neatnik.INPUT,  neatnik.IDENTITY, 0, 0),
+            (3, None, neatnik.ENABLED, neatnik.OUTPUT, neatnik.LOGISTIC, 1, 1),
             ]
         self.edges = [
             (None, None, neatnik.ENABLED, neatnik.BIASING, 0, 3, None),
