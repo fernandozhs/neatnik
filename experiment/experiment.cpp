@@ -41,7 +41,7 @@ void Experiment::populate()
 void Experiment::run(bool verbose_)
 {
     // Runs this `Experiment`.
-    for (int cycles_ = parameters->generational_cycles; cycles_; --cycles_)
+    for (int cycles_ = parameters->generational_cycles; cycles_ >= 0; --cycles_)
     {
         // Prints this `Experiment`'s progress.
         if (verbose_)
