@@ -31,8 +31,6 @@
 #include <tuple>
 #include "../neatnik/neatnik.h"
 
-
-// Defines a `Link`.
 class Link
 {
 public:

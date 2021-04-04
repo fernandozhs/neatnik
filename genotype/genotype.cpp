@@ -470,7 +470,7 @@ void Genotype::alter_nodes()
 }
 
 // Attempts to add a new HIDDEN `Node` to this `Genotype`.
-// TODO: Make the splitting of newer `Link`s less likely, avoiding deleterious chain splittings in young `Organisms`.
+// TODO: Make the splitting of newer `Link`s less likely, avoiding deleterious chain splittings in young `Organism`s.
 void Genotype::add_node(link_role role_)
 {
     // The `Link` to be split, and the new `Node` to be added.
@@ -533,7 +533,7 @@ void Genotype::add_node(link_role role_)
         links->toggle(theLink_, DISABLED);
 
         // Encodes the new HIDDEN `Node` and its associated `Link`s.
-        newNode_ = this->encode(HIDDEN, NODE, theLink_->inNode, theLink_->outNode, RELU);
+        newNode_ = this->encode(HIDDEN, NODE, theLink_->inNode, theLink_->outNode, parameters->initial_activation);
         this->encode(role_, LINK, theLink_->inNode, newNode_, 1.);
         this->encode(role_, LINK, newNode_, theLink_->outNode, theLink_->weight);
 

@@ -27,7 +27,6 @@
   retrieve: retrieves all `E*`s with matching role(s) and state(s).
   sort: sorts all `E*`s with matching role(s) and state(s) according to their identification tags.
   element_comparison: the criterion for comparing two `E*`s.
-  data: fetches this `Chromosome`'s data.
 */
 
 /*

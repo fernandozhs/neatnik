@@ -40,8 +40,6 @@
 #include "../utils/utils.h"
 #include "../neatnik/neatnik.h"
 
-
-// Defines a `Node`.
 class Node
 {
 public:

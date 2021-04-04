@@ -133,7 +133,7 @@ public:
     void alter_nodes();
 
     // Attempts to add a new HIDDEN `Node` to this `Genotype`.
-    // TODO: Make the splitting of newer `Link`s less likely, avoiding deleterious chain splittings in young `Organisms`.
+    // TODO: Make the splitting of newer `Link`s less likely, avoiding deleterious chain splittings in young `Organism`s.
     void add_node(link_role role_);
 
     // Assimilates the homologous `Link`s and `Node`s belonging to the input `Genotype`.

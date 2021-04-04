@@ -9,6 +9,7 @@
   spawning_attempts: an `integer` specifying the number of attempts at producing an offspring `Organism`.
   weight_bound: a `double` specifying the bounding value for the generation and replacement of `Link` weights.
   perturbation_power: a `double` specifying the perturbation power when altering `Link` weights.
+  initial_activation: an `enum` (`node_activation`) specifying the activation a new HIDDEN `Node` is initially equipped with.
   rejection_fraction: a `double` specifying the fraction of `Organism`s to be rejected at a given evolution cycle.
   stagnation_threshold: an `integer` specifying the number of evolution cycles beyond which a stagnated `Species` can be discarded.
   compatibility_threshold: a `double` specifying the degree of similarity beyond which `Organism`s group in separate `Species`.
@@ -43,9 +44,8 @@
 #pragma once
 
 #include <vector>
+#include "../neatnik/neatnik.h"
 
-
-// Declarations.
 class Parameters
 {
 public:
@@ -69,6 +69,9 @@ public:
 
     // Perturbation power when altering `Link` weights.
     double perturbation_power;
+
+    // The activation a new HIDDEN `Node` is initially equipped with.
+    node_activation initial_activation;
 
     // Fraction of rejected `Organism`s at a given evolution cycle.
     double rejection_fraction;

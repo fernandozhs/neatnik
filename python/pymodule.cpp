@@ -15,7 +15,6 @@
 #include "../experiment/pyparameters.h"
 #include "../experiment/pyexperiment.h"
 
-
 // Assembles NEATnik's Python module.
 PYBIND11_MODULE(neatnik, m)
 {

@@ -23,6 +23,9 @@ Parameters::Parameters()
     // Perturbation power when altering `Link` weights.
     perturbation_power = 0.;
 
+    // The activation a new HIDDEN `Node` is initially equipped with.
+    initial_activation = IDENTITY;
+
     // Fraction of rejected `Organism`s at a given evolution cycle.
     rejection_fraction = 0.;
 
