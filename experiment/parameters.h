@@ -3,6 +3,11 @@
 
   Data:
   ----
+  evolution_driver: an `enum` (`driver_metric`) specifying the metric responsible for driving the evolution of an `Experiment`'s `Genus`.
+  fitness_threshold: a `double` specifying the fitness threshold for `Organism`s' `Graph`s to be stored.
+  novelty_threshold: a `double` specifying the novelty threshold for `Organism`s' behaviors to be stored.
+  novelty_neighbors: an `integer` specifying the number of nearest neighbors to be considered when assessing an `Organism`'s novelty.
+  novelty_threshold_modifiers: a `std::vector<double>` specifying the factors by which the novelty threshold should decrease and increase.
   generational_cycles: an `integer` specifying the number of generational cycles for which an `Experiment` will run.
   population_size: an `integer` specifying the number of `Organism`s in an `Experiment`'s `Genus`.
   mutation_attempts: an `integer` specifying the number of attempts at mutating a `Genotype`.
@@ -52,77 +57,92 @@ public:
 
     // Data:
 
+    // The metric responsible for driving the evolution of an `Experiment`'s `Genus`.
+    static driver_metric evolution_driver;
+
+    // Fitness threshold for `Organism`s' `Graph`s to be stored.
+    static double fitness_threshold;
+
+    // Novelty threshold for `Organism`s' behaviors to be stored.
+    static double novelty_threshold;
+
+    // Number of nearest neighbors to be considered when assessing an `Organism`'s novelty.
+    static int novelty_neighbors;
+
+    // The factors by which the novelty threshold should decrease and increase.
+    static std::vector<double> novelty_threshold_modifiers;
+
     // Number of generational cycles for which an `Experiment` will run.
-    int generational_cycles;
+    static int generational_cycles;
 
     // Number of `Organism`s in an `Experiment`'s `Genus`.
-    int population_size;
+    static int population_size;
 
     // Number of attempts at mutating a `Genotype`.
-    int mutation_attempts;
+    static int mutation_attempts;
 
     // Number of attempts at producing an offspring `Organism`.
-    int spawning_attempts;
+    static int spawning_attempts;
 
     // Bounding value for the generation and replacement of `Link` weights.
-    double weight_bound;
+    static double weight_bound;
 
     // Perturbation power when altering `Link` weights.
-    double perturbation_power;
+    static double perturbation_power;
 
     // The activation a new HIDDEN `Node` is initially equipped with.
-    node_activation initial_activation;
+    static node_activation initial_activation;
 
     // Fraction of rejected `Organism`s at a given evolution cycle.
-    double rejection_fraction;
+    static double rejection_fraction;
 
     // Number of evolution cycles beyond which a stagnated `Species` can be discarded.
-    int stagnation_threshold;
+    static int stagnation_threshold;
 
     // The degree of similarity beyond which `Organism`s group in separate `Species`.
-    double compatibility_threshold;
+    static double compatibility_threshold;
 
     // Relevance of matching, disjoint, and excess `Link`s when comparing `Genotype`s.
-    std::vector<double> compatibility_weights;
+    static std::vector<double> compatibility_weights;
 
     // P.M.F. for enabling of a random DISABLED `Link`: {FAILURE, SUCCESS}.
-    std::vector<double> enabling_link;
+    static std::vector<double> enabling_link;
 
     // P.M.F. for altering each ENABLED `Link`: {FAILURE, SUCCESS}.
-    std::vector<double> altering_links;
+    static std::vector<double> altering_links;
 
     // P.M.F. for altering a `Link`'s weight: {FAILURE, PERTURB, REPLACE}.
-    std::vector<double> altering_weight;
+    static std::vector<double> altering_weight;
 
     // P.M.F. for adding a `Link` of a given role: {FAILURE, FORWARD, RECURRENT, BIASING, LOOPED}.
-    std::vector<double> adding_link;
+    static std::vector<double> adding_link;
 
     // P.M.F. for enabling a DISABLED INPUT `Node` and connecting it to another `Node` of a given role: {FAILURE, HIDDEN, OUTPUT}.
-    std::vector<double> enabling_node;
+    static std::vector<double> enabling_node;
 
     // P.M.F. for altering each HIDDEN `Node`: {FAILURE, SUCCESS}.
-    std::vector<double> altering_nodes;
+    static std::vector<double> altering_nodes;
 
     // P.M.F. for altering a `Node`'s activation: {FAILURE, HEAVISIDE, RELU, LOGISTIC}.
-    std::vector<double> altering_activation;
+    static std::vector<double> altering_activation;
 
     // P.M.F. for adding a `Node` by splitting a `Link` of a given role: {FAILURE, FORWARD, RECURRENT}.
-    std::vector<double> adding_node;
+    static std::vector<double> adding_node;
 
     // P.M.F. for assimilating each homologous `Link`: {FAILURE, SUCCESS}.
-    std::vector<double> assimilating_links;
+    static std::vector<double> assimilating_links;
 
     // P.M.F. for assimilating each homologous `Node`: {FAILURE, SUCCESS}.
-    std::vector<double> assimilating_nodes;
+    static std::vector<double> assimilating_nodes;
 
     // P.M.F. for assimilating a homologous `Link`'s weight: {FAILURE, SUCCESS}.
-    std::vector<double> assimilating_weight;
+    static std::vector<double> assimilating_weight;
 
     // P.M.F. for assimilating a homologous `Node`'s activation: {FAILURE, SUCCESS}.
-    std::vector<double> assimilating_activation;
+    static std::vector<double> assimilating_activation;
 
     // P.M.F. for spawning a new `Organism` through a given process: {MUTATION, ASSIMILATION}.
-    std::vector<double> spawning_organism;
+    static std::vector<double> spawning_organism;
 
 
     // Constructor:

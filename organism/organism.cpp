@@ -20,8 +20,11 @@ Organism::Organism(Species* thatSpecies_, Graph thatGraph_)
     // Initializes this `Organism`'s age.
     age = 0;
 
-    // Initializes this `Organism`'s score.
-    score = 0.;
+    // Initializes this `Organism`'s scores.
+    scores = {0., 0.};
+
+    // Initializes this `Organism`'s behavior.
+    behavior = {};
 }
 
 // Copy constructor responsible for making a deep copy of the input `Organism`.
@@ -42,8 +45,11 @@ Organism::Organism(Organism* thatOrganism_)
     // Copies the input `Organism`'s age.
     age = thatOrganism_->age;
 
-    // Copies the input `Organism`'s score.
-    score = thatOrganism_->score;
+    // Copies the input `Organism`'s scores.
+    scores = thatOrganism_->scores;
+
+    // Copies the input `Organism`'s behavior.
+    behavior = thatOrganism_->behavior;
 }
 
 // Constructor responsible for replicating an `Organism` from its `Genotype`'s associated `Graph`.

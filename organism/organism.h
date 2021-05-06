@@ -1,5 +1,5 @@
 /*
-  An `Organism` encapsulates the `Genotype`, `Phenotype`, age, and score of an individual within a `Species`.
+  An `Organism` encapsulates the `Genotype`, `Phenotype`, age, scores, and behavior of an individual within a `Species`.
 
   Data:
   ----
@@ -8,7 +8,8 @@
   genotype: the `Genotype*` storing this `Organism`'s genetic information.
   phenotype: the `Phenotype*` embodying the artificial neural network encoded by this `Organism`'s `Genotype`.
   age: an `integer` storing this `Organism`'s age.
-  score: a `double` storing this `Organism`'s score.
+  scores: a `std::vector<double>` storing this `Organism`'s scores.
+  behavior: a `std::vector<double>` storing this `Organism`'s behavior.
 
   Constructors:
   ------------
@@ -22,6 +23,7 @@
 
   Methods:
   -------
+  score: retrieves the score shaping this `Organism`'s development.
   mutate: produces a new `Organism` through mutation.
   assimilate: produces a new `Organism` through assimilation.
   react: prompts this `Organism` to react to the input stimuli.
@@ -56,8 +58,11 @@ public:
     // This `Organism`'s age.
     int age;
 
-    // This `Organism`'s score.
-    double score;
+    // This `Organism`'s scores.
+    std::vector<double> scores;
+
+    // This `Organism`'s behavior.
+    std::vector<double> behavior;
 
 
     // Constructors:

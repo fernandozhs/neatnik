@@ -4,7 +4,6 @@
   Data:
   ----
   experiment: the `Experiment*` to which this `Genus` is associated.
-  parameters: the `Parameters*` shaping this `Genus`'s evolution.
   tag_counter: an `unsigned integer` which keeps track of the total number of logged `Link`s and `Node`s.
   logbook: an `std::unordered_map<unsigned long int, unsigned int>` logging all `Link`s and `Node`s in this `Genus`.
   species: an `std::unordered_map<int, std::vector<Species*>>` cataloguing all `Species` in this `Genus`.
@@ -29,14 +28,14 @@
   back: retrieves the last `Species*` of a given group.
   insert: inserts a `Species*` into this `Genus`.
   remove: removes a `Species*` from this `Genus`.
-  purge: purges `Species*` from this `Species`.
+  purge: purges a `Species*` from this `Genus`.
   toggle: toggles the group associated with the input `Species*`.
   random: selects a random `Species*` from the matching group(s).
   retrieve: retrieves all `Species*` from the matching group(s).
   sort: sorts all `Species*` from the matching group(s) according to their performance.
   select: finds the best performing `Organism`s and purges stagnated `Species`.
   spawn: spawns a new generation of `Organism`s.
-  speciate: assigns spawned `Organism`s to new or existing `Species`.
+  speciate: assigns spawned `Organism`s to a new or existing `Species`.
   species_rejection: the criterion for rejecting a `Species*`.
   species_comparison: the criterion for comparing two `Species*`.
 */
@@ -67,9 +66,6 @@ public:
 
     // The `Experiment*` to which this `Genus` is associated.
     Experiment* experiment;
-
-    // The `Parameters*` shaping this `Genus`'s evolution.
-    Parameters* parameters;
 
     // A counter storing the identification tag which was last assigned to a `Link` or `Node`.
     unsigned int tag_counter = 0;
@@ -149,7 +145,7 @@ public:
     // Spawns a new generation of `Organism`s.
     void spawn();
 
-    // Assigns spawned `Organism`s to new or existing `Species`.
+    // Assigns spawned `Organism`s to a new or existing `Species`.
     void speciate();
 
     // The criterion for rejecting a `Species*`.

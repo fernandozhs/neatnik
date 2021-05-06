@@ -11,7 +11,8 @@ void bind_Organism(pybind11::module& m)
         .def_readwrite("species", &Organism::species)
         .def_readwrite("group", &Organism::group)
         .def_readwrite("age", &Organism::age)
-        .def_readwrite("score", &Organism::score)
+        .def_readwrite("scores", &Organism::scores)
+        .def_readwrite("behavior", &Organism::behavior)
 
         // Constructor:
         .def(pybind11::init<Graph>())

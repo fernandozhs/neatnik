@@ -4,7 +4,6 @@
   Data:
   ----
   organism: the `Organism*` associated with this `Genotype`.
-  parameters: the `Parameters*` responsible for shaping this `Genotype`'s development.
   links: a `Chromosome<Link>*` encoding the `Link`s which make up this `Genotype`.
   nodes: a `Chromosome<Node>*` encoding the `Node`s which make up this `Genotype`.
 
@@ -66,9 +65,6 @@ public:
 
     // The `Organism*` associated with this `Genotype`.
     Organism* organism;
-
-    // The `Parameters*` responsible for shaping this `Genotype`'s development.
-    Parameters* parameters;
 
     // `Chromosome<E>*`s encoding the `E`s which make up this `Genotype`.
     Chromosome<Link>* links;

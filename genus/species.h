@@ -4,7 +4,6 @@
   Data:
   ----
   genus: a `Genus*` specifying the taxon to which this `Species` belongs.
-  parameters: the `Parameters*` shaping this `Species`' evolution.
   group: an `enum` (`taxon_group`) specifying the group to which this `Species` belongs within its taxon.
   organisms: an `std::unordered_map<int, std::vector<Organism*>>` cataloguing all `Organism`s in this `Species`.
   rank: a `double` storing this `Species`' rank.
@@ -62,9 +61,6 @@ public:
 
     // The taxon to which this `Species` belongs.
     Genus* genus;
-
-    // The `Parameters*` shaping this `Species`' evolution.
-    Parameters* parameters;
 
     // The group to which this `Species` belongs.
     taxon_group group;

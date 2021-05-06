@@ -47,6 +47,15 @@ double ReLU(std::vector<double>& x_);
 
 
 /*
+  Distance Metrics:
+  -------- -------
+*/
+
+// Computes the squared Euclidean distance between the points `x_` and `y_`.
+double Euclidean(std::vector<double>& x_, std::vector<double>& y_);
+
+
+/*
   Assorted Functions:
   -------- ---------
 */
@@ -56,3 +65,7 @@ long int Key(unsigned int i_, unsigned int j_, unsigned int k_, unsigned int l_)
 
 // Rounds all entries of `x_` while preserving their sum.
 std::vector<double> Round(std::vector<double>& x_);
+
+// Computes the sparseness of a set `Y_` at the point `x_`.
+// TODO: Reimplement this using a kD-Tree data structure.
+double Sparseness(unsigned int k_, std::vector<std::vector<double>>& Y_, std::vector<double>& x_);

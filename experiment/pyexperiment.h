@@ -22,8 +22,14 @@ public:
 
     // Methods:
 
-    // Scores the performance of the input `Organism`.
-    double performance(Organism* thatOrganism_) override;
+    // Displays any of this `Experiment`'s current data.
+    void display() override;
+
+    // Evaluates the input `Organism`'s FITNESS score.
+    double fitness(Organism* thatOrganism_) override;
+
+    // Extracts the input `Organism`'s behavior.
+    std::vector<double> behavior(Organism* thatOrganism_) override;
 };
 
 // Binds the `Experiment` class to a Python module.

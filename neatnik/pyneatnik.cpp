@@ -6,6 +6,11 @@
 void bind_NEATnik(pybind11::module& m)
 {
     // Non-standard Types:
+    pybind11::enum_<driver_metric>(m, "DriverMetric")
+        .value("NOVELTY", NOVELTY)
+        .value("FITNESS", FITNESS)
+        .export_values();
+
     pybind11::enum_<element_type>(m, "ElementType")
         .value("NODE", NODE)
         .value("LINK", LINK)

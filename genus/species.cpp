@@ -8,9 +8,6 @@ Species::Species(Genus* thatGenus_, taxon_group group_, std::vector<Graph> those
     // Assigns this `Species` to its taxon.
     genus = thatGenus_;
 
-    // Creates a shortcut to the `Parameters` shaping this `Genus`'s evolution.
-    parameters = genus->experiment->parameters;
-
     // Assigns this `Species` to a group within its taxon.
     group = group_;
 
@@ -34,9 +31,6 @@ Species::Species(Genus* thatGenus_, taxon_group group_, Organism* thatOrganism_)
 {
     // Assigns this `Species` to its taxon.
     genus = thatGenus_;
-
-    // Creates a shortcut to the `Parameters` shaping this `Genus`'s evolution.
-    parameters = genus->experiment->parameters;
 
     // Assigns this `Species` to a group within its taxon.
     group = group_;
@@ -270,7 +264,7 @@ void Species::select()
     }
 
     // The threshold beyond which `Organism`s are purged.
-    auto threshold_ = ++thoseOrganisms_.begin() + this->size()*(1 - parameters->rejection_fraction);
+    auto threshold_ = ++thoseOrganisms_.begin() + this->size()*(1 - Parameters::rejection_fraction);
 
     // Ages the threshold-clearing `Organism`s and purges the remainder.
     for (auto that_ = thoseOrganisms_.begin(); that_ != thoseOrganisms_.end(); ++that_)
@@ -296,10 +290,10 @@ Organism* Species::spawn()
     Organism* thisOrganism_;
 
     // Selects the process by which a new `Organism` will be issued.
-    auto process_ = P(parameters->spawning_organism, this->size({CONTESTANT}));
+    auto process_ = P(Parameters::spawning_organism, this->size({CONTESTANT}));
 
     // Attempts to issue a new `Organism` from this `Species`.
-    for (int attempts_ = parameters->spawning_attempts; attempts_; --attempts_)
+    for (int attempts_ = Parameters::spawning_attempts; attempts_; --attempts_)
     {
         // Randomly chooses the parent `Organism`s.
         switch (process_)
@@ -376,21 +370,21 @@ bool Species::organism_compatibility(Organism* thatOrganism_)
     Organism* thisOrganism_ = this->front(DOMINANT);
 
     // Selects compatible `Organism*`s.
-    return thatOrganism_->genotype->compatibility(thisOrganism_->genotype) < parameters->compatibility_threshold;
+    return thatOrganism_->genotype->compatibility(thisOrganism_->genotype) < Parameters::compatibility_threshold;
 }
 
 // The comparison criterion for `Organism*`s.
 bool Species::organism_comparison(Organism* thatOrganism_, Organism* thisOrganism_)
 {
-    // Checks whether the two `Organism*`s possess the same score.
-    if (thatOrganism_->score == thisOrganism_->score)
+    // Checks whether the two `Organism*`s possess the same driving score.
+    if (thatOrganism_->scores[Parameters::evolution_driver] == thisOrganism_->scores[Parameters::evolution_driver])
     {
         // Compares the `Organism*`s' sizes through the '<' operation.
         return thatOrganism_->genotype->size() < thisOrganism_->genotype->size();
     }
     else
     {
-        // Compares the `Organism*`s' scores through the '>' operation.
-        return thatOrganism_->score > thisOrganism_->score;
+        // Compares the `Organism*`s' driving scores through the '>' operation.
+        return thatOrganism_->scores[Parameters::evolution_driver] > thisOrganism_->scores[Parameters::evolution_driver];
     }
 }

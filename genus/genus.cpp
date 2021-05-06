@@ -8,9 +8,6 @@ Genus::Genus(Experiment* thatExperiment_, std::vector<Graph> thoseGraphs_)
     // Assigns this `Genus` to the pertinent `Experiment`.
     experiment = thatExperiment_;
 
-    // Creates a shortcut to the `Parameters` shaping this `Genus`'s evolution.
-    parameters = experiment->parameters;
-
     // Initializes a new `Species` with `Organism`s initializes from minimal `Graph`s.
     Species* newSpecies_ = new Species(this, DOMINANT, thoseGraphs_);
 
@@ -303,7 +300,7 @@ void Genus::spawn()
     std::vector<double> ranks_;
 
     // Retrieves the number of `Organism`s to be allocated.
-    int allocation_ = parameters->population_size;
+    int allocation_ = Parameters::population_size;
 
     // Extracts the ranks of all parent `Species` and adjusts the input allocation.
     for (const auto& theSpecies_ : this->retrieve({DOMINANT, CONTESTANT}))
@@ -329,7 +326,7 @@ void Genus::spawn()
     return;
 }
 
-// Assigns spawned `Organism`s to new or existing `Species`.
+// Assigns spawned `Organism`s to a new or existing `Species`.
 void Genus::speciate()
 {
     // A new `Species*`.
@@ -376,7 +373,7 @@ bool Genus::species_rejection(Species* thatSpecies_)
     Organism* thatOrganism_ = thatSpecies_->front(DOMINANT);
 
     // Rejects `Species*` which are stagnated.
-    return thatOrganism_->age > parameters->stagnation_threshold && thatSpecies_ != thisSpecies_;
+    return thatOrganism_->age > Parameters::stagnation_threshold && thatSpecies_ != thisSpecies_;
 }
 
 // The criterion for comparing two `Species*`.
@@ -386,15 +383,15 @@ bool Genus::species_comparison(Species* thatSpecies_, Species* thisSpecies_)
     Organism* thatOrganism_ = thatSpecies_->front(DOMINANT);
     Organism* thisOrganism_ = thisSpecies_->front(DOMINANT);
 
-    // Checks whether the two `Species*`' DOMINANT `Organism*`s possess the same score.
-    if (thatOrganism_->score == thisOrganism_->score)
+    // Checks whether the two `Species*`' DOMINANT `Organism*`s possess the same driving score.
+    if (thatOrganism_->scores[Parameters::evolution_driver] == thisOrganism_->scores[Parameters::evolution_driver])
     {
         // Compares the DOMINANT `Organism*`s' sizes through the '<' operation.
         return thatOrganism_->genotype->size() < thisOrganism_->genotype->size();
     }
     else
     {
-        // Compares the DOMINANT `Organism*`s' scores through the '>' operation.
-        return thatOrganism_->score > thisOrganism_->score;
+        // Compares the DOMINANT `Organism*`s' driving scores through the '>' operation.
+        return thatOrganism_->scores[Parameters::evolution_driver] > thisOrganism_->scores[Parameters::evolution_driver];
     }
 }

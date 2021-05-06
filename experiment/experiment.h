@@ -7,6 +7,8 @@
   vertexes: a `std::vector<Vertex>` encoding the `Vertex`es of this `Experiment`'s starting minimal `Graph`.
   edges: a `std::vector<Edge>` encoding the `Edge`s of this `Experiment`'s starting minimal `Graph`.
   genus: the `Genus*` to be evolved by this `Experiment`.
+  behaviors: an `std::vector<std::vector<double>>` storing the novel behaviors displayed by the `Organism`s evolved in this `Experiment`.
+  outcome: an `std::vector<Graph>` storing the `Graph`s of the fittest `Organism`s to evolve in this `Experiment`.
 
   Constructor:
   -----------
@@ -18,11 +20,14 @@
 
   Methods:
   -------
-  populate: populates this `Experiment`'s `Genus`.
+  build: sets up this `Experiment`.
   run: runs this `Experiment`.
-  evaluate: evaluates the performance of the this `Experiment`'s `Genus`.
-  graph: produces the `Graph` associated with this `Experiment`'s DOMINANT `Organism`'s `Genotype`.
-  performance: scores the performance of the input `Organism`.
+  display: displays any of this `Experiment`'s current data.
+  drive: drives the evolution of this `Experiment`'s `Genus`.
+  assess: scores and curates the input `Organism` with respect to the given performance metric(s).
+  novelty: evaluates the input `Organism`'s NOVELTY score.
+  fitness: evaluates the input `Organism`'s FITNESS score.
+  behavior: extracts the input `Organism`'s behavior.
 */
 
 /*
@@ -31,8 +36,6 @@
 
 #pragma once
 
-#include <iostream>
-#include <iomanip>
 #include <vector>
 #include <algorithm>
 #include "../neatnik/neatnik.h"
@@ -57,6 +60,12 @@ public:
     // The `Genus*` to be evolved by this `Experiment`.
     Genus* genus;
 
+    // The novel behaviors displayed by the `Organism`s evolved in this `Experiment`.
+    std::vector<std::vector<double>> behaviors;
+
+    // This `Experiment`'s outcome.
+    std::vector<Graph> outcome;
+
 
     // Constructor:
 
@@ -72,18 +81,27 @@ public:
 
     // Methods:
 
-    // Populates this `Experiment`'s `Genus`.
-    void populate();
+    // Sets up this `Experiment`.
+    void build();
 
     // Runs this `Experiment`.
-    void run(bool verbose_ = true);
+    void run();
 
-    // Evaluates the performance of this `Experiment`'s `Genus`.
-    void evaluate();
+    // Displays any of this `Experiment`'s current data.
+    virtual void display();
 
-    // Produces the `Graph` associated with this `Experiment`'s DOMINANT `Organism`'s `Genotype`.
-    Graph graph();
+    // Drives the evolution of this `Experiment`'s `Genus`.
+    void drive(driver_metric metric_);
 
-    // Scores the performance of the input `Organism`.
-    virtual double performance(Organism* thatOrganism_) = 0;
+    // Scores and curates the input `Organism` with respect to the given performance metric(s).
+    void assess(Organism* thatOrganism_, const std::vector<int> metrics_);
+
+    // Evaluates the input `Organism`'s NOVELTY score.
+    double novelty(Organism* thatOrganism_);
+
+    // Evaluates the input `Organism`'s FITNESS score.
+    virtual double fitness(Organism* thatOrganism_) = 0;
+
+    // Extracts the input `Organism`'s behavior.
+    virtual std::vector<double> behavior(Organism* thatOrganism_) = 0;
 };

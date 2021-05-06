@@ -120,6 +120,34 @@ double ReLU(std::vector<double>& x_)
 
 
 /*
+  Distance Metrics:
+  -------- -------
+*/
+
+// Computes the squared Euclidean distance between the points `x_` and `y_`.
+double Euclidean(std::vector<double>& x_, std::vector<double>& y_)
+{
+    // Initializes the return variable.
+    double distance_ = 0.;
+
+    // Extracts iterators at the first component of each input point.
+    auto x_component_ = x_.begin();
+    auto y_component_ = y_.begin();
+
+    // Computes the squared Euclidean distance between the input points.
+    while (x_component_ != x_.end() && y_component_ != y_.end())
+    {
+        distance_ += std::pow(*x_component_ - *y_component_, 2);
+        ++x_component_;
+        ++y_component_;
+    }
+
+    // Returns the squared Euclidean distance.
+    return distance_;
+}
+
+
+/*
   Assorted Functions:
   -------- ---------
 */
@@ -159,4 +187,25 @@ std::vector<double> Round(std::vector<double>& x_)
 
     // Returns the appropriately rounded `x_`.
     return integer_;
+}
+
+// Computes the sparseness of a set `Y_` at the point `x_`.
+// TODO: Reimplement this using a kD-Tree data structure.
+double Sparseness(unsigned int k_, std::vector<std::vector<double>>& Y_, std::vector<double>& x_)
+{
+    // Initializes and reserves the appropriate amount of memory for a `std::vector<double>` which will hold the distances from `x_` to each element of `Y_`.
+    std::vector<double> distances_;
+    distances_.reserve(Y_.size());
+
+    // Computes the Euclidean distances from `x_` to each element of `Y_`.
+    for (auto& y_ : Y_)
+    {
+        distances_.push_back(Euclidean(x_, y_));
+    }
+
+    // Collects the `k_` shortest distances computed above.
+    std::nth_element(distances_.begin(), distances_.begin() + k_, distances_.end());
+
+    // Returns the sparseness of `Y_` at `x_`.
+    return std::accumulate(distances_.begin(), distances_.begin() + k_, 0.)/k_;
 }

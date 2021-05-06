@@ -8,9 +8,6 @@ Genotype::Genotype(Organism* thatOrganism_, Graph thatGraph_)
     // Assigns this `Genotype` to the pertinent `Organism`.
     organism = thatOrganism_;
 
-    // Creates a shortcut to the `Parameters` shaping this `Genotype`'s development.
-    parameters = organism->species->genus->experiment->parameters;
-
     // Initializes an auxiliary record of all user-defined `Vertex` labels.
     std::unordered_map<unsigned long int, Node*> record_;
 
@@ -39,7 +36,7 @@ Genotype::Genotype(Organism* thatOrganism_, Graph thatGraph_)
         Node* outNode_ = record_[out_label_];
 
         // Encodes the new `Link`.
-        this->encode(role_, LINK, inNode_, outNode_, weight_.value_or(U(-parameters->weight_bound, parameters->weight_bound)));
+        this->encode(role_, LINK, inNode_, outNode_, weight_.value_or(U(-Parameters::weight_bound, Parameters::weight_bound)));
     }
 }
 
@@ -48,9 +45,6 @@ Genotype::Genotype(Organism* thatOrganism_, Genotype* thatGenotype_)
 {
     // Assigns this `Genotype` to the pertinent `Organism`.
     organism = thatOrganism_;
-
-    // Creates a shortcut to the `Parameters` shaping this `Genotype`'s development.
-    parameters = organism->species->genus->experiment->parameters;
 
     // Initializes this `Genotype`'s `Chromosome`s.
     links = new Chromosome<Link>();
@@ -80,9 +74,6 @@ Genotype::Genotype(Graph thatGraph_)
 {
     // Does not assign this `Genotype` to any `Organism`.
     organism = nullptr;
-
-    // Does not create a `Parameters` shortcut.
-    parameters = nullptr;
 
     // Initializes this `Genotype`'s `Chromosome`s.
     links = new Chromosome<Link>();
@@ -196,21 +187,21 @@ void Genotype::mutate()
     // `Link` mutations.
 
     // Samples the probability mass function for enabling a `Link`.
-    if (P(parameters->enabling_link))
+    if (P(Parameters::enabling_link))
     {
         // Attempts to enable a DISABLED `Link`.
         this->enable_link();
     }
 
     // Samples the probability mass function for altering each `Link`.
-    if (P(parameters->altering_links))
+    if (P(Parameters::altering_links))
     {
         // Attempts to alter the weight of each ENABLED `Link`.
         this->alter_links();
     }
 
     // Samples the probability mass function for encoding a new `Link`.
-    if (int sample_ = P(parameters->adding_link))
+    if (int sample_ = P(Parameters::adding_link))
     {
         // Attempts to add a new `Link` of the sampled role.
         this->add_link((link_role)sample_);
@@ -220,21 +211,21 @@ void Genotype::mutate()
     // `Node` mutations.
 
     // Samples the probability mass function for enabling a `Node`.
-    if (int sample_ = P(parameters->enabling_node))
+    if (int sample_ = P(Parameters::enabling_node))
     {
         // Attempts to enable a DISABLED INPUT `Node`.
         this->enable_node((node_role)sample_);
     }
 
     // Samples the probability mass function for altering each `Node`.
-    if (P(parameters->altering_nodes))
+    if (P(Parameters::altering_nodes))
     {
         // Attempts to alter the activation function of each ENABLED HIDDEN `Node`.
         this->alter_nodes();
     }
 
     // Samples the probability mass function for encoding a new `Node`.
-    if (int sample_ = P(parameters->adding_node))
+    if (int sample_ = P(Parameters::adding_node))
     {
         // Attempts to encode a new HIDDEN `Node` by splitting a `Link` of the sampled role.
         this->add_node((link_role)sample_);
@@ -266,16 +257,16 @@ void Genotype::alter_links()
     for (const auto& theLink_ : links->retrieve({FORWARD, BIASING, RECURRENT, LOOPED}, {ENABLED}))
     {
         // Samples the probability mass function for altering a `Link`'s weight.
-        switch (P(parameters->altering_weight))
+        switch (P(Parameters::altering_weight))
         {
             case PERTURB:
                 // Perturbs the `Link` weight by a normally distributed value.
-                theLink_->weight += N(0., parameters->perturbation_power);
+                theLink_->weight += N(0., Parameters::perturbation_power);
                 break;
 
             case REPLACE:
                 // Replaces the `Link` weight by an entirely new uniformly distributed value.
-                theLink_->weight = U(-parameters->weight_bound, parameters->weight_bound);
+                theLink_->weight = U(-Parameters::weight_bound, Parameters::weight_bound);
                 break;
 
             default:
@@ -295,7 +286,7 @@ void Genotype::add_link(link_role role_)
     Node* outNode_;
 
     // Attempts to find two `Node`s which have not yet been connected by a `Link`.
-    for (int attempts_ = parameters->mutation_attempts; attempts_; --attempts_)
+    for (int attempts_ = Parameters::mutation_attempts; attempts_; --attempts_)
     {
         // Randomly chooses two encoded `Node`s.
         switch (role_)
@@ -383,7 +374,7 @@ void Genotype::add_link(link_role role_)
         }
 
         // Encodes the new `Link`.
-        this->encode(role_, LINK, inNode_, outNode_, U(-parameters->weight_bound, parameters->weight_bound));
+        this->encode(role_, LINK, inNode_, outNode_, U(-Parameters::weight_bound, Parameters::weight_bound));
 
         // A `Link` has been added to this `Genotype`.
         return;
@@ -446,7 +437,7 @@ void Genotype::enable_node(node_role role_)
     nodes->toggle(inNode_, ENABLED);
 
     // Encodes a FORWARD `Link` connecting the two selected `Node`s.
-    this->encode(FORWARD, LINK, inNode_, outNode_, U(-parameters->weight_bound, parameters->weight_bound));
+    this->encode(FORWARD, LINK, inNode_, outNode_, U(-Parameters::weight_bound, Parameters::weight_bound));
 
     return;
 }
@@ -459,7 +450,7 @@ void Genotype::alter_nodes()
     for (const auto& theNode_ : nodes->retrieve({HIDDEN}, {ENABLED}))
     {
         // Samples the probability mass function for altering a `Node`'s activation.
-        if (auto sample_ = P(parameters->altering_activation))
+        if (auto sample_ = P(Parameters::altering_activation))
         {
             // Equips the `Node` with the sampled activation.
             theNode_->activation = (node_activation)sample_;
@@ -478,7 +469,7 @@ void Genotype::add_node(link_role role_)
     Node* newNode_;
 
     // Attempts to find a `Link` to be split by the insertion of a new `Node`.
-    for (int attempts_ = parameters->mutation_attempts; attempts_; --attempts_)
+    for (int attempts_ = Parameters::mutation_attempts; attempts_; --attempts_)
     {
         // Selects the `Link` to be split.
         switch (role_)
@@ -533,7 +524,7 @@ void Genotype::add_node(link_role role_)
         links->toggle(theLink_, DISABLED);
 
         // Encodes the new HIDDEN `Node` and its associated `Link`s.
-        newNode_ = this->encode(HIDDEN, NODE, theLink_->inNode, theLink_->outNode, parameters->initial_activation);
+        newNode_ = this->encode(HIDDEN, NODE, theLink_->inNode, theLink_->outNode, Parameters::initial_activation);
         this->encode(role_, LINK, theLink_->inNode, newNode_, 1.);
         this->encode(role_, LINK, newNode_, theLink_->outNode, theLink_->weight);
 
@@ -552,7 +543,7 @@ void Genotype::assimilate(Genotype* thatGenotype_)
     // `Link` assimilations.
 
     // Samples the probability mass function for assimilating each homologous `Link`.
-    if (P(parameters->assimilating_links))
+    if (P(Parameters::assimilating_links))
     {
         // Attempts to assimilate each homologous `Link`.
         this->assimilate_links(thatGenotype_->links);
@@ -562,7 +553,7 @@ void Genotype::assimilate(Genotype* thatGenotype_)
     // `Node` assimilations.
 
     // Samples the probability mass function for assimilating each homologous `Node`.
-    if (P(parameters->assimilating_nodes))
+    if (P(Parameters::assimilating_nodes))
     {
         // Attempts to assimilate each homologous `Node`.
         this->assimilate_nodes(thatGenotype_->nodes);
@@ -581,7 +572,7 @@ void Genotype::assimilate_links(Chromosome<Link>* thatChromosome_)
         Link* thatLink_ = thatChromosome_->find(theLink_->key);
 
         // Samples the probability mass function for assimilating the homologous `Link`.
-        if (P(parameters->assimilating_weight, thatLink_ != nullptr))
+        if (P(Parameters::assimilating_weight, thatLink_ != nullptr))
         {
             // Assimilates the homologous `Link` by absorbing its weight.
             theLink_->weight = thatLink_->weight;
@@ -601,7 +592,7 @@ void Genotype::assimilate_nodes(Chromosome<Node>* thatChromosome_)
         Node* thatNode_ = thatChromosome_->find(theNode_->key);
 
         // Samples the probability mass function for assimilating the homologous `Node`.
-        if (P(parameters->assimilating_activation, thatNode_ != nullptr))
+        if (P(Parameters::assimilating_activation, thatNode_ != nullptr))
         {
             // Assimilates the homologous `Node` by absorbing its activation function.
             theNode_->activation = thatNode_->activation;
@@ -672,7 +663,7 @@ double Genotype::compatibility(Genotype* thatGenotype_)
     std::vector<double> comparison_ {difference_/matching_, disjoint_/total_, excess_/total_};
 
     // Returns the degree of compatibility with the input `Genotype`.
-    return std::inner_product(comparison_.begin(), comparison_.end(), parameters->compatibility_weights.begin(), 0.);
+    return std::inner_product(comparison_.begin(), comparison_.end(), Parameters::compatibility_weights.begin(), 0.);
 }
 
 // Produces this `Genotype`'s associated `Graph`.
