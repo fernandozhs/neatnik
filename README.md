@@ -39,4 +39,4 @@ If successful, the above instructions will have produced a file named `neatnik.s
 
 ## Scripts
 
-Sample Python scripts employing [`NEATnik`](https://github.com/fernandozhs/neatnik) can be found at the [`NEATnik Scripts`](http://github.com/fernandozhs/neatnik_scripts) sister repository.
+Sample Python scripts employing [`NEATnik`](https://github.com/fernandozhs/neatnik) can be found at the [`NEATnik Scripts`](http://github.com/fernandozhs/neatnik-scripts) sister repository.
