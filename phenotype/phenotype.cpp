@@ -77,7 +77,8 @@ void Phenotype::activate(std::vector<double> inputs_)
                 break;
 
             case BIAS:
-                // Simply engages the BIAS `Node` as it does not require an input.
+                // Passes a token input to the BIAS `Node` and then engages it.
+                theNode_->inputs.push_back(1.);
                 theNode_->engage();
                 break;
         }
