@@ -33,6 +33,9 @@ double N(double u_, double s_);
   ---------- ---------
 */
 
+// Unity function evaluated at the sum of all entries of `x_`.
+double Unity(std::vector<double>& x_);
+
 // Identity function evaluated at the sum of all entries of `x_`.
 double Identity(std::vector<double>& x_);
 

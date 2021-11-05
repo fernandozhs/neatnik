@@ -67,6 +67,13 @@ double N(double u_, double s_)
   ---------- ---------
 */
 
+// Unity function evaluated at the sum of all entries of `x_`.
+double Unity(std::vector<double>& x_)
+{
+    // Returns the unit constant regardless of `x_`.
+    return 1.;
+}
+
 // Identity function evaluated at the sum of all entries of `x_`.
 double Identity(std::vector<double>& x_)
 {
