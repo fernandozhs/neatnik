@@ -66,10 +66,21 @@ void Phenotype::activate(std::vector<double> inputs_)
     }
 
     // Engages all INPUT and BIAS `Node`s, recursively triggering all other `Node`s to be engaged as well.
-    for (const auto& theNode_ : organism->genotype->nodes->sort({BIAS, INPUT}, {ENABLED}))
+    for (const auto& theNode_ : organism->genotype->nodes->retrieve({INPUT, BIAS}, {ENABLED}))
     {
-        theNode_->inputs.push_back(inputs_.at(theNode_->tag));
-        theNode_->engage();
+        switch (theNode_->role)
+        {
+            case INPUT:
+                // Passes the input signal to each INPUT `Node` and then engages them.
+                theNode_->inputs.push_back(inputs_.at(theNode_->tag));
+                theNode_->engage();
+                break;
+
+            case BIAS:
+                // Simply engages the BIAS `Node` as it does not require an input.
+                theNode_->engage();
+                break;
+        }
     }
 
     // Extracts this `Phenotype`'s output.
