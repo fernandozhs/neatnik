@@ -40,6 +40,7 @@ void bind_NEATnik(pybind11::module& m)
         .value("RELU", RELU)
         .value("LOGISTIC", LOGISTIC)
         .value("IDENTITY", IDENTITY)
+        .value("UNITY", UNITY)
         .export_values();
 
     pybind11::enum_<taxon_group>(m, "TaxonGroup")
