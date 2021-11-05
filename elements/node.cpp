@@ -99,6 +99,11 @@ double Node::activate()
             // Identity function.
             return Identity(inputs);
             break;
+
+        case UNITY:
+            // Unity function.
+            return Unity(inputs);
+            break;
     }
 }
 

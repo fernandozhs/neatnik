@@ -57,7 +57,7 @@ enum link_role {FORWARD=1, RECURRENT=2, BIASING=3, LOOPED=4};
 enum node_role {HIDDEN=1, OUTPUT=2, BIAS=3, INPUT=4};
 
 // Labels the possible types of activation a `Node` can be equipped with.
-enum node_activation {HEAVISIDE=1, RELU=2, LOGISTIC=3, IDENTITY=4};
+enum node_activation {HEAVISIDE=1, RELU=2, LOGISTIC=3, IDENTITY=4, UNITY=5};
 
 // Labels the possible ways in which a `Link`'s weight can be altered.
 enum link_alteration {PERTURB=1, REPLACE=2};
