@@ -81,6 +81,10 @@ void Phenotype::activate(std::vector<double> inputs_)
                 theNode_->inputs.push_back(1.);
                 theNode_->engage();
                 break;
+
+            default:
+                // HIDDEN and OUTPUT `Node`s are engaged recursively.
+                break;
         }
     }
 

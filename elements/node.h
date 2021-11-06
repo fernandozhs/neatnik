@@ -66,7 +66,7 @@ public:
     std::vector<double> inputs;
     double output = 0;
 
-    // Specifies whether this `Node`'s activation corresponds to the HEAVISIDE, RELU, LOGISTIC, or IDENTITY function.
+    // Specifies whether this `Node`'s activation corresponds to the HEAVISIDE, RELU, LOGISTIC, IDENTITY, or UNITY function.
     node_activation activation;
 
     // This `Node`'s coordinates.
