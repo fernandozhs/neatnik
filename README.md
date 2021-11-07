@@ -45,7 +45,7 @@ Within `../neatnik`, run the following shell script to build both `pybind11` and
 sudo sh ./install.sh
 ```
 
-If successful, the above instructions will have produced a file named `neatnik.so` within `../neatnik/build`. In order to conclude the installation, ensure your `PYTHONPATH` environment variable points to the location of this shared library object.
+If successful, this will have produced a file named `neatnik.so` within `../neatnik/build`. In order to conclude the installation, ensure your `PYTHONPATH` environment variable points to the location of this shared library object.
 
 
 ## Scripts
