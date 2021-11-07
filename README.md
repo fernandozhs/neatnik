@@ -1,6 +1,6 @@
 # NEATnik
 
-[`NEATnik`](https://github.com/fernandozhs/neatnik) is a Python-wrapped C++ implementation of the [`NEAT`](https://ieeexplore.ieee.org/document/6790655) (Neuro-Evolution of Augmenting Topologies) algorithm originally developed by Kenneth Stanley.
+[`NEATnik`](https://github.com/fernandozhs/neatnik) is a Python-wrapped C++ implementation of the [NEAT](https://ieeexplore.ieee.org/document/6790655) (Neuro-Evolution of Augmenting Topologies) algorithm originally developed by Kenneth Stanley.
 
 ## Requirements
 
@@ -50,4 +50,4 @@ If successful, the above instructions will have produced a file named `neatnik.s
 
 ## Scripts
 
-Sample Python scripts employing [`NEATnik`](https://github.com/fernandozhs/neatnik) can be found at the [`NEATnik Scripts`](http://github.com/fernandozhs/neatnik-scripts) sister repository.
+Sample Python scripts employing [`NEATnik`](https://github.com/fernandozhs/neatnik) can be found in the [`NEATnik Scripts`](http://github.com/fernandozhs/neatnik-scripts) repository.
