@@ -70,12 +70,12 @@ void Experiment::drive(driver_metric metric_)
         switch (metric_)
         {
             case NOVELTY:
-                // NOVELTY is assessed for both CONTESTANT and DOMINANT `Organism`s, requiring `Species`' ranks to be completely cleared.
+                // NOVELTY is assessed for both CONTESTANT and DOMINANT `Organism`s, requiring all `Species`' ranks to be completely cleared.
                 theSpecies_->rank = 0.;
                 break;
 
             case FITNESS:
-                // FITNESS is only assessed for CONTESTANT `Organism`s, requiring `Species`' ranks to be offset by their DOMINANT `Organism`'s FITNESS score.
+                // FITNESS is only assessed for CONTESTANT `Organism`s, requiring all `Species`' ranks to be offset by their DOMINANT `Organism`'s FITNESS score.
                 theSpecies_->rank = 0. + theSpecies_->front(DOMINANT)->scores[FITNESS];
                 break;
 
@@ -88,7 +88,7 @@ void Experiment::drive(driver_metric metric_)
         switch (metric_)
         {
             case NOVELTY:
-                // Assesses both the NOVELTY and FITNESS scores of all `Organism` in the current `Species`. Each NOVELTY score is accumulated into the current `Species`' rank.
+                // Assesses both the NOVELTY and FITNESS scores of all `Organism`s in the current `Species`. Each NOVELTY score is accumulated into the current `Species`' rank.
                 for (const auto& theOrganism_ : theSpecies_->retrieve({DOMINANT, CONTESTANT}))
                 {
                     this->assess(theOrganism_, {NOVELTY, FITNESS});
