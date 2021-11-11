@@ -21,7 +21,7 @@ Recursively clone this repository within the directory of your choice.
 git clone --recursive https://github.com/fernandozhs/neatnik.git
 ```
 
-Within `../neatnik`, run the following shell script to build both `pybind11` and `NEATnik`.
+Within `../neatnik`, run the following commands to build both `pybind11` and `NEATnik`.
 
 ```
 chmod +x install.sh
