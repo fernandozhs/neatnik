@@ -3,11 +3,11 @@
 
 # Source directories.
 NEATNIK_SOURCE_DIR="./"
-PYBIND11_SOURCE_DIR="./extern/pybind11/"
+PYBIND11_SOURCE_DIR="./ext/pybind11/"
 
 # Build directories.
 NEATNIK_BUILD_DIR="./build/"
-PYBIND11_BUILD_DIR="./extern/pybind11/build/"
+PYBIND11_BUILD_DIR="./ext/pybind11/build/"
 
 # Builds pybind11.
 cmake -S "${PYBIND11_SOURCE_DIR}" -B "${PYBIND11_BUILD_DIR}"
