@@ -4,13 +4,13 @@
 
 ## Properties
 
-##### `key`
+#### `key`
 
 > **Type:** `unsigned long int`
 
 > **Description:** A unique number which specifies the `Link`'s position relative to its neighboring `Node`s.
 
-##### `tag`
+### `tag`
 
 > **Type:** `unsigned int`
 
