@@ -4,10 +4,22 @@
 
 ## Properties
 
-> **`key`:** `unsigned long int`  
+##### `key`
+
+> **Type:** `unsigned long int`
+
+> **Description:** A unique number which specifies the `Link`'s position relative to its neighboring `Node`s.
+
+##### `tag`
+
+> **Type:** `unsigned int`
+
+> **Description:** A unique number which specifies the `Link`'s identity within a `Genus`.
+
+> `key: unsigned long int`  
 >  A unique number which specifies the `Link`'s position relative to its neighboring `Node`s.
 >
-> **`tag`:** `unsigned int`  
+> `tag: unsigned int`  
 >  A unique number which specifies the `Link`'s identity within a `Genus`.
 >
 > **`state`:** `element_state`  
@@ -27,10 +39,10 @@
 
 ## Constructors
 
-> **`Link`**`(unsigned long int, unsigned int, element_state, link_role, Node*, Node*, double)`
+> `Link(unsigned long int, unsigned int, element_state, link_role, Node*, Node*, double)`  
 >  Returns a `Link` instance with the input arguments as its properties.
 >
-> **`Link`**`(Link*)`
+> `Link(Link*)`  
 >  Returns a shallow copy of the `Link` referenced by the input pointer.
 
 ## Methods
