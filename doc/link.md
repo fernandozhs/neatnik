@@ -4,25 +4,25 @@
 
 ## Properties
 
-> **`key`:** `unsigned long int`
+> **`key`:** `unsigned long int`  
 >  A unique number which specifies the `Link`'s position relative to its neighboring `Node`s.
 >
-> **`tag`:** `unsigned int`
+> **`tag`:** `unsigned int`  
 >  A unique number which specifies the `Link`'s identity within a `Genus`.
 >
-> **`state`:** `element_state`
+> **`state`:** `element_state`  
 >  Specifies whether the `Link` is active.
 >
-> **`role`:** `link_role`
+> **`role`:** `link_role`  
 >  Labels the `Link`'s role in the artificial neural network.
 >
-> **`source`:** `Node*`
+> **`source`:** `Node*`  
 >  Points to the `Node` from which the `Link`'s input signal originates.
 >
-> **`target`:** `Node*`
+> **`target`:** `Node*`  
 >  Points to the `Node` to which the `Link`'s output signal is relayed.
 >
-> **`weight`:** `double`
+> **`weight`:** `double`  
 > The weight applied to the `Link`'s output signal.
 
 ## Constructors
