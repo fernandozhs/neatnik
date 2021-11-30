@@ -16,6 +16,7 @@
   disassemble: disassembles this `Phenotype`.
   activate: propagates an input signal through this `Phenotype` and stores its output.
   deactivate: restores this `Phenotype` to a clean slate.
+  discontinue: discontinues this `Phenotype`'s chain of activations.
 */
 
 /*
@@ -60,4 +61,7 @@ public:
 
     // Restores this `Phenotype` to a clean slate.
     void deactivate();
+
+    // Discontinues this `Phenotype`'s chain of activations.
+    void discontinue();
 };

@@ -18,7 +18,8 @@ void bind_Organism(pybind11::module& m)
         .def(pybind11::init<Graph>())
 
         // Methods:
-        .def("react", &Organism::react)
+        .def("react", pybind11::overload_cast<>(&Organism::react))
+        .def("react", pybind11::overload_cast<std::vector<std::vector<std::vector<double>>>>(&Organism::react))
         .def("graph", &Organism::graph)
         .def(pybind11::pickle(
             // __getstate__

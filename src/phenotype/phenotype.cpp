@@ -111,3 +111,15 @@ void Phenotype::deactivate()
 
     return;
 }
+
+// Discontinues this `Phenotype`'s chain of activations.
+void Phenotype::discontinue()
+{
+    // Clears the output of each HIDDEN and OUTPUT `Node`s.
+    for (const auto& theNode_ : organism->genotype->nodes->retrieve({HIDDEN, OUTPUT}, {ENABLED}))
+    {
+        theNode_->clear();
+    }
+
+    return;
+}

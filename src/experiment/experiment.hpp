@@ -6,6 +6,7 @@
   parameters: the `Parameters*` which characterize this `Experiment`.
   vertexes: a `std::vector<Vertex>` encoding the `Vertex`es of this `Experiment`'s starting minimal `Graph`.
   edges: a `std::vector<Edge>` encoding the `Edge`s of this `Experiment`'s starting minimal `Graph`.
+  stimuli: a `std::vector<std::vector<std::vector<double>>>` containing the stimuli to which `Organism`s will react.
   genus: the `Genus*` to be evolved by this `Experiment`.
   behaviors: an `std::vector<std::vector<double>>` storing the novel behaviors displayed by the `Organism`s evolved in this `Experiment`.
   outcome: an `std::vector<Graph>` storing the `Graph`s of the fittest `Organism`s to evolve in this `Experiment`.
@@ -56,6 +57,9 @@ public:
     // A `std::vector<Vertex>` and `std::vector<Edge>` encoding this `Experiment`'s starting minimal `Graph`.
     std::vector<Vertex> vertexes;
     std::vector<Edge> edges;
+
+    // A `std::vector<std::vector<double>>` containing the stimuli to which `Organism`s will react.
+    std::vector<std::vector<std::vector<double>>> stimuli;
 
     // The `Genus*` to be evolved by this `Experiment`.
     Genus* genus;

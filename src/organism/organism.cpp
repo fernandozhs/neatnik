@@ -119,26 +119,84 @@ Organism* Organism::assimilate(Organism* thatOrganism_)
     return newOrganism_;
 }
 
-// Prompts this `Organism` to react to the input stimuli.
-std::vector<std::vector<double>> Organism::react(std::vector<std::vector<double>> stimuli_)
+// Prompts this `Organism` to react to its `Experiment`'s stimulus sequence.
+std::vector<std::vector<std::vector<double>>> Organism::react()
 {
-    // Initializes the output reactions.
-    std::vector<std::vector<double>> reactions_;
+    // Initializes the return containter.
+    std::vector<std::vector<std::vector<double>>> reactions_;
+    reactions_.reserve(species->genus->experiment->stimuli.size());
+
+    // Auxiliary outputs container.
+    std::vector<std::vector<double>> outputs_;
 
     // Assembles this `Organism`'s `Phenotype`.
     phenotype->assemble();
 
-    // Produces this `Organism`'s reaction to each input stimulus.
-    for (const auto& stimulus_ : stimuli_)
+    // Extracts this `Organism`'s reactions to the input stimuli.
+    for (const auto& inputs_ : species->genus->experiment->stimuli)
     {
-        // Activates this `Organism`'s `Phenotype`.
-        phenotype->activate(stimulus_);
+        // Empties the auxiliary output container.
+        outputs_.clear();
 
-        // Stores the reaction to the current stimulus.
-        reactions_.push_back(phenotype->output);
+        for (const auto& input_ : inputs_)
+        {
+            // Activates this `Organism`'s `Phenotype`.
+            phenotype->activate(input_);
 
-        // Deactivates this `Organism`'s `Phenotype`.
-        phenotype->deactivate();
+            // Stores the current output.
+            outputs_.push_back(phenotype->output);
+
+            // Deactivates this `Organism`'s `Phenotype`.
+            phenotype->deactivate();
+        }
+
+        // Ends the `Phenotype`'s current chain of activations.
+        phenotype->discontinue();
+
+        // Stores the collected outputs.
+        reactions_.push_back(outputs_);
+    }
+
+    // Returns this `Organism`'s reactions.
+    return reactions_;
+}
+
+// Prompts this `Organism` to react to the input stimuli.
+std::vector<std::vector<std::vector<double>>> Organism::react(std::vector<std::vector<std::vector<double>>> stimuli_)
+{
+    // Initializes the return container.
+    std::vector<std::vector<std::vector<double>>> reactions_;
+    reactions_.reserve(stimuli_.size());
+
+    // Auxiliary outputs container.
+    std::vector<std::vector<double>> outputs_;
+
+    // Assembles this `Organism`'s `Phenotype`.
+    phenotype->assemble();
+
+    // Extracts this `Organism`'s reactions to the input stimuli.
+    for (const auto& inputs_ : stimuli_)
+    {
+        // Empties the auxiliary output container.
+        outputs_.clear();
+
+        for (const auto& input_ : inputs_)
+        {
+            // Activates this `Organism`'s `Phenotype`.
+            phenotype->activate(input_);
+
+            // Stores the current output.
+            outputs_.push_back(phenotype->output);
+
+            // Deactivates this `Organism`'s `Phenotype`.
+            phenotype->deactivate();
+        }
+
+        // Ends the `Phenotype`'s current chain of activations.
+        phenotype->discontinue();
+
+        // Stores the collected outputs.
+        reactions_.push_back(outputs_);
     }
 
     // Returns this `Organism`'s reactions.

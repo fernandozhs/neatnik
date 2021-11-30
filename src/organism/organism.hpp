@@ -26,7 +26,7 @@
   score: retrieves the score shaping this `Organism`'s development.
   mutate: produces a new `Organism` through mutation.
   assimilate: produces a new `Organism` through assimilation.
-  react: prompts this `Organism` to react to the input stimuli.
+  react: prompts this `Organism` to react to a stimulus sequence.
   graph: produces the `Graph` associated with this `Organism`'s `Genotype`.
 */
 
@@ -91,8 +91,11 @@ public:
     // Produces a new `Organism` through assimilation.
     Organism* assimilate(Organism* thatOrganism_);
 
-    // Prompts this `Organism` to react to the input stimuli.
-    std::vector<std::vector<double>> react(std::vector<std::vector<double>> stimuli_);
+    // Prompts this `Organism` to react to its `Experiment`'s stimulus sequence.
+    std::vector<std::vector<std::vector<double>>> react();
+
+    // Prompts this `Organism` to react to the input stimulus sequence.
+    std::vector<std::vector<std::vector<double>>> react(std::vector<std::vector<std::vector<double>>> stimuli_);
 
     // Produces the `Graph` associated with this `Organism`'s `Genotype`.
     Graph graph() const;
