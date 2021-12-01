@@ -1,3 +1,8 @@
+╸╸━ **[Chromosome](doc/chromosome.md)**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+**[Node](doc/node.md)** ━━┻━━ **Link**  
+
+
 # Link
 
 A `Link` relays weighted signals between a source and a target `Node`.  
@@ -34,7 +39,7 @@ Specifies whether the `Link` is `ENABLED` or `DISABLED`.
 link_role role
 ```
 
-Labels the `Link`'s role as `FORWARD`, `BIASING`, `RECURRENT` or `LOOPED`.
+Labels the `Link`'s role as `FORWARD`, `BIASING`, `RECURRENT` or `LOOPED`.  
 &nbsp;
 
 

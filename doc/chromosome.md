@@ -125,7 +125,7 @@ Sorts and returns all `Element*`s with `role` and `state` matching one of the en
 
 
 ```C++
-bool element_comparison(Element* element_, Element* element__)
+static bool element_comparison(Element* element_, Element* element__)
 ```
 
 Returns a `bool` value obtained from the `<`-comparison between the two input `Element*`s' `tag`s.  
