@@ -12,7 +12,7 @@ unsigned long int key
 ```
 
 A unique number which specifies the `Link`'s position relative to its neighboring `Node`s.  
-&nbsp
+&nbsp;
 
 
 ```C++
