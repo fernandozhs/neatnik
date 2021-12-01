@@ -1,6 +1,6 @@
-╸╸━ **[Chromosome](doc/chromosome.md)**  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-**[Node](doc/node.md)** ━━┻━━ **Link**  
+<sub>┉━ **[Chromosome](doc/chromosome.md)**</sub>  
+&nbsp&nbsp;&nbsp;&nbsp;
+<sup>**[Node](doc/node.md)** ━━┻━━ **Link**</sup>  
 
 
 # Link
