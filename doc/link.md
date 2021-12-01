@@ -2,7 +2,6 @@
 &nbsp;&nbsp;&nbsp;
 <sup>**[Node](doc/node.md)** ━┻━ **Link**</sup>  
 &nbsp;  
-&nbsp;  
 
 # Link
 
