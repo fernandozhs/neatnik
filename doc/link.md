@@ -4,72 +4,72 @@
 
 ## Properties
 
-### `key`
+#### `key`
 
-> **Type:** `unsigned long int`.
-
+> **Type:** `unsigned long int`.  
+>  
 > **Description:** A unique number which specifies the `Link`'s position relative to its neighboring `Node`s.
 
-### `tag`
+#### `tag`
 
-> **Type:** `unsigned int`.
-
+> **Type:** `unsigned int`.  
+>  
 > **Description:** A unique number which specifies the `Link`'s identity within a `Genus`.
 
-### `state`
+#### `state`
 
-> **Type:** `element_state`.
-
+> **Type:** `element_state`.  
+>  
 > **Description:** Specifies whether the `Link` is active.
 
-### `role`
+#### `role`
 
-> **Type:** `link_role`.
-
+> **Type:** `link_role`.  
+>  
 > **Description:** Labels the `Link`'s role in the artificial neural network.
 
-### `source`
+#### `source`
 
-> **Type:** `Node*`.
-
+> **Type:** `Node*`.  
+>  
 > **Description:** Points to the `Node` from which the `Link`'s input signal originates.
 
-### `target`
+#### `target`
 
-> **Type:** `Node*`.
-
+> **Type:** `Node*`.  
+>  
 > **Description:** Points to the `Node` to which the `Link`'s output signal is relayed.
 
-### `weight`
+#### `weight`
 
-> **Type:** `double`.
-
+> **Type:** `double`.  
+>  
 > **Description:** The weight applied to the `Link`'s output signal.
 
 ## Constructors
 
-### `Link(unsigned long int key, unsigned int tag, element_state state, link_role role, Node* source, Node* target, double weight)`
+#### `Link(unsigned long int key, unsigned int tag, element_state state, link_role role, Node* source, Node* target, double weight)`
 
-> **Description:** Constructs a `Link` instance with properties given by the input arguments.
-
+> **Description:** Constructs a `Link` instance with properties given by the input arguments.  
+>  
 > **Returns:** `Link`.
 
-### `Link(Link* link)`
+#### `Link(Link* link)`
 
-> **Description:** Constructs a shallow copy of the `Link` referenced by the input argument.
-
+> **Description:** Constructs a shallow copy of the `Link` referenced by the input argument.  
+>  
 >  **Returns:** `Link`.
 
 ## Methods
 
-### `engage()`
+#### `engage()`
 
-> **Description:** Prompts the `Link` to relay a signal to and engage its target `Node`.
-
+> **Description:** Prompts the `Link` to relay a signal to and engage its target `Node`.  
+>  
 > **Returns:** `void`.
 
-### `graph()`
+#### `graph()`
 
-> **Description:** Generates an `Edge` encapsulating the `Link`'s properties.
-
+> **Description:** Generates an `Edge` encapsulating the `Link`'s properties.  
+>  
 > **Returns:** `Edge`.
