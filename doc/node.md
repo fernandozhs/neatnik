@@ -4,45 +4,81 @@ A `Node` is an individual processing unit which receives and broadcasts signals.
 
 ## Properties
 
-> **`key`:** `unsigned long int`
-> A unique number which specifies the `Node`'s position relative to its neighboring `Node`s.
->
-> **`tag`:** `unsigned int`
-> A unique number which specifies the `Node`'s identity within a `Genus`.
->
-> **`state`:** `element_state`
-> Specifies whether the `Node` is active.
->
-> **`role`:** `node_role`
-> Labels the `Node`'s role in the artificial neural network.
->
-> **`incoming`:** `std::vector<Link*>`
-> Encodes pointers to the `Node`'s incoming `Link`s.
->
-> **`outgoing`:** `std::vector<Link*>`
-> Encodes pointers to the `Node`'s outgoing `Link`s.
->
-> **`inputs`:** `std::vector<double>`
-> Stores the external weighted signals sent to this `Node`.
->
-> **`output`:** `double`
-> The `Node`'s last generated output signal.
->
-> **`activation`:** `node_activation`
-> Specifies the `Node`'s activation function.
->
-> **`x`:** `double`
-> Specifies the `Node`'s horizontal coordinate.
->
-> **`y`:** `double`
-> Specifies the `Node`'s vertical coordinate.
+#### `key`
+
+> **Type:** `unsigned long int`.  
+>  
+> **Description:** A unique number which specifies the `Node`'s position relative to its neighboring `Node`s.
+
+#### `tag`
+
+> **Type:** `unsigned int`.  
+>  
+> **Description:** A unique number which specifies the `Node`'s identity within a `Genus`.
+
+#### `state`
+
+> **Type:** `element_state`.  
+>  
+> **Description:** Specifies whether the `Node` is active.
+
+#### `role`
+
+> **Type:** `node_role`.  
+>  
+> **Description:** Labels the `Node`'s role in the artificial neural network.
+
+#### `incoming`
+
+> **Type:** `std::vector<Link*>`.  
+>  
+> **Description:** Stores pointers to the `Node`'s incoming `Link`s.
+
+#### `outgoing`
+
+> **Type:** `std::vector<Link*>`.  
+>  
+> **Description:** Stores pointers to the `Node`'s outgoing `Link`s.
+
+#### `inputs`
+
+> **Type:** `std::vector<double>`.  
+>  
+> **Description:** Stores the external weighted signals received by the `Node`.
+
+#### `output`
+
+> **Type:** `double`.  
+>  
+> **Description:** The `Node`'s last generated output signal.
+
+#### `activation`
+
+> **Type:** `node_activation`.  
+>  
+> **Description:** Specifies the `Node`'s activation function.
+
+#### `x`
+
+> **Type:** `double`.  
+>  
+> **Description:** Specifies the `Node`'s horizontal coordinate.
+
+#### `y`
+
+> **Type:** `double`.  
+>  
+> **Description:** Specifies the `Node`'s vertical coordinate.
 
 ## Constructors
 
-> **`Node`**`(unsigned long int, unsigned int, element_state, node_role, node_activation, double, double)`
-> Returns a `Node` instance with the input arguments as its properties.
->
-> **`Node`**`(unsigned long int, unsigned int, element_state, node_role, Node*, Node*, node_activation)`
+#### `Node(unsigned long int key, unsigned int tag, element_state state, node_role role, node_activation activation, double x, double y)`
+
+> **Description:** Constructs a `Node` instance with properties given by the input arguments.  
+>  
+> **Returns:** `Node`.
+
+#### `Node(unsigned long int, unsigned int, element_state, node_role, Node*, Node*, node_activation)`
 > Returns a `Node` instance located half-way between two other `Node`s.
 >
 > **`Node`**`(Node*)`
