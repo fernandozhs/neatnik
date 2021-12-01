@@ -1,5 +1,5 @@
-<sub>┉━ **[Chromosome](doc/chromosome.md)**</sub>  
-&nbsp&nbsp;&nbsp;&nbsp;
+<sub>╍╍━ **[Chromosome](doc/chromosome.md)**</sub>  
+&nbsp;&nbsp;&nbsp;&nbsp;
 <sup>**[Node](doc/node.md)** ━━┻━━ **Link**</sup>  
 
 
