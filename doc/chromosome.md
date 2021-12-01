@@ -1,56 +1,132 @@
 # Chromosome
 
- A `Chromosome` stores and manipulates a collection of `Element*`s.
+ A `Chromosome` stores and manipulates a collection of `Element*`s.  
+ &nbsp;
+
 
 ## Properties
 
-> **`logbook`:** `std::unordered_map<unsigned long int, Element*>`
-> Catalogs all `Element*`s by their `key` value.
->
-> **`genes`:** `std::unordered_map<int, std::vector<Element*>>`
-> Catalogs all `Element*`s by the their `locus`, i.e., by the product of their `state` and `role`.
+```C++
+std::unordered_map<unsigned long int, Element*> logbook
+```
+
+Catalogs all `Element*`s by their `key`.  
+&nbsp;
+
+
+```C++
+std::unordered_map<int, std::vector<Element*>> genes
+```
+
+Catalogs all `Element*`s by the their `locus`, i.e., the product of their `state` and `role`.  
+&nbsp;
+
 
 ## Constructor
 
-> **`Chromosome`**`()`
-> Returns an empty `Chromosome`.
+```C++
+Chromosome()
+```
+
+Constructs an empty `Chromosome`.  
+&nbsp;
+
 
 ## Destructor
 
-> **`~Chromosome`**`()`
-> Deletes the `Chromosome` and all the `Element*`s it encodes.
+```C++
+~Chromosome()
+```
+
+Deletes the `Chromosome` and all the `Element*`s it currently stores.  
+&nbsp;
+
 
 ## Methods
 
-> **`size`**`(const std::vector<int> roles, const std::vector<int> states)` 
-> Returns the `int` number of encoded `Element*`s with a matching `role` and `state`.
->
-> **`begin`**`(int locus)` 
-> Returns a `std::vector<Element*>::iterator` at the beginning of a given `locus`.
->
-> **`end`**`(int locus)` 
-> Returns a `std::vector<Element*>::iterator` at the end of a given `locus`.
->
-> **`find`**`(unsigned long int key)` 
-> Returns the `Element*` with the matching `key`. If the no match is found, returns `nullptr`.
->
-> **`insert`**`(Element* element)` 
-> Inserts an `Element*` into the `Chromosome`. Returns the inserted `Element*`.
->
-> **`remove`**`(Element* element)` 
-> Removes an `Element*` from the `Chromosome`. Returns the removed `Element*`.
->
-> **`toggle`**`(Element* element, int state)` 
-> Toggles the `state` of an an `Element*`. Returns `void`.
->
-> **`random`**`(const std::vector<int> roles, const std::vector<int> states, const std::vector<double> weights)` 
-> Returns a random `Element*` with a matching `role` and `state`. The `weights` argument modifies the odds that the matching `Element*`s being returned.
->
-> **`retrieve`**`(const std::vector<int> roles, const std::vector<int> states)` 
-> Returns a `std::vector<Element*>` containing all `Element*`s with a matching `role` and `state`.
->
-> **`sort`**`(const std::vector<int> roles, const std::vector<int> states)` 
-> Returns a sorted `std::vector<Element*>` containing all `Element*`s with a matching `role` and `state`. The sorting criterium is provided by the `element_comparison` method.
->
-> **`element_comparison`**`(Element* element, Element* element)` 
-> Returns a `bool` value obtained from the comparison between the two input `Element*`s' `tag`s.
+```C++
+int size(const std::vector<int> roles, const std::vector<int> states)
+```
+
+Returns the number of stored `Element*`s with a matching `role` and `state`.  
+&nbsp;
+
+
+```C++
+std::vector<Element*>::iterator begin(int locus)
+```
+
+Returns an iterator at the beginning of the input `locus`.  
+&nbsp;
+
+
+```C++
+std::vector<Element*>::iterator end(int locus)
+```
+
+Returns an iterator at the end of the input `locus`.  
+&nbsp;
+
+
+```C++
+Element* find(unsigned long int key)
+```
+
+Returns the `Element*` with the matching `key`. If no match is found, `nullptr` is returned instead.  
+&nbsp;
+
+
+```C++
+Element* insert(Element* element)
+```
+
+Stores the input `Element*` in the `Chromosome`, and returns the stored `Element*`.  
+&nbsp;
+
+
+```C++
+Element* remove(Element* element)
+```
+
+Removes an `Element*` from the `Chromosome`, and returns the removed `Element*`.  
+&nbsp;
+
+
+```C++
+void toggle(Element* element, int state)
+```
+
+Toggles the `state` of an `Element*`.  
+&nbsp;
+
+
+```C++
+Element* random(const std::vector<int> roles, const std::vector<int> states, const std::vector<double> weights)
+```
+
+Returns a random `Element*` with `role` and `state` matching one of the entries in the input `roles` and `states`, respectively. The `weights` argument sets the relative odds of each matching `Element*` being returned. When `weights` is empty, the same odds are assigned to all matching `Element*`s.  
+&nbsp;
+
+
+```C++
+std::vector<Element*> retrieve(const std::vector<int> roles, const std::vector<int> states)
+```
+
+Returns all `Element*`s with `role` and `state` matching one of the entries in the input `roles` and `states`, respectively.  
+&nbsp;
+
+
+```C++
+std::vector<Element*> sort(const std::vector<int> roles, const std::vector<int> states)
+```
+
+Sorts and returns all `Element*`s with `role` and `state` matching one of the entries in the input `roles` and `states`, respectively. The sorting criterium is provided by the `element_comparison` method.  
+&nbsp;
+
+
+```C++
+bool element_comparison(Element* element_, Element* element__)
+```
+
+Returns a `bool` value obtained from the `<`-comparison between the two input `Element*`s' `tag`s.  
+&nbsp;

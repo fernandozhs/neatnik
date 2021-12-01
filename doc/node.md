@@ -97,7 +97,7 @@ The `Node`'s vertical coordinate.
 ## Constructors
 
 ```C++
-Node Node(unsigned long int key, unsigned int tag, element_state state, node_role role, node_activation activation, double x, double y)
+Node(unsigned long int key, unsigned int tag, element_state state, node_role role, node_activation activation, double x, double y)
 ```
 
 Constructs a `Node` instance with properties given by the input arguments.  
@@ -105,7 +105,7 @@ Constructs a `Node` instance with properties given by the input arguments.
 
 
 ```C++
-Node Node(unsigned long int key, unsigned int tag, element_state state, node_role role, Node* source, Node* target, node_activation activation)
+Node(unsigned long int key, unsigned int tag, element_state state, node_role role, Node* source, Node* target, node_activation activation)
 ```
 
 Constructs a `Node` instance located half-way between two other `Node`s.  
@@ -113,7 +113,7 @@ Constructs a `Node` instance located half-way between two other `Node`s.
 
 
 ```C++
-Node Node(Node* node)
+Node(Node* node)
 ```
 
 Constructs a shallow copy of the `Node` referenced by the input pointer.  

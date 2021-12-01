@@ -65,7 +65,7 @@ The weight applied to the `Link`'s output signal.
 ## Constructors
 
 ```C++
-Link Link(unsigned long int key, unsigned int tag, element_state state, link_role role, Node* source, Node* target, double weight)
+Link(unsigned long int key, unsigned int tag, element_state state, link_role role, Node* source, Node* target, double weight)
 ```
 
 Constructs a `Link` instance with properties given by the input arguments.  
@@ -73,7 +73,7 @@ Constructs a `Link` instance with properties given by the input arguments.
 
 
 ```C++
-Link Link(Link* link)
+Link(Link* link)
 ```
 
 Constructs a shallow copy of the `Link` referenced by the input argument.  
