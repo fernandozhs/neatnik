@@ -1,102 +1,161 @@
 # Node
 
-A `Node` is an individual processing unit which receives and broadcasts signals.
+A `Node` is an individual processing unit which receives and broadcasts signals.  
+&nbsp;
+
 
 ## Properties
 
-#### `key`
+```C++
+unsigned long int key
+```
 
-> **Type:** `unsigned long int`.  
->  
-> **Description:** A unique number which specifies the `Node`'s position relative to its neighboring `Node`s.
+A unique number which specifies the `Node`'s position relative to its neighboring `Node`s.  
+&nbsp;
 
-#### `tag`
 
-> **Type:** `unsigned int`.  
->  
-> **Description:** A unique number which specifies the `Node`'s identity within a `Genus`.
+```C++
+unsigned int tag
+```
 
-#### `state`
+A unique number which specifies the `Node`'s identity within a `Genus`.  
+&nbsp;
 
-> **Type:** `element_state`.  
->  
-> **Description:** Specifies whether the `Node` is active.
 
-#### `role`
+```C++
+element_state state
+```
 
-> **Type:** `node_role`.  
->  
-> **Description:** Labels the `Node`'s role in the artificial neural network.
+Specifies whether the `Node` is `ENABLED` or `DISABLED`.  
+&nbsp;
 
-#### `incoming`
 
-> **Type:** `std::vector<Link*>`.  
->  
-> **Description:** Stores pointers to the `Node`'s incoming `Link`s.
+```C++
+node_role role
+```
 
-#### `outgoing`
+Labels the `Node`'s role as `INPUT`, `HIDDEN`, `BIAS`, or `OUTPUT`.  
+&nbsp;
 
-> **Type:** `std::vector<Link*>`.  
->  
-> **Description:** Stores pointers to the `Node`'s outgoing `Link`s.
 
-#### `inputs`
+```C++
+std::vector<Link*> incoming
+```
 
-> **Type:** `std::vector<double>`.  
->  
-> **Description:** Stores the external weighted signals received by the `Node`.
+Stores pointers to the `Node`'s incoming `Link`s.  
+&nbsp;
 
-#### `output`
 
-> **Type:** `double`.  
->  
-> **Description:** The `Node`'s last generated output signal.
+```C++
+std::vector<Link*> outgoing
+```
 
-#### `activation`
+Stores pointers to the `Node`'s outgoing `Link`s.  
+&nbsp;
 
-> **Type:** `node_activation`.  
->  
-> **Description:** Specifies the `Node`'s activation function.
 
-#### `x`
+```C++
+std::vector<double> inputs
+```
 
-> **Type:** `double`.  
->  
-> **Description:** Specifies the `Node`'s horizontal coordinate.
+Stores the external weighted signals received by the `Node`.  
+&nbsp;
 
-#### `y`
 
-> **Type:** `double`.  
->  
-> **Description:** Specifies the `Node`'s vertical coordinate.
+```C++
+double output
+```
+
+The `Node`'s last generated output signal.  
+&nbsp;
+
+
+```C++
+node_activation activation
+```
+
+Specifies whether the `Node`'s activation corresponds to the `HEAVISIDE`, `RELU`, `LOGISTIC`, `IDENTITY`, or `UNITY` function.  
+&nbsp;
+
+
+```C++
+double x
+```
+
+The `Node`'s horizontal coordinate.  
+&nbsp;
+
+
+```C++
+double y
+```
+
+The `Node`'s vertical coordinate.  
+&nbsp;
+
 
 ## Constructors
 
-#### `Node(unsigned long int key, unsigned int tag, element_state state, node_role role, node_activation activation, double x, double y)`
+```C++
+Node Node(unsigned long int key, unsigned int tag, element_state state, node_role role, node_activation activation, double x, double y)
+```
 
-> **Description:** Constructs a `Node` instance with properties given by the input arguments.  
->  
-> **Returns:** `Node`.
+Constructs a `Node` instance with properties given by the input arguments.  
+&nbsp;
 
-#### `Node(unsigned long int, unsigned int, element_state, node_role, Node*, Node*, node_activation)`
-> Returns a `Node` instance located half-way between two other `Node`s.
->
-> **`Node`**`(Node*)`
-> Returns a shallow copy of the `Node` referenced by the input pointer.
+
+```C++
+Node Node(unsigned long int key, unsigned int tag, element_state state, node_role role, Node* source, Node* target, node_activation activation)
+```
+
+Constructs a `Node` instance located half-way between two other `Node`s.  
+&nbsp;
+
+
+```C++
+Node Node(Node* node)
+```
+
+Constructs a shallow copy of the `Node` referenced by the input pointer.  
+&nbsp;
+
 
 ## Methods
 
-> **`activate`**`()` 
-> Returns a `double` containing the `Node`'s output signal.
->
-> **`engage`**`()` 
-> Prompts the `Node` to produce and broadcast an output signal. Returns `void`.
->
-> **`disengage`**`()` 
-> Primes the `Node` for a subsequent engagement. Returns `void`.
->
-> **`clear`**`()` 
-> Clears the `Node`'s output. Returns `void`.
->
-> **`graph`**`()` 
-> Returns a `Vertex` encapsulating the `Node`'s properties.
+```C++
+double activate()
+```
+
+Produces the `Node`'s output signal.  
+&nbsp;
+
+
+```C++
+void engage()
+```
+
+Prompts the `Node` to produce and broadcast its output signal through its outgoing `Link`s.  
+&nbsp;
+
+
+```C++
+void disengage()
+```
+
+Primes the `Node` for a subsequent engagement.  
+&nbsp;
+
+
+```C++
+void clear()
+```
+
+Clears the `Node`'s output.  
+&nbsp;
+
+
+```C++
+Vertex graph()
+```
+
+Generates a `Vertex` encapsulating the `Node`'s properties.

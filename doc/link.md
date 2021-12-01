@@ -1,6 +1,6 @@
 # Link
 
- A `Link` relays weighted signals between a source and a target `Node`.  
+A `Link` relays weighted signals between a source and a target `Node`.  
 &nbsp;
 
 
@@ -23,18 +23,18 @@ A unique number which specifies the `Link`'s identity within a `Genus`.
 
 
 ```C++
-int state
+element_state state
 ```
 
-Specifies whether the `Link` is active.  
+Specifies whether the `Link` is `ENABLED` or `DISABLED`.  
 &nbsp;
 
 
 ```C++
-unsigned int role
+link_role role
 ```
 
-Labels the `Link`'s role in the artificial neural network.  
+Labels the `Link`'s role as `FORWARD`, `BIASING`, `RECURRENT` or `LOOPED`.
 &nbsp;
 
 
@@ -65,7 +65,7 @@ The weight applied to the `Link`'s output signal.
 ## Constructors
 
 ```C++
-Link Link(unsigned long int key, unsigned int tag, int state, unsigned int role, Node* source, Node* target, double weight)
+Link Link(unsigned long int key, unsigned int tag, element_state state, link_role role, Node* source, Node* target, double weight)
 ```
 
 Constructs a `Link` instance with properties given by the input arguments.  
