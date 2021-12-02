@@ -4,7 +4,6 @@
 <sup>┗━━━━ **[Phenotype](phenotype.md)**</sup>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <sup>┗━━━━━ **[Link](link.md)**</sup>  
-&nbsp;  
 
 # Chromosome
 
