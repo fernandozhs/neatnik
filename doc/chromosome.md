@@ -7,7 +7,7 @@
 
 # Chromosome
 
- A `Chromosome` stores and manipulates a collection of `Element*`s.  
+ A `Chromosome<Element>` stores and manipulates a collection of `Element*`s, e.g., `Node*`s and `Link*`s.  
  &nbsp;
 
 
@@ -52,31 +52,31 @@ Deletes the `Chromosome` and all the `Element*`s it currently stores.
 ## Methods
 
 ```C++
-int size(const std::vector<int> roles, const std::vector<int> states)
+int size(const std::vector<int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1})
 ```
 
-Returns the number of stored `Element*`s with a matching `role` and `state`.  
+Returns the number of stored `Element*`s with `role` and `state` matching one of the entries in the input `roles_` and `states_`, respectively.  
 &nbsp;
 
 
 ```C++
-std::vector<Element*>::iterator begin(int locus)
+std::vector<Element*>::iterator begin(int locus_)
 ```
 
-Returns an iterator at the beginning of the input `locus`.  
+Returns an iterator at the beginning of the input `locus_`.  
 &nbsp;
 
 
 ```C++
-std::vector<Element*>::iterator end(int locus)
+std::vector<Element*>::iterator end(int locus_)
 ```
 
-Returns an iterator at the end of the input `locus`.  
+Returns an iterator at the end of the input `locus_`.  
 &nbsp;
 
 
 ```C++
-Element* find(unsigned long int key)
+Element* find(unsigned long int key_)
 ```
 
 Returns the `Element*` with the matching `key`. If no match is found, `nullptr` is returned instead.  
@@ -84,7 +84,7 @@ Returns the `Element*` with the matching `key`. If no match is found, `nullptr` 
 
 
 ```C++
-Element* insert(Element* element)
+Element* insert(Element* element_)
 ```
 
 Stores the input `Element*` in the `Chromosome`, and returns the stored `Element*`.  
@@ -92,7 +92,7 @@ Stores the input `Element*` in the `Chromosome`, and returns the stored `Element
 
 
 ```C++
-Element* remove(Element* element)
+Element* remove(Element* element_)
 ```
 
 Removes an `Element*` from the `Chromosome`, and returns the removed `Element*`.  
@@ -100,7 +100,7 @@ Removes an `Element*` from the `Chromosome`, and returns the removed `Element*`.
 
 
 ```C++
-void toggle(Element* element, int state)
+void toggle(Element* element_, int state)
 ```
 
 Toggles the `state` of an `Element*`.  
@@ -108,26 +108,26 @@ Toggles the `state` of an `Element*`.
 
 
 ```C++
-Element* random(const std::vector<int> roles, const std::vector<int> states, const std::vector<double> weights)
+Element* random(const std::vector<int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1}, const std::vector<double> weights_ = {})
 ```
 
-Returns a random `Element*` with `role` and `state` matching one of the entries in the input `roles` and `states`, respectively. The `weights` argument sets the relative odds of each matching `Element*` being returned. When `weights` is empty, the same odds are assigned to all matching `Element*`s.  
+Returns a random `Element*` with `role` and `state` matching one of the entries in the input `roles_` and `states_`, respectively. The `weights_` argument sets the relative odds of each matching `Element*` being returned. When `weights_` is empty, the same odds are assigned to all matching `Element*`s.  
 &nbsp;
 
 
 ```C++
-std::vector<Element*> retrieve(const std::vector<int> roles, const std::vector<int> states)
+std::vector<Element*> retrieve(const std::vector<int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1})
 ```
 
-Returns all `Element*`s with `role` and `state` matching one of the entries in the input `roles` and `states`, respectively.  
+Returns all `Element*`s with `role` and `state` matching one of the entries in the input `roles_` and `states_`, respectively.  
 &nbsp;
 
 
 ```C++
-std::vector<Element*> sort(const std::vector<int> roles, const std::vector<int> states)
+std::vector<Element*> sort(const std::vector<int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1})
 ```
 
-Sorts and returns all `Element*`s with `role` and `state` matching one of the entries in the input `roles` and `states`, respectively. The sorting criterium is provided by the `element_comparison` method.  
+Sorts and returns all `Element*`s with `role` and `state` matching one of the entries in the input `roles_` and `states_`, respectively. The sorting criterium is provided by the `element_comparison` method.  
 &nbsp;
 
 
