@@ -1,3 +1,8 @@
+<sub>┉━ **[Chromosome](chromosome.md)**</sub>  
+&nbsp;&nbsp;
+<sup>**[Node](node.md)** ━┻━ **Link**</sup>  
+&nbsp;  
+
 # Node
 
 A `Node` is an individual processing unit which receives and broadcasts signals.  
