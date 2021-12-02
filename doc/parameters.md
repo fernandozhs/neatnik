@@ -23,7 +23,7 @@ Specifies whether neuro-evolution should be driven by `FITNESS` or `NOVELTY`.
 static double fitness_threshold
 ```
 
-The fitness threshold an `Organism` must clear in order for its `Graph`s to be stored.  
+The fitness threshold an `Organism` must clear in order for its `Graph` to be stored.  
 &nbsp;
 
 
@@ -39,7 +39,7 @@ The novelty threshold an `Organism` must clear in order for its `behavior` to be
 static int novelty_neighbors
 ```
 
-The number of nearest neighbors to be considered in behavior space when assessing an `Organism`'s novelty.
+The number of nearest neighbors to be considered in `behavior`-space when assessing an `Organism`'s novelty.  
 &nbsp;
 
 
@@ -87,7 +87,7 @@ Specifies the maximum number of times a `Species` should try to produce an offsp
 static double weight_bound
 ```
 
-Sets a bound on the value of `Link` weights. In the case of weight `REPLACEMENT` this corresponds to a hard bound, and in the case of weight `PERTURBATION` this corresponds to a soft bound.  
+Sets a bound on the value of `Link` weights. In the case of weight `REPLACEMENT` this corresponds to a hard bound, while in the case of weight `PERTURBATION` this corresponds to a soft bound.  
 &nbsp;
 
 
@@ -103,7 +103,7 @@ Sets the standard deviation of `Link` weight `PERTURBATION`s.
 static node_activation initial_activation
 ```
 
-Sets the activation function a new `HIDDEN` `Node` is initially equipped with.  
+Specifies which activation function a new `HIDDEN` `Node` is initially equipped with.  
 &nbsp;
 
 
@@ -135,7 +135,7 @@ Specifies the degree of similarity beyond which `Organism`s are separated into d
 static std::vector<double> compatibility_weights
 ```
 
-The weights assigned to matching, disjoint, and excess `Link`s when comparing two `Genotype`s.  
+The relative relevance assigned to matching, disjoint, and excess `Link`s when comparing two `Genotype`s.  
 &nbsp;
 
 
@@ -159,15 +159,15 @@ The probability mass function for altering the properties of a `Link`. The first
 static std::vector<double> altering_weight
 ```
 
-The probability mass function for altering a `Link`'s weight. The first element encodes the proability of failure, while the second and third elements encode the probabilities of `PERTURBATION` and `MUTATION`, respectively.  
+The probability mass function for altering a `Link`'s weight. The first element encodes the proability of failure, while the second and third elements encode the probabilities of altering the `Link`'s weight through `PERTURBATION` or `MUTATION`, respectively.  
 &nbsp;
 
 
 ```C++
-static std::vector<double> altering_weight
+static std::vector<double> adding_link
 ```
 
-The probability mass function for adding a new `Link` to a `Genotype`. The first element encodes the proability of failure, while the subsequent elements encode the probabilities of adding `FORWARD`, `RECURRENT`, `BIASING`, or `LOOPED` `Link`s, respectively.  
+The probability mass function for adding a new `Link` to a `Genotype`. The first element encodes the proability of failure, while the subsequent elements encode the probabilities of adding a `FORWARD`, `RECURRENT`, `BIASING`, or `LOOPED` `Link`, respectively.  
 &nbsp;
 
 
@@ -175,7 +175,7 @@ The probability mass function for adding a new `Link` to a `Genotype`. The first
 static std::vector<double> enabling_node
 ```
 
-The probability mass function for toggling `ENABLED` a random `DISABLED` `INPUT` `Node`. The first element encodes the proability of failure, second and third elements encode the probability of success while connecting the `INPUT` `Node` to a `HIDDEN` or `OUTPUT` `Node`, respectively.
+The probability mass function for toggling `ENABLED` a random `DISABLED` `INPUT` `Node`. The first element encodes the proability of failure. The second term encodes the probability of success while connecting the `INPUT` `Node` to a `HIDDEN` `Node`. The third term encodes the probability of success while connecting the `INPUT` `Node` to an `OUTPUT` `Node`.  
 &nbsp;
 
 
@@ -207,7 +207,7 @@ The probability mass function for adding a new `HIDDEN` `Node` to a `Genotype` b
 static std::vector<double> assimilating_links
 ```
 
-The probability mass function for assimilating each homologous `Link` from another `Genotype`. The first element encodes the proability of failure, while the second element encodes the probability of success.  
+The probability mass function for attempting to assimilate the homologous `Link`s from another `Genotype`. The first element encodes the proability of failure, while the second element encodes the probability of success.  
 &nbsp;
 
 
@@ -215,7 +215,7 @@ The probability mass function for assimilating each homologous `Link` from anoth
 static std::vector<double> assimilating_nodes
 ```
 
-The probability mass function for assimilating each homologous `Node` from another `Genotype`. The first element encodes the proability of failure, while the second element encodes the probability of success.  
+The probability mass function for attempting to assimilate the homologous `Node`s from another `Genotype`. The first element encodes the proability of failure, while the second element encodes the probability of success.  
 &nbsp;
 
 
@@ -239,7 +239,7 @@ The probability mass function for assimilating each homologous `Node`'s activati
 static std::vector<double> spawning_organism
 ```
 
-The probability mass function for a `Species` to spawn a new offspring `Organism`. The first element encodes the proability of failure, while the second and third elements encode the probability of a new offspring `Organism` being spawned through `MUTATION` or `ASSIMILATION`, respectively.  
+The probability mass function for a `Species` to spawn an offspring `Organism`. The first element encodes the proability of failure, while the second and third elements encode the probability of an offspring `Organism` being spawned through `MUTATION` or `ASSIMILATION`, respectively.  
 &nbsp;
 
 
@@ -249,7 +249,7 @@ The probability mass function for a `Species` to spawn a new offspring `Organism
 Parameters()
 ```
 
-Constructs a default `Parameters` instance with essentialy all parameters set to zero.  
+Constructs a default `Parameters` instance with essentially all parameters set to zero.  
 &nbsp;
 
 
