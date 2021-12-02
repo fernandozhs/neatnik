@@ -79,7 +79,7 @@ Returns an iterator at the end of the input `locus_`.
 Element* find(unsigned long int key_)
 ```
 
-Returns the `Element*` with the matching `key`. If no match is found, `nullptr` is returned instead.  
+Returns the `Element*` with `key` matching the input `key_`. If no match is found, `nullptr` is returned instead.  
 &nbsp;
 
 
@@ -87,7 +87,7 @@ Returns the `Element*` with the matching `key`. If no match is found, `nullptr` 
 Element* insert(Element* element_)
 ```
 
-Stores the input `Element*` in the `Chromosome`, and returns the stored `Element*`.  
+Stores the input `element_` in the `Chromosome`, and returns `element_`.  
 &nbsp;
 
 
@@ -95,15 +95,15 @@ Stores the input `Element*` in the `Chromosome`, and returns the stored `Element
 Element* remove(Element* element_)
 ```
 
-Removes an `Element*` from the `Chromosome`, and returns the removed `Element*`.  
+Removes the input `element_` from the `Chromosome`, and returns `element_`.  
 &nbsp;
 
 
 ```C++
-void toggle(Element* element_, int state)
+void toggle(Element* element_, int state_)
 ```
 
-Toggles the `state` of an `Element*`.  
+Ensures the `Element` referenced by `element_` is toggled to the input `state_`.  
 &nbsp;
 
 
