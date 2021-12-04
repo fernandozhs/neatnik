@@ -7,7 +7,7 @@
 
 # Chromosome
 
- A `Chromosome<Element>` stores and manipulates a collection of `Element*`s, e.g., `Node*`s and `Link*`s.  
+ A `Chromosome<Element>` stores and manipulates a collection of `Element*`s, e.g., collections of `Node*`s or `Link*`s.  
  &nbsp;
 
 
@@ -111,7 +111,7 @@ Ensures the `Element` referenced by `element_` is toggled to the input `state_`.
 Element* random(const std::vector<int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1}, const std::vector<double> weights_ = {})
 ```
 
-Returns a random `Element*` with `role` and `state` matching one of the entries in the input `roles_` and `states_`, respectively. The `weights_` argument sets the relative odds of each matching `Element*` being returned. When `weights_` is empty, the same odds are assigned to all matching `Element*`s.  
+Returns a pointer to a random `Element` with `role` and `state` matching one of the entries in the input `roles_` and `states_`, respectively. The `weights_` argument sets the relative odds of each matching `Element*` being returned. When `weights_` is empty, the same odds are assigned to all matching `Element*`s.  
 &nbsp;
 
 
@@ -119,7 +119,7 @@ Returns a random `Element*` with `role` and `state` matching one of the entries 
 std::vector<Element*> retrieve(const std::vector<int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1})
 ```
 
-Returns all `Element*`s with `role` and `state` matching one of the entries in the input `roles_` and `states_`, respectively.  
+Returns pointers to all `Element`s with `role` and `state` matching one of the entries in the input `roles_` and `states_`, respectively.  
 &nbsp;
 
 
@@ -127,13 +127,13 @@ Returns all `Element*`s with `role` and `state` matching one of the entries in t
 std::vector<Element*> sort(const std::vector<int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1})
 ```
 
-Sorts and returns all `Element*`s with `role` and `state` matching one of the entries in the input `roles_` and `states_`, respectively. The sorting criterium is provided by the `element_comparison` method.  
+Sorts and returns pointers to all `Element*`s with `role` and `state` matching one of the entries in the input `roles_` and `states_`, respectively. The sorting criterium is provided by the `element_comparison` method.  
 &nbsp;
 
 
 ```C++
-static bool element_comparison(Element* element_, Element* element__)
+static bool element_comparison(Element* first_element_, Element* second_element_)
 ```
 
-Returns a `bool` value obtained from the `<`-comparison between the two input `Element*`s' `tag`s.  
+Returns `true` if `first_element_` references an `Element` with a smaller `tag` than that of the `Element` referenced by `second_element_`. Returns `false` otherwise.  
 &nbsp;
