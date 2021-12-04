@@ -17,7 +17,7 @@
 std::unordered_map<unsigned long int, Element*> logbook
 ```
 
-Catalogs all `Element*`s by their `key`.  
+Catalogs all `Element*`s by the `key` property of the `Element`s they reference.  
 &nbsp;
 
 
@@ -25,7 +25,7 @@ Catalogs all `Element*`s by their `key`.
 std::unordered_map<int, std::vector<Element*>> genes
 ```
 
-Catalogs all `Element*`s by the their `locus`, i.e., the product of their `state` and `role`.  
+Catalogs all `Element*`s by the their `locus`, i.e., the product of the `state` and `role` properties of the `Element`s they reference.  
 &nbsp;
 
 
@@ -55,7 +55,7 @@ Deletes the `Chromosome` and all the `Element*`s it currently stores.
 int size(const std::vector<int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1})
 ```
 
-Returns the number of stored `Element*`s with `role` and `state` matching one of the entries in the input `roles_` and `states_`, respectively.  
+Returns the number of stored `Element*`s which reference `Element`s with `role` and `state` matching one of the entries in the input `roles_` and `states_`, respectively.  
 &nbsp;
 
 
