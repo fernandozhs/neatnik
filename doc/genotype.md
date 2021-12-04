@@ -29,7 +29,7 @@ Points to the `Chromosome<Link>` encoding the `Genotype`'s `Link`s.
 
 
 ```C++
-Chromosome<Node>* node
+Chromosome<Node>* nodes
 ```
 
 Points to the `Chromosome<Node>` encoding the `Genotype`'s `Node`s.  
@@ -42,7 +42,7 @@ Points to the `Chromosome<Node>` encoding the `Genotype`'s `Node`s.
 Genotype(Organism* organism_, Graph graph_)
 ```
 
-Constructs the `Genotype` from a minimal input `graph_`, and associates it to the referenced input `Organism`.    
+Constructs the `Genotype` from a minimal input `graph_`, associating it to the referenced input `Organism`.    
 &nbsp;
 
 
@@ -50,7 +50,7 @@ Constructs the `Genotype` from a minimal input `graph_`, and associates it to th
 Genotype(Organism* organism_, Genotype* genotype_);
 ```
 
-Constructs a deep copy of the referenced input `Genotype`, and associates it to the referenced input `Organism`.  
+Constructs a deep copy of the referenced input `Genotype`, associating it to the referenced input `Organism`.  
 &nbsp;
 
 
@@ -118,7 +118,7 @@ Encodes a `Node` with properties given by the input arguments into the `Genotype
 void mutate()
 ```
 
-Mutates the `Genotype` by attempting to encode and/or alter `Link`s and `Node`s.  
+Mutates the `Genotype` by attempting to encode new `Link`s and `Node`s, or alter already-encoded `Link`s and `Node`s.  
 &nbsp;
 
 
