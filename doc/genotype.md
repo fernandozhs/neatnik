@@ -86,7 +86,7 @@ Returns the number of `Link`s and `Node`s encoded by the `Genotype`.
 bool contain(int role_, element_type type_, unsigned int source_tag_, unsigned int target_tag_)
 ```
 
-Returns `True` if the `Genotype` encodes a `Node` or a `Link` with `key` characterized by the input `role_`, `type_`, `source_tag`, and `target_tag`. Returns `False` otherwise.  
+Returns `true` if the `Genotype` encodes a `Node` or a `Link` with `key` characterized by the input `role_`, `type_`, `source_tag`, and `target_tag`. Returns `false` otherwise.  
 &nbsp;
 
 
