@@ -100,6 +100,14 @@ Sets the standard deviation of `Link` weight `PERTURBATION`s.
 
 
 ```C++
+static double splitting_priority
+```
+
+The base value used to assign `Link`s a relative odd of being split during the creation of a new `Node`.  
+&nbsp;
+
+
+```C++
 static node_activation initial_activation
 ```
 
