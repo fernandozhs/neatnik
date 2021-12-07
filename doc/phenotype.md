@@ -53,7 +53,7 @@ Assembles the `Phenotype` by ensuring all `Link`s and `Node`s are properly conne
 void disassemble()
 ```
 
-Disassembles the `Phenotype` by breaking all connections between `Link`s and `Node`s. The `deactivate()` method is always called prior to disassemblage so as to guarantee that the artificial neural network can be promptly activated once re-assembled.   
+Disassembles the `Phenotype` by undoing all existing connections between `Link`s and `Node`s. The `deactivate()` method is always called prior to disassemblage so as to guarantee that the artificial neural network can be promptly activated once re-assembled.   
 &nbsp;
 
 
@@ -77,5 +77,5 @@ Disengages all `ENABLED` `Node`s and clears the `Phenotype`'s `output`, allowing
 void discontinue()
 ```
 
-Clears the `output` of each `HIDDEN` and `OUTPUT` `Node`, erasing the artificial neural network's memory of past activations.   
+Clears the `output` of each `HIDDEN` and `OUTPUT` `Node`, effectively erasing the artificial neural network's memory of past activations.   
 &nbsp;
