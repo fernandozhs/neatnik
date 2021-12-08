@@ -17,7 +17,7 @@
 std::unordered_map<unsigned long int, Element*> logbook
 ```
 
-Catalogs all `Element*`s by the `key` property of the `Element`s they reference.  
+Catalogs each `Element*` according to the `key` property of the `Element` it references.  
 &nbsp;
 
 
@@ -25,7 +25,7 @@ Catalogs all `Element*`s by the `key` property of the `Element`s they reference.
 std::unordered_map<int, std::vector<Element*>> genes
 ```
 
-Catalogs all `Element*`s by the their `locus`, i.e., the product of the `state` and `role` properties of the `Element`s they reference.  
+Catalogs each `Element*` according to the product of the `state` and `role` properties of the `Element` it references.  
 &nbsp;
 
 
@@ -52,10 +52,10 @@ Deletes the `Chromosome` and all the `Element*`s it currently stores.
 ## Methods
 
 ```C++
-int size(const std::vector<unsigned int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1})
+unsigned int size(const std::vector<unsigned int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1})
 ```
 
-Returns the number of stored `Element*`s which reference `Element`s with `role` and `state` matching one of the entries in the input `roles_` and `states_`, respectively.  
+Returns the number of `Element*`s catalogued under combinations of the input `roles_` and `states_`.  
 &nbsp;
 
 
@@ -63,7 +63,7 @@ Returns the number of stored `Element*`s which reference `Element`s with `role` 
 std::vector<Element*>::iterator begin(int locus_)
 ```
 
-Returns an iterator at the beginning of the input `locus_`.  
+Returns an iterator at the beginning of the input `locus_`, i.e., the product of a given `role` and `state`.  
 &nbsp;
 
 
@@ -71,7 +71,7 @@ Returns an iterator at the beginning of the input `locus_`.
 std::vector<Element*>::iterator end(int locus_)
 ```
 
-Returns an iterator at the end of the input `locus_`.  
+Returns an iterator at the end of the input `locus_`, i.e., the product of a given `role` and `state`.  
 &nbsp;
 
 
@@ -79,7 +79,7 @@ Returns an iterator at the end of the input `locus_`.
 Element* find(unsigned long int key_)
 ```
 
-Returns the `Element*` with `key` matching the input `key_`. If no match is found, `nullptr` is returned instead.  
+Returns the `Element*` catalogued under the matching input `key_`. If no match is found, `nullptr` is returned instead.  
 &nbsp;
 
 
@@ -87,7 +87,7 @@ Returns the `Element*` with `key` matching the input `key_`. If no match is foun
 Element* insert(Element* element_)
 ```
 
-Stores the input `element_` in the `Chromosome`, and returns `element_`.  
+Stores the input `element_` in the `Chromosome`, returning the stored `element_`.  
 &nbsp;
 
 
@@ -95,7 +95,7 @@ Stores the input `element_` in the `Chromosome`, and returns `element_`.
 Element* remove(Element* element_)
 ```
 
-Removes the input `element_` from the `Chromosome`, and returns `element_`.  
+Removes the input `element_` from the `Chromosome`, returning the removed `element_`.  
 &nbsp;
 
 
@@ -103,7 +103,7 @@ Removes the input `element_` from the `Chromosome`, and returns `element_`.
 void toggle(Element* element_, int state_)
 ```
 
-Ensures the `Element` referenced by `element_` is toggled to the input `state_`.  
+Ensures the referenced input `Element` is toggled to the input `state_`.  
 &nbsp;
 
 
@@ -111,7 +111,7 @@ Ensures the `Element` referenced by `element_` is toggled to the input `state_`.
 Element* random(const std::vector<unsigned int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1}, const std::vector<double> weights_ = {})
 ```
 
-Returns a pointer to a random `Element` with `role` and `state` matching one of the entries in the input `roles_` and `states_`, respectively. The `weights_` argument sets the relative odds of each matching `Element*` being returned. When `weights_` is empty, the same odds are assigned to all matching `Element*`s.  
+Returns a random `Element*` catalogued under one of the input `roles_` and `states_`. The `weights_` argument sets the relative odds of each candidate `Element*` being returned. When `weights_` is empty, the same odds are assigned to all candidate `Element*`s.  
 &nbsp;
 
 
@@ -119,7 +119,7 @@ Returns a pointer to a random `Element` with `role` and `state` matching one of 
 std::vector<Element*> retrieve(const std::vector<unsigned int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1})
 ```
 
-Returns pointers to all `Element`s with `role` and `state` matching one of the entries in the input `roles_` and `states_`, respectively.  
+Returns the `Element*`s catalogued under all combinations of the input `roles_` and `states_`.  
 &nbsp;
 
 
@@ -127,7 +127,7 @@ Returns pointers to all `Element`s with `role` and `state` matching one of the e
 std::vector<Element*> sort(const std::vector<unsigned int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1})
 ```
 
-Sorts and returns pointers to all `Element`s with `role` and `state` matching one of the entries in the input `roles_` and `states_`, respectively. The sorting criterium is provided by the `element_comparison` method.  
+Sorts and returns the `Element*`s catalogued under all combinations of the input `roles_` and `states_`. The sorting criterium is provided by the `element_comparison` method.  
 &nbsp;
 
 
@@ -135,7 +135,7 @@ Sorts and returns pointers to all `Element`s with `role` and `state` matching on
 std::vector<double> weights(const std::vector<unsigned int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1}, const double weight_ = 1.)
 ```
 
-Returns a weight associated with each `Element` with `role` and `state` matching one of the entries in the input `roles_` and `states_`, respectively. The assigned weights are multiples of the input `weight_`, where the multiplying factors are given by the `Element*`s' positions following their sorting according to the criterium provided by the `element_comparison` method.  
+Returns a weight associated with each `Element*` catalogued under combinations of the input `roles_` and `states_`. The assigned weights are multiples of the input `weight_`, where the multiplying factors are given by the `Element*`s' ordering once sorted according to the `element_comparison` criterium.  
 &nbsp;
 
 

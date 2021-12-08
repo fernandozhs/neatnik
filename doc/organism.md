@@ -127,7 +127,7 @@ Produces an offspring `Organism` through `ASSIMILATION`.
 std::vector<std::vector<std::vector<double>>> react()
 ```
 
-Prompts the `Organism` to react to its `Experiment`'s stimulus sequence.  
+Prompts the `Organism` to react to its `Experiment`'s `stimuli`.  
 &nbsp;
 
 
@@ -135,7 +135,7 @@ Prompts the `Organism` to react to its `Experiment`'s stimulus sequence.
 std::vector<std::vector<std::vector<double>>> react(std::vector<std::vector<std::vector<double>>> stimuli_)
 ```
 
-Prompts the `Organism` to react to the input stimulus sequence.  
+Prompts the `Organism` to react to the input `stimuli_`.  
 &nbsp;
 
 
@@ -143,5 +143,5 @@ Prompts the `Organism` to react to the input stimulus sequence.
 Graph graph() const
 ```
 
-Generates a `Graph` encapsulating the the `Organism`'s `Genotype`'s properties.  
+Generates a `Graph` encapsulating the `Organism`'s `Genotype`'s properties.  
 &nbsp;
