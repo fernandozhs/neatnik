@@ -60,7 +60,7 @@ enum node_role {HIDDEN=1, OUTPUT=2, BIAS=3, INPUT=4};
 enum node_activation {HEAVISIDE=1, RELU=2, LOGISTIC=3, IDENTITY=4, UNITY=5};
 
 // Labels the possible ways in which a `Link`'s weight can be altered.
-enum link_alteration {PERTURB=1, REPLACE=2};
+enum link_alteration {PERTURBATION=1, REPLACEMENT=2};
 
 // Labels the possible ways in which a new `Organism` can be spawned.
 enum spawning_process {MUTATION=0, ASSIMILATION=1};

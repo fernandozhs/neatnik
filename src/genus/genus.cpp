@@ -2,166 +2,124 @@
 
 // Constructor:
 
-// Constructor responsible for populating this `Genus` with `Organism`s initialized by minimal `Graph`s.
-Genus::Genus(Experiment* thatExperiment_, std::vector<Graph> thoseGraphs_)
+Genus::Genus(Experiment* experiment_, std::vector<Graph> graphs_)
 {
-    // Assigns this `Genus` to the pertinent `Experiment`.
-    experiment = thatExperiment_;
+    experiment = experiment_;
 
-    // Initializes a new `Species` with `Organism`s initializes from minimal `Graph`s.
-    Species* newSpecies_ = new Species(this, DOMINANT, thoseGraphs_);
+    Species* species_ = new Species(this, DOMINANT, graphs_);
 
-    // Inserts the new `Species*` into this `Genus`.
-    this->insert(newSpecies_);
+    this->insert(species_);
 }
 
 
 // Destructor:
 
-// Recursive destructor responsible for deleting this `Genus` and all its `Species`.
 Genus::~Genus()
 {
-    // Deletes each `Species` stored in this `Genus`
-    for (auto& theSpecies_ : this->retrieve())
+    for (auto& species_ : this->retrieve({DOMINANT, CONTESTANT}))
     {
-        delete theSpecies_;
+        delete species_;
     }
 }
 
 
 // Methods:
 
-// Tags a `Link` or `Node` with a new or existing identification tag.
-std::pair<unsigned long int, unsigned int> Genus::tag(int role_, element_type type_, unsigned int in_tag_, unsigned int out_tag_)
+std::pair<unsigned long int, unsigned int> Genus::tag(unsigned int role_, element_type type_, unsigned int source_tag_, unsigned int target_tag_)
 {
-    // Generates the search key associated with the `Link` or `Node` of interest.
-    unsigned long int key_ = Key(role_, type_, in_tag_, out_tag_);
+    unsigned long int key_ = Key(role_, type_, source_tag_, target_tag_);
 
-    // Searches for a log entry matching the `Link` or `Node` of interest.
     auto match_ = logbook.find(key_);
 
-    // Checks whether a matching log has been found.
     if (match_ != logbook.end())
     {
-        // Returns the matching log.
         return *match_;
     }
     else
     {
-        // Returns a new log entry.
         return this->log(key_);
     }
 }
 
-// Logs a new `Link` or `Node`.
 std::pair<unsigned long int, unsigned int> Genus::log(unsigned long int key_)
 {
-    // Creates a new log.
     std::pair<unsigned long int, unsigned int> log_ (key_, tag_counter);
 
-    // Increments the identification tag counter.
     tag_counter++;
 
-    // Logs the new `Link` or `Node`.
     logbook.insert(log_);
 
-    // Returns the newly created log entry.
     return log_;
 }
 
-// Retrieves the total number of stored `Species` in the matching group(s).
-int Genus::size(const std::vector<int> groups_)
+unsigned int Genus::size(const std::vector<int> groups_)
 {
-    // Initializes the return variable.
-    int size_ = 0;
+    unsigned int size_ = 0;
 
-    // Sums the number of `Species*` in each group.
     for (const auto& group_ : groups_)
     {
         size_ += species[group_].size();
     }
 
-    // Returns the number of stored `Species`.
     return size_;
 }
 
-// Retrieves an iterator at the beginning of a given group.
 typename std::vector<Species*>::iterator Genus::begin(int group_)
 {
-    // Returns the iterator at the beginning of the matching group.
     return species[group_].begin();
 }
 
-// Retrieves an iterator at the end of a given group.
 typename std::vector<Species*>::iterator Genus::end(int group_)
 {
-    // Returns the iterator at the end of the matching group.
     return species[group_].end();
 }
 
-// Retrieves the first `Species*` of a given group.
 Species* Genus::front(int group_)
 {
-    // Returns the first `Species*` of the matching group.
     return species[group_].front();
 }
 
-// Retrieves the last `Species*` of a given group.
 Species* Genus::back(int group_)
 {
-    // Returns the last `Species*` of the matching group.
     return species[group_].back();
 }
 
-// Inserts a `Species*` into this `Genus`.
-Species* Genus::insert(Species* thatSpecies_)
+Species* Genus::insert(Species* species_)
 {
-    // Extracts the input `Species*`' group.
-    int group_ = thatSpecies_->group;
+    int group_ = species_->group;
 
-    // Assigns the input `Species*` to this `Genus`.
-    thatSpecies_->genus = this;
+    species_->genus = this;
 
-    // Inserts the input `Species*` into this `Genus`' matching group.
-    species[group_].push_back(thatSpecies_);
+    species[group_].push_back(species_);
 
-    return thatSpecies_;
+    return species_;
 }
 
-// Removes a `Species*` from this `Genus`.
-Species* Genus::remove(Species* thatSpecies_)
+Species* Genus::remove(Species* species_)
 {
-    // Extracts the input `Species*`'s group.
-    int group_ = thatSpecies_->group;
+    int group_ = species_->group;
 
-    // Locates the input `Species*` in the matching group.
-    auto location_ = std::find(this->begin(group_), this->end(group_), thatSpecies_);
+    auto location_ = std::find(this->begin(group_), this->end(group_), species_);
 
-    // Removes the input `Species*` from this `Genus`' matching group.
     species[group_].erase(location_);
 
-    return thatSpecies_;
+    return species_;
 }
 
-// Purges a `Species*` from this `Genus`.
-void Genus::purge(Species* thatSpecies_)
+void Genus::purge(Species* species_)
 {
-    // Deletes and removes the input `Species*` from this `Genus`.
-    delete this->remove(thatSpecies_);
+    delete this->remove(species_);
 
     return;
 }
 
-// Purges all `Species*` from the matching group(s).
 void Genus::purge(const std::vector<int> groups_)
 {
-    // Deletes all `Species*` from the matching group(s).
-    for (const auto& theSpecies_ : this->retrieve(groups_))
+    for (const auto& species_ : this->retrieve(groups_))
     {
-        delete theSpecies_;
+        delete species_;
     }
 
-    // Clears the maching group(s).
     for (const auto& group_ : groups_)
     {
         species[group_].clear();
@@ -170,118 +128,88 @@ void Genus::purge(const std::vector<int> groups_)
     return;
 }
 
-// Toggles the group associated with the input `Species*`.
-void Genus::toggle(Species* thatSpecies_, int group_)
+void Genus::toggle(Species* species_, int group_)
 {
-    // Removes the input `Species*` from this `Genus`.
-    this->remove(thatSpecies_);
+    this->remove(species_);
 
-    // Updates the input `Species*`' group.
-    thatSpecies_->group = (taxon_group)group_;
+    species_->group = (taxon_group)group_;
 
-    // Re-inserts the `Species*` into this `Genus`.
-    this->insert(thatSpecies_);
+    this->insert(species_);
 
     return;
 }
 
-// Selects a random `Species*` from the matching group(s).
 Species* Genus::random(const std::vector<int> groups_, const std::vector<double> weights_)
 {
-    // Initializes auxiliary variable.
-    int sample_;
+    unsigned int sample_;
 
-    // Retrieves the number of stored `Species` in the matching group(s).
-    int size_ = this->size(groups_);
+    unsigned int size_ = this->size(groups_);
 
-    // Checks whether no matching `Species*` exist.
     if (size_ == 0)
     {
-        // Returns `nullptr`.
         return nullptr;
     }
 
-    // Decides which probability mass function to employ when sampling this `Genus`' `Species*`.
     if (weights_.size() == 0)
     {
-        // Samples a `Species*` from a uniform probability mass function.
         sample_ = U(1, size_);
     }
     else
     {
-        // Samples a `Species*` from the input probability mass function.
         sample_ = P(weights_) + 1;
     }
 
-    // Searches this `Genus`' groups for the selected `Species*`.
     for (const auto& group_ : groups_)
     {
-        // Gets the corresponding integer labeling the start of the current group.
         size_ -= species[group_].size();
 
-        // Checks whether the group containing the selected `Species*` has been found.
         if (sample_ > size_)
         {
-            // Returns the matching `Species*`.
             return species[group_][sample_ - size_ - 1];
         }
     }
 
-    // This line should never be reached.
     return nullptr;
 }
 
-// Retrieves all `Species*` from the matching group(s).
 std::vector<Species*> Genus::retrieve(const std::vector<int> groups_)
 {
-    // Initializes and reserves the appropriate amount of memory for a `std::vector<Species*>` which will store all the `Species*` from the matching group(s).
-    std::vector<Species*> thoseSpecies_;
-    thoseSpecies_.reserve(this->size(groups_));
+    std::vector<Species*> species_;
+    species_.reserve(this->size(groups_));
 
-    // Concatenates all the relevant `Species*`.
     for (const auto& group_ : groups_)
     {
-        thoseSpecies_.insert(thoseSpecies_.end(), this->begin(group_), this->end(group_));
+        species_.insert(species_.end(), this->begin(group_), this->end(group_));
     }
 
-    // Returns the concatenated `Species*`.
-    return thoseSpecies_;
+    return species_;
 }
 
-// Sorts all `Species*` from the matching group(s) according to their performance.
 std::vector<Species*> Genus::sort(const std::vector<int> groups_)
 {
-    // Retrieves all `Species*` from the matching group(s).
-    std::vector<Species*> thoseSpecies_ = this->retrieve(groups_);
+    std::vector<Species*> species_ = this->retrieve(groups_);
 
-    // Rearranges the collected `Species*` according to their comparison criterion.
-    std::sort(thoseSpecies_.begin(), thoseSpecies_.end(), this->species_comparison);
+    std::sort(species_.begin(), species_.end(), this->species_comparison);
 
-    // Returns the sorted `Species*`.
-    return thoseSpecies_;
+    return species_;
 }
 
-// Finds the best performing `Organism`s and purges stagnated `Species`.
 void Genus::select()
 {
-    // Finds each `Species`' best performing `Organism` and purges a fraction of the remainder.
-    for (const auto& theSpecies_ : this->retrieve({DOMINANT, CONTESTANT}))
+    for (const auto& species_ : this->retrieve({DOMINANT, CONTESTANT}))
     {
-        theSpecies_->select();
+        species_->select();
     }
 
-    // Sorts all `Species` stored in this `Genus`.
-    std::vector<Species*> thoseSpecies_ = this->sort();
+    std::vector<Species*> species_ = this->sort();
 
-    // Ensures the best performing `Species` is up to date.
-    if (this->front(DOMINANT) != thoseSpecies_.front())
+    if (this->front(DOMINANT) != species_.front())
     {
         this->toggle(this->front(DOMINANT), CONTESTANT);
-        this->toggle(thoseSpecies_.front(), DOMINANT);
+        this->toggle(species_.front(), DOMINANT);
     }
 
-    // Purges stagnated `Species`.
-    for (auto that_ = ++thoseSpecies_.begin(); that_ != thoseSpecies_.end(); ++that_)
+    for (auto that_ = ++species_.begin(); that_ != species_.end(); ++that_)
     {
         if (this->species_rejection(*that_))
         {
@@ -292,33 +220,26 @@ void Genus::select()
     return;
 }
 
-// Spawns a new generation of `Organism`s.
 void Genus::spawn()
 {
-    // A parent `Species*` and a `std::vector<double>` containing each parent `Species` rank.
-    Species* theSpecies_;
+    Species* species_;
     std::vector<double> ranks_;
 
-    // Retrieves the number of `Organism`s to be allocated.
     int allocation_ = Parameters::population_size;
 
-    // Extracts the ranks of all parent `Species` and adjusts the input allocation.
-    for (const auto& theSpecies_ : this->retrieve({DOMINANT, CONTESTANT}))
+    for (const auto& species_ : this->retrieve({DOMINANT, CONTESTANT}))
     {
-        ranks_.push_back(theSpecies_->rank);
+        ranks_.push_back(species_->rank);
         --allocation_;
     }
 
-    // Spawns a new generation of `Organism`s.
     while (allocation_)
     {
-        // Randomly selects a DOMINANT or CONTESTANT `Species`.
-        theSpecies_ = this->random({DOMINANT, CONTESTANT}, ranks_);
+        species_ = this->random({DOMINANT, CONTESTANT}, ranks_);
 
-        // Prompts the selected `Species` to spawn a new `Organism`.
-        if (auto newOrganism_ = theSpecies_->spawn())
+        if (auto offspring_ = species_->spawn())
         {
-            organisms.push_back(newOrganism_);
+            organisms.push_back(offspring_);
             --allocation_;
         }
     }
@@ -326,72 +247,57 @@ void Genus::spawn()
     return;
 }
 
-// Assigns spawned `Organism`s to a new or existing `Species`.
 void Genus::speciate()
 {
-    // A new `Species*`.
-    Species* newSpecies_;
+    Species* branch_;
 
-    // Purges all CONTESTANT parent `Organism`s.
-    for (const auto& theSpecies_ : this->retrieve({DOMINANT, CONTESTANT}))
+    for (const auto& species_ : this->retrieve({DOMINANT, CONTESTANT}))
     {
-        theSpecies_->purge({CONTESTANT});
+        species_->purge({CONTESTANT});
     }
 
-    // Assigns each spawned `Organism` to a new or existing `Species`.
-    for (const auto& theOrganism_ : organisms)
+    for (const auto& organism_ : organisms)
     {
-        for (const auto theSpecies_ : this->retrieve({CONTESTANT, DOMINANT}))
+        for (const auto species_ : this->retrieve({CONTESTANT, DOMINANT}))
         {
-            // Inserts the current `Organism` into a new or existing `Species*`.
-            if (theSpecies_->organism_compatibility(theOrganism_))
+            if (species_->organism_compatibility(organism_))
             {
-                theSpecies_->insert(theOrganism_);
+                species_->insert(organism_);
                 break;
             }
-            else if (this->front(DOMINANT) == theSpecies_)
+            else if (this->front(DOMINANT) == species_)
             {
-                newSpecies_ = new Species(this, CONTESTANT, theOrganism_);
-                this->insert(newSpecies_);
+                branch_ = new Species(this, CONTESTANT, organism_);
+                this->insert(branch_);
             }
         }
     }
 
-    // Primes this `Genus` for a subsequent spawning round.
     organisms.clear();
 
     return;
 }
 
-// The criterion for rejecting a `Species*`.
-bool Genus::species_rejection(Species* thatSpecies_)
+bool Genus::species_rejection(Species* species_)
 {
-    // This `Genus`' DOMINANT `Species*`.
-    Species* thisSpecies_ = this->front(DOMINANT);
+    Species* dominant_ = this->front(DOMINANT);
 
-    // The input `Species*`' DOMINANT `Organism*`.
-    Organism* thatOrganism_ = thatSpecies_->front(DOMINANT);
+    Organism* organism_ = species_->front(DOMINANT);
 
-    // Rejects `Species*` which are stagnated.
-    return thatOrganism_->age > Parameters::stagnation_threshold && thatSpecies_ != thisSpecies_;
+    return organism_->age > Parameters::stagnation_threshold && species_ != dominant_;
 }
 
-// The criterion for comparing two `Species*`.
-bool Genus::species_comparison(Species* thatSpecies_, Species* thisSpecies_)
+bool Genus::species_comparison(Species* first_species_, Species* second_species_)
 {
-    // The input `Species*`' benchmark `Organism*`s.
-    Organism* thatOrganism_ = thatSpecies_->front(DOMINANT);
-    Organism* thisOrganism_ = thisSpecies_->front(DOMINANT);
+    Organism* first_organism_ = first_species_->front(DOMINANT);
+    Organism* second_organism_ = second_species_->front(DOMINANT);
 
-    // Checks whether the two `Species*`' DOMINANT `Organism*`s possess the same driving score.
-    if (thatOrganism_->scores[Parameters::evolution_driver] == thisOrganism_->scores[Parameters::evolution_driver])
+    if (first_organism_->scores[Parameters::evolution_driver] == second_organism_->scores[Parameters::evolution_driver])
     {
-        // Compares the DOMINANT `Organism*`s' sizes through the '<' operation.
-        return thatOrganism_->genotype->size() < thisOrganism_->genotype->size();
+        return first_organism_->genotype->size() < second_organism_->genotype->size();
     }
     else
     {
-        // Compares the DOMINANT `Organism*`s' driving scores through the '>' operation.
-        return thatOrganism_->scores[Parameters::evolution_driver] > thisOrganism_->scores[Parameters::evolution_driver];
+        return first_organism_->scores[Parameters::evolution_driver] > second_organism_->scores[Parameters::evolution_driver];
     }
 }

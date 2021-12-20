@@ -1,35 +1,4 @@
 /*
-  A `Chromosome` stores and manipulates a subset of an `Organism`'s `Genotype`.
-
-  Data:
-  ----
-  logbook: an `std::unordered_map<unsigned long int, E*>` logging all `E` elements of a `Genotype`.
-  genes: an `std::unordered_map<int, std::vector<E*>>` cataloguing the `E` elements of a `Genotype`.
-
-  Constructor:
-  -----------
-  initialization: initializes this `Chromosome` in a clean slate.
-
-  Destructor:
-  ----------
-  resursive: recursively deletes this `Chromosome` and all the `E` elements it encodes.
-
-  Methods:
-  -------
-  size: retrieves the total number of encoded `E`s with matching role(s).
-  begin: retrieves an iterator at the beginning of a given locus.
-  end: retrieves an iterator at the end of a given locus.
-  find: retrieves the `E*` with a matching key.
-  insert: inserts an `E*` into this `Chromosome`.
-  remove: removes an `E*` from this `Chromosome`.
-  toggle: toggles the state of an encoded `E` element.
-  random: selects a random `E*` with matching role(s) and state(s).
-  retrieve: retrieves all `E*`s with matching role(s) and state(s).
-  sort: sorts all `E*`s with matching role(s) and state(s) according to their identification tags.
-  element_comparison: the criterion for comparing two `E*`s.
-*/
-
-/*
   Contributors: Fernando Zago and Hans Hopkins.
 */
 
@@ -42,64 +11,51 @@
 #include "../neatnik/neatnik.hpp"
 #include "../utils/utils.hpp"
 
-template <class E>
+template <class Element>
 class Chromosome
 {
 public:
 
-    // Data:
+    // Properties:
 
-    // The log of all `E` elements in this `Chromosome`.
-    std::unordered_map<unsigned long int, E*> logbook;
+    std::unordered_map<unsigned long int, Element*> logbook;
 
-    // A catalog of `E` elements organized by their roles and states.
-    std::unordered_map<int, std::vector<E*>> genes;
+    std::unordered_map<int, std::vector<Element*>> genes;
 
 
-    // Constructors:
+    // Constructor:
 
-    // Constructor responsible for initializing this `Chromosome` in a clean slate.
     Chromosome();
 
 
     // Destructor:
 
-    // Destructor responsible for recursively deleting this `Chromosome` and all the `E` elements it encodes.
     ~Chromosome();
 
 
     // Methods:
 
-    // Retrieves the total number of encoded `E*`s with matching role(s).
-    int size(const std::vector<int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1});
+    unsigned int size(const std::vector<unsigned int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1});
 
-    // Retrieves an iterator at the beginning of a given locus.
-    typename std::vector<E*>::iterator begin(int locus_);
+    typename std::vector<Element*>::iterator begin(int locus_);
 
-    // Retrieves an iterator at the end of a given locus.
-    typename std::vector<E*>::iterator end(int locus_);
+    typename std::vector<Element*>::iterator end(int locus_);
 
-    // Retrieves the `E*` with a matching key.
-    E* find(unsigned long int key_);
+    Element* find(unsigned long int key_);
 
-    // Inserts an `E*` into this `Chromosome`.
-    E* insert(E* thatElement_);
+    Element* insert(Element* element_);
 
-    // Removes an `E*` from this `Chromosome`.
-    E* remove(E* thatElement_);
+    Element* remove(Element* element_);
 
-    // Toggles the state of an encoded `E` element.
-    void toggle(E* thatElement_, int state_);
+    void toggle(Element* element_, int state_);
 
-    // Selects a random `E*` with matching role(s) and state(s).
-    E* random(const std::vector<int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1}, const std::vector<double> weights_ = {});
+    Element* random(const std::vector<unsigned int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1}, const std::vector<double> weights_ = {});
 
-    // Retrieves all `E*`s with matching role(s) and state(s).
-    std::vector<E*> retrieve(const std::vector<int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1});
+    std::vector<Element*> retrieve(const std::vector<unsigned int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1});
 
-    // Sorts all `E*`s with matching role(s) and state(s) according to their identification tags.
-    std::vector<E*> sort(const std::vector<int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1});
+    std::vector<Element*> sort(const std::vector<unsigned int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1});
 
-    // The criterium for comparing two `E*`s.
-    static bool element_comparison(E* thatElement_, E* thisElement_);
+    std::vector<double> priorities(const std::vector<unsigned int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1}, const double priority_ = 1.);
+
+    static bool element_comparison(Element* first_element_, Element* second_element_);
 };

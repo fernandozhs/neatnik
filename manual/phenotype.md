@@ -35,7 +35,7 @@ The `Phenotype`'s latest output.
 Phenotype(Organism* organism_)
 ```
 
-Constructs the `Phenotype`, associating it to the referenced input `Organism`.  
+Constructs a `Phenotype`, associating it to the referenced input `Organism`.  
 &nbsp;
 
 

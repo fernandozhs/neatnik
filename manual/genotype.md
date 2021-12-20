@@ -42,7 +42,7 @@ Points to the `Chromosome<Node>` encoding the `Genotype`'s `Node`s.
 Genotype(Organism* organism_, Graph graph_)
 ```
 
-Constructs the `Genotype` from a minimal input `graph_`, associating it to the referenced input `Organism`.    
+Constructs a `Genotype` from a minimal input `graph_`, associating it to the referenced input `Organism`.    
 &nbsp;
 
 

@@ -132,10 +132,10 @@ Sorts and returns the `Element*`s catalogued under all combinations of the input
 
 
 ```C++
-std::vector<double> weights(const std::vector<unsigned int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1}, const double weight_ = 1.)
+std::vector<double> priorities(const std::vector<unsigned int> roles_ = {1, 2, 3, 4}, const std::vector<int> states_ = {-1, 1}, const double priority_ = 1.)
 ```
 
-Returns a weight associated with each `Element*` catalogued under combinations of the input `roles_` and `states_`. The assigned weights are multiples of the input `weight_`, where the multiplying factors are given by the `Element*`s' ordering once sorted according to the `element_comparison` criterium.  
+Returns a priority measure associated with each `Element*` catalogued under combinations of the input `roles_` and `states_`. The assigned weights are multiples of the input base `priority_`.  
 &nbsp;
 
 

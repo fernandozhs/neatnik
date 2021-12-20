@@ -1,5 +1,5 @@
 /*
-  The header files for the `Link` and `Node` classes are collected here in order to facilitate the joint compilation of those objects. This is necessary due to the recursive relationship that exists between some of the methods featuring in each of those classes.
+  Due to the recursive relationship that exists between some of the methods featuring in the `Link` and `Node` classes, their header files are collected here in order to facilitate their joint compilation.
 */
 
 #pragma once

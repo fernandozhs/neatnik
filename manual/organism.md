@@ -75,7 +75,7 @@ The `Organism`'s behavior from which its `NOVELTY` score is derived.
 Organism(Species* species_, Graph graph_)
 ```
 
-Constructs the `Organism` from a minimal input `graph_`, associating it to the referenced input `Species`.  
+Constructs an `Organism` from a minimal input `graph_`, associating it to the referenced input `Species`.  
 &nbsp;
 
 
@@ -91,7 +91,7 @@ Constructs a deep copy of the referenced input `Organism`, associating it to the
 Organism(Graph graph_)
 ```
 
-Constructs the replica of an `Organism` whose `Genotype` is encoded by the input `graph_`.  
+Constructs a replica of an `Organism` whose `Genotype` is encoded by the input `graph_`.  
 &nbsp;
 
 

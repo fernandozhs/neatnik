@@ -30,7 +30,7 @@ Specifies whether the `Species` belongs to the `DOMINANT` or `CONTESTANT` group 
 
 
 ```C++
-std::unordered_map<int, Organism*> organisms
+std::unordered_map<int, std::vector<Organism*>> organisms
 ```
 
 Catalogs all `Organism*`s by the `group` property of the `Organism`s they reference.  
@@ -51,7 +51,7 @@ The `Species`'s rank.
 Species(Genus* genus_, taxon_group group_, std::vector<Graph> graphs_)
 ```
 
-Constructs the `Species` by populating it with `Organism`s generated from a set of minimal input `graphs_`. The `Species` is assigned to the input `group_` and associated to the referenced input `Genus`.  
+Constructs a `Species` by populating it with `Organism`s generated from a set of minimal input `graphs_`. The `Species` is assigned to the input `group_` and associated to the referenced input `Genus`.  
 &nbsp;
 
 
@@ -59,7 +59,7 @@ Constructs the `Species` by populating it with `Organism`s generated from a set 
 Species(Genus* genus_, taxon_group group_, Organism* organism_)
 ```
 
-Constructs the `Species` from a single representative `Organism`. The `Species` is assigned to the input `group_` and associated to the referenced input `Genus`.  
+Constructs a `Species` from a single representative `Organism`. The `Species` is assigned to the input `group_` and associated to the referenced input `Genus`.  
 &nbsp;
 
 
@@ -80,14 +80,6 @@ unsigned int size(const std::vector<int> groups_ = {0, 1})
 ```
 
 Returns the number of `Organism*`s catalogued under the input `groups_`.  
-&nbsp;
-
-
-```C++
-unsigned int size(const std::vector<int> groups_ = {0, 1})
-```
-
-Returns the number of stored `Organism*`s catalogued under the input `groups_`.  
 &nbsp;
 
 
@@ -135,7 +127,7 @@ Stores the input `organism_` in the `Species`, returning the stored `organism_`.
 Organism* remove(Organism* organism_)
 ```
 
-Removes the input `element_` from the `Chromosome`, returning the removed `element_`.  
+Removes the input `organism_` from the `Species`, returning the removed `organism_`.  
 &nbsp;
 
 
@@ -156,7 +148,7 @@ Removes every `Organism*` catalogued under the input `groups_`, subsequently del
 
 
 ```C++
-void toggle(Organism* element_, int group_)
+void toggle(Organism* organism_, int group_)
 ```
 
 Ensures the referenced input `Organism` is toggled to the input `group_`.  
@@ -167,7 +159,7 @@ Ensures the referenced input `Organism` is toggled to the input `group_`.
 Organism* random(const std::vector<int> groups_ = {0, 1}, const std::vector<double> weights_ = {})
 ```
 
-Returns a random `Organism*` catalogued under one of the input `groups_`. The `weights_` argument sets the relative odds of each matching `Organism*` being returned. When `weights_` is empty, the same odds are assigned to all matching `Organism*`s.  
+Returns a random `Organism*` catalogued under one of the input `groups_`. The `weights_` argument sets the relative odds of each candidate `Organism*` being returned. When `weights_` is empty, the same odds are assigned to all candidate `Organism*`s.  
 &nbsp;
 
 
