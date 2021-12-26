@@ -7,44 +7,50 @@ project(neatnik)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Pybind11.
-add_subdirectory(${PROJECT_SOURCE_DIR}/ext/pybind11)
+# Include Directories.
+include_directories(${PROJECT_SOURCE_DIR}/headers/core)
+include_directories(${PROJECT_SOURCE_DIR}/headers/wrapper)
+include_directories(${PROJECT_SOURCE_DIR}/sources/core)
+include_directories(${PROJECT_SOURCE_DIR}/sources/wrapper)
 
-pybind11_add_module(neatnik ${PROJECT_SOURCE_DIR}/src/utils/utils.hpp
-                            ${PROJECT_SOURCE_DIR}/src/utils/utils.cpp
-                            ${PROJECT_SOURCE_DIR}/src/elements/elements.hpp
-                            ${PROJECT_SOURCE_DIR}/src/elements/elements.cpp
-                            ${PROJECT_SOURCE_DIR}/src/genotype/chromosome.hpp
-                            ${PROJECT_SOURCE_DIR}/src/genotype/chromosome.cpp
-                            ${PROJECT_SOURCE_DIR}/src/genotype/genotype.hpp
-                            ${PROJECT_SOURCE_DIR}/src/genotype/genotype.cpp
-                            ${PROJECT_SOURCE_DIR}/src/phenotype/phenotype.hpp
-                            ${PROJECT_SOURCE_DIR}/src/phenotype/phenotype.cpp
-                            ${PROJECT_SOURCE_DIR}/src/organism/organism.hpp
-                            ${PROJECT_SOURCE_DIR}/src/organism/organism.cpp
-                            ${PROJECT_SOURCE_DIR}/src/genus/species.hpp
-                            ${PROJECT_SOURCE_DIR}/src/genus/species.cpp
-                            ${PROJECT_SOURCE_DIR}/src/genus/genus.hpp
-                            ${PROJECT_SOURCE_DIR}/src/genus/genus.cpp
-                            ${PROJECT_SOURCE_DIR}/src/experiment/parameters.hpp
-                            ${PROJECT_SOURCE_DIR}/src/experiment/parameters.cpp
-                            ${PROJECT_SOURCE_DIR}/src/experiment/experiment.hpp
-                            ${PROJECT_SOURCE_DIR}/src/experiment/experiment.cpp
-                            ${PROJECT_SOURCE_DIR}/src/neatnik/neatnik.hpp
-                            ${PROJECT_SOURCE_DIR}/src/neatnik/neatnik.cpp
-                            ${PROJECT_SOURCE_DIR}/src/organism/pyorganism.hpp
-                            ${PROJECT_SOURCE_DIR}/src/organism/pyorganism.cpp
-                            ${PROJECT_SOURCE_DIR}/src/genus/pyspecies.hpp
-                            ${PROJECT_SOURCE_DIR}/src/genus/pyspecies.cpp
-                            ${PROJECT_SOURCE_DIR}/src/genus/pygenus.hpp
-                            ${PROJECT_SOURCE_DIR}/src/genus/pygenus.cpp
-                            ${PROJECT_SOURCE_DIR}/src/experiment/pyparameters.hpp
-                            ${PROJECT_SOURCE_DIR}/src/experiment/pyparameters.cpp
-                            ${PROJECT_SOURCE_DIR}/src/experiment/pyexperiment.hpp
-                            ${PROJECT_SOURCE_DIR}/src/experiment/pyexperiment.cpp
-                            ${PROJECT_SOURCE_DIR}/src/neatnik/pyneatnik.hpp
-                            ${PROJECT_SOURCE_DIR}/src/neatnik/pyneatnik.cpp
-                            ${PROJECT_SOURCE_DIR}/src/python/pymodule.cpp)
+# Pybind11.
+add_subdirectory(${PROJECT_SOURCE_DIR}/external/pybind11)
+
+pybind11_add_module(neatnik ${PROJECT_SOURCE_DIR}/headers/core/utilities.hpp
+                            ${PROJECT_SOURCE_DIR}/sources/core/utilities.cpp
+                            ${PROJECT_SOURCE_DIR}/headers/core/elements.hpp
+                            ${PROJECT_SOURCE_DIR}/sources/core/elements.cpp
+                            ${PROJECT_SOURCE_DIR}/headers/core/chromosome.hpp
+                            ${PROJECT_SOURCE_DIR}/sources/core/chromosome.cpp
+                            ${PROJECT_SOURCE_DIR}/headers/core/genotype.hpp
+                            ${PROJECT_SOURCE_DIR}/sources/core/genotype.cpp
+                            ${PROJECT_SOURCE_DIR}/headers/core/phenotype.hpp
+                            ${PROJECT_SOURCE_DIR}/sources/core/phenotype.cpp
+                            ${PROJECT_SOURCE_DIR}/headers/core/organism.hpp
+                            ${PROJECT_SOURCE_DIR}/sources/core/organism.cpp
+                            ${PROJECT_SOURCE_DIR}/headers/core/species.hpp
+                            ${PROJECT_SOURCE_DIR}/sources/core/species.cpp
+                            ${PROJECT_SOURCE_DIR}/headers/core/genus.hpp
+                            ${PROJECT_SOURCE_DIR}/sources/core/genus.cpp
+                            ${PROJECT_SOURCE_DIR}/headers/core/parameters.hpp
+                            ${PROJECT_SOURCE_DIR}/sources/core/parameters.cpp
+                            ${PROJECT_SOURCE_DIR}/headers/core/experiment.hpp
+                            ${PROJECT_SOURCE_DIR}/sources/core/experiment.cpp
+                            ${PROJECT_SOURCE_DIR}/headers/core/neatnik.hpp
+                            ${PROJECT_SOURCE_DIR}/sources/core/neatnik.cpp
+                            ${PROJECT_SOURCE_DIR}/headers/wrapper/pyorganism.hpp
+                            ${PROJECT_SOURCE_DIR}/sources/wrapper/pyorganism.cpp
+                            ${PROJECT_SOURCE_DIR}/headers/wrapper/pyspecies.hpp
+                            ${PROJECT_SOURCE_DIR}/sources/wrapper/pyspecies.cpp
+                            ${PROJECT_SOURCE_DIR}/headers/wrapper/pygenus.hpp
+                            ${PROJECT_SOURCE_DIR}/sources/wrapper/pygenus.cpp
+                            ${PROJECT_SOURCE_DIR}/headers/wrapper/pyparameters.hpp
+                            ${PROJECT_SOURCE_DIR}/sources/wrapper/pyparameters.cpp
+                            ${PROJECT_SOURCE_DIR}/headers/wrapper/pyexperiment.hpp
+                            ${PROJECT_SOURCE_DIR}/sources/wrapper/pyexperiment.cpp
+                            ${PROJECT_SOURCE_DIR}/headers/wrapper/pyneatnik.hpp
+                            ${PROJECT_SOURCE_DIR}/sources/wrapper/pyneatnik.cpp
+                            ${PROJECT_SOURCE_DIR}/sources/wrapper/pymodule.cpp)
 
 
 # Tweaks the name of the shared library to match what Python expects.
