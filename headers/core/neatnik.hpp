@@ -36,9 +36,6 @@ class PyExperiment;
 
 // Non-Standard Types:
 
-// Labels the two metrics which can be used to drive evolution of a `Genus`.
-enum driver_metric {NOVELTY=0, FITNESS=1};
-
 // Labels the two basic constituent elements of an artificial neural network.
 enum element_type {NODE=0, LINK=1};
 

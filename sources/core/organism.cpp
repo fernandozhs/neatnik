@@ -15,9 +15,7 @@ Organism::Organism(Species* species_, Graph graph_)
 
     age = 0;
 
-    scores = {0., 0.};
-
-    behavior = {};
+    score = 0.;
 }
 
 Organism::Organism(Organism* organism_)
@@ -32,9 +30,7 @@ Organism::Organism(Organism* organism_)
 
     age = organism_->age;
 
-    scores = organism_->scores;
-
-    behavior = organism_->behavior;
+    score = organism_->score;
 }
 
 Organism::Organism(Graph graph_)
@@ -89,13 +85,13 @@ Organism* Organism::assimilate(Organism* organism_)
 std::vector<std::vector<std::vector<double>>> Organism::react()
 {
     std::vector<std::vector<std::vector<double>>> reactions_;
-    reactions_.reserve(Experiment::stimuli.size());
+    reactions_.reserve(species->genus->experiment->stimuli.size());
 
     std::vector<std::vector<double>> outputs_;
 
     phenotype->assemble();
 
-    for (const auto& inputs_ : Experiment::stimuli)
+    for (const auto& inputs_ : species->genus->experiment->stimuli)
     {
         outputs_.clear();
 

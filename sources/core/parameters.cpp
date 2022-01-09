@@ -1,15 +1,6 @@
 #include "parameters.hpp"
 
-
-driver_metric Parameters::evolution_driver = FITNESS;
-
-double Parameters::fitness_threshold = 0.;
-
-double Parameters::novelty_threshold = 0.;
-
-int Parameters::novelty_neighbors = 0;
-
-std::vector<double> Parameters::novelty_threshold_modifiers = {0., 0.};
+unsigned int Parameters::random_seed = 0;
 
 int Parameters::generational_cycles = 0;
 

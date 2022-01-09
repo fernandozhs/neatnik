@@ -9,8 +9,7 @@ void bind_Organism(pybind11::module& m)
         .def_readwrite("species", &Organism::species)
         .def_readwrite("group", &Organism::group)
         .def_readwrite("age", &Organism::age)
-        .def_readwrite("scores", &Organism::scores)
-        .def_readwrite("behavior", &Organism::behavior)
+        .def_readwrite("score", &Organism::score)
 
         // Constructor:
         .def(pybind11::init<Graph>())
@@ -21,14 +20,14 @@ void bind_Organism(pybind11::module& m)
         .def("graph", &Organism::graph)
         .def(pybind11::pickle(
             // __getstate__
-            [](const Organism& thatOrganism_)
+            [](const Organism& organism_)
             {
-                return thatOrganism_.graph();
+                return organism_.graph();
             },
             // __setstate__
-            [](Graph thatGraph_)
+            [](Graph graph_)
             {
-                return new Organism(thatGraph_);
+                return new Organism(graph_);
             }
         ));
 }

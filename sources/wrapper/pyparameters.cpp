@@ -6,11 +6,7 @@ void bind_Parameters(pybind11::module& m)
     pybind11::class_<Parameters>(m, "Parameters")
 
         // Properties:
-        .def_readwrite_static("evolution_driver", &Parameters::evolution_driver)
-        .def_readwrite_static("fitness_threshold", &Parameters::fitness_threshold)
-        .def_readwrite_static("novelty_threshold", &Parameters::novelty_threshold)
-        .def_readwrite_static("novelty_neighbors", &Parameters::novelty_neighbors)
-        .def_readwrite_static("novelty_threshold_modifiers", &Parameters::novelty_threshold_modifiers)
+        .def_readwrite_static("random_seed", &Parameters::random_seed)
         .def_readwrite_static("generational_cycles", &Parameters::generational_cycles)
         .def_readwrite_static("population_size", &Parameters::population_size)
         .def_readwrite_static("mutation_attempts", &Parameters::mutation_attempts)

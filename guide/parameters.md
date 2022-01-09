@@ -1,3 +1,4 @@
+<sub>**[Utilities](utilities.md)**</sub>  
 <sub>**Parameters**</sub>  
 <sub>**[Experiment](experiment.md)** ━━ **[Genus](genus.md)** ━━ **[Species](species.md)** ━━ **[Organism](organism.md)** ━━ **[Genotype](genotype.md)** ━━ **[Chromosome](chromosome.md)** ━━ **[Node](node.md)**</sub>  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -12,42 +13,10 @@ Encapsulates the parameters which dictate `NEATNik`'s functioning.
 ## Properties
 
 ```C++
-static driver_metric evolution_driver
+static unsigned int random_seed
 ```
 
-Specifies whether neuro-evolution should be driven by `FITNESS` or `NOVELTY`.  
-&nbsp;
-
-
-```C++
-static double fitness_threshold
-```
-
-The fitness threshold an `Organism` must clear in order for its `Graph` to be stored.  
-&nbsp;
-
-
-```C++
-static double novelty_threshold
-```
-
-The novelty threshold an `Organism` must clear in order for its `behavior` to be stored.  
-&nbsp;
-
-
-```C++
-static int novelty_neighbors
-```
-
-The number of nearest neighbors to be considered in `behavior`-space when assessing an `Organism`'s novelty.  
-&nbsp;
-
-
-```C++
-static std::vector<double> novelty_threshold_modifiers
-```
-
-The factors by which the novelty threshold is multiplied when novel behaviors are present or absent, respectively.  
+A random integer used to seed `NEATnik`'s pseudo-random number generator.  
 &nbsp;
 
 

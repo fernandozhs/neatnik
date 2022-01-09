@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <mpi.h>
 #include <vector>
 #include <algorithm>
 #include "neatnik.hpp"
@@ -19,16 +20,18 @@ public:
 
     // Properties:
 
+    int MPI_rank;
+    int MPI_size;
+
+    std::vector<int> MPI_counts;
+    std::vector<int> MPI_displacements;
+
     std::vector<Vertex> vertexes;
     std::vector<Edge> edges;
 
-    static std::vector<std::vector<std::vector<double>>> stimuli;
+    std::vector<std::vector<std::vector<double>>> stimuli;
 
     Genus* genus;
-
-    std::vector<std::vector<double>> behaviors;
-
-    std::vector<Graph> outcome;
 
 
     // Constructor:
@@ -43,19 +46,11 @@ public:
 
     // Methods:
 
-    void build();
-
     void run();
+
+    void score();
 
     virtual void display();
 
-    void drive(driver_metric metric_);
-
-    void assess(Organism* organism_, const std::vector<int> metrics_);
-
-    double novelty(Organism* organism_);
-
     virtual double fitness(Organism* organism_) = 0;
-
-    virtual std::vector<double> behavior(Organism* organism_) = 0;
 };

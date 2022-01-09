@@ -7,7 +7,11 @@ project(neatnik)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+# MPI.
+find_package(MPI REQUIRED)
+
 # Include Directories.
+include_directories(${MPI_INCLUDE_PATH})
 include_directories(${PROJECT_SOURCE_DIR}/headers/core)
 include_directories(${PROJECT_SOURCE_DIR}/headers/wrapper)
 include_directories(${PROJECT_SOURCE_DIR}/sources/core)
@@ -52,6 +56,8 @@ pybind11_add_module(neatnik ${PROJECT_SOURCE_DIR}/headers/core/utilities.hpp
                             ${PROJECT_SOURCE_DIR}/sources/wrapper/pyneatnik.cpp
                             ${PROJECT_SOURCE_DIR}/sources/wrapper/pymodule.cpp)
 
+# Ensures MPI is properly linked.
+target_link_libraries(neatnik PRIVATE ${MPI_C_LIBRARIES})
 
 # Tweaks the name of the shared library to match what Python expects.
 set_target_properties(neatnik PROPERTIES SUFFIX .so)

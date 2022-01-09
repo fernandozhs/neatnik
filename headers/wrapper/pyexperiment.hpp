@@ -21,8 +21,6 @@ public:
     void display() override;
 
     double fitness(Organism* thatOrganism_) override;
-
-    std::vector<double> behavior(Organism* thatOrganism_) override;
 };
 
 

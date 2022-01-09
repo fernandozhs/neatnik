@@ -226,6 +226,8 @@ void Genus::spawn()
     Species* species_;
     std::vector<double> ranks_;
 
+    offsprings.clear();
+
     int allocation_ = Parameters::population_size;
 
     for (const auto& species_ : this->retrieve({DOMINANT, CONTESTANT}))
@@ -240,10 +242,12 @@ void Genus::spawn()
 
         if (auto offspring_ = species_->spawn())
         {
-            organisms.push_back(offspring_);
+            offsprings.push_back(offspring_);
             --allocation_;
         }
     }
+
+    scores.resize(offsprings.size(), 0.);
 
     return;
 }
@@ -257,24 +261,22 @@ void Genus::speciate()
         species_->purge({CONTESTANT});
     }
 
-    for (const auto& organism_ : organisms)
+    for (const auto& offspring_ : offsprings)
     {
         for (const auto species_ : this->retrieve({CONTESTANT, DOMINANT}))
         {
-            if (species_->organism_compatibility(organism_))
+            if (species_->organism_compatibility(offspring_))
             {
-                species_->insert(organism_);
+                species_->insert(offspring_);
                 break;
             }
             else if (this->front(DOMINANT) == species_)
             {
-                branch_ = new Species(this, CONTESTANT, organism_);
+                branch_ = new Species(this, CONTESTANT, offspring_);
                 this->insert(branch_);
             }
         }
     }
-
-    organisms.clear();
 
     return;
 }
@@ -293,12 +295,12 @@ bool Genus::species_comparison(Species* first_species_, Species* second_species_
     Organism* first_organism_ = first_species_->front(DOMINANT);
     Organism* second_organism_ = second_species_->front(DOMINANT);
 
-    if (first_organism_->scores[Parameters::evolution_driver] == second_organism_->scores[Parameters::evolution_driver])
+    if (first_organism_->score == second_organism_->score)
     {
         return first_organism_->genotype->size() < second_organism_->genotype->size();
     }
     else
     {
-        return first_organism_->scores[Parameters::evolution_driver] > second_organism_->scores[Parameters::evolution_driver];
+        return first_organism_->score > second_organism_->score;
     }
 }

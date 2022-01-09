@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <vector>
 #include <utility>
+#include <numeric>
 #include <algorithm>
 #include "neatnik.hpp"
 #include "utilities.hpp"

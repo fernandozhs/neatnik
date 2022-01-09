@@ -286,12 +286,12 @@ bool Species::organism_compatibility(Organism* organism_)
 
 bool Species::organism_comparison(Organism* first_organism_, Organism* second_organism_)
 {
-    if (first_organism_->scores[Parameters::evolution_driver] == second_organism_->scores[Parameters::evolution_driver])
+    if (first_organism_->score == second_organism_->score)
     {
         return first_organism_->genotype->size() < second_organism_->genotype->size();
     }
     else
     {
-        return first_organism_->scores[Parameters::evolution_driver] > second_organism_->scores[Parameters::evolution_driver];
+        return first_organism_->score > second_organism_->score;
     }
 }

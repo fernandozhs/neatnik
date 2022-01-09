@@ -14,15 +14,7 @@ public:
 
     // Properties:
 
-    static driver_metric evolution_driver;
-
-    static double fitness_threshold;
-
-    static double novelty_threshold;
-
-    static int novelty_neighbors;
-
-    static std::vector<double> novelty_threshold_modifiers;
+    static unsigned int random_seed;
 
     static int generational_cycles;
 

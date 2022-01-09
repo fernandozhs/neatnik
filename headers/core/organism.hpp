@@ -22,10 +22,7 @@ public:
 
     unsigned int age;
 
-    std::vector<double> scores;
-
-    std::vector<double> behavior;
-
+    double score;
 
     // Constructors:
 
