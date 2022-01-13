@@ -11,7 +11,7 @@
 ## Probability Sampling
 
 ```C++
-std::mt19937 RNG;
+std::mt19937 PRNG;
 ```
 
 A Mersenne Twister pseudo-random number generator which underpins all other probability sampling functions.  
@@ -100,16 +100,6 @@ Rectified Linear Unit function evaluated at the sum of all entries of `x_`.
 &nbsp;
 
 
-## Distance Metrics
-
-```C++
-double Euclidean(std::vector<double>& x_, std::vector<double>& y_)
-```
-
-Computes the squared Euclidean distance between the points `x_` and `y_`.  
-&nbsp;
-
-
 ## Assorted Functions
 
 ```C++
@@ -117,20 +107,4 @@ long int Key(unsigned int i_, unsigned int j_, unsigned int k_, unsigned int l_)
 ```
 
 Generates a unique `key` from the inputs: `i_` (3 bits), `j_` (1 bit), `k_` (30 bits), `l_` (30 bits).  
-&nbsp;
-
-
-```C++
-std::vector<double> Round(std::vector<double>& x_)
-```
-
-Rounds all entries of `x_` while preserving their sum.  
-&nbsp;
-
-
-```C++
-double Sparseness(unsigned int k_, std::vector<std::vector<double>>& Y_, std::vector<double>& x_)
-```
-
-Computes the sparseness of a set `Y_` at the point `x_` by taking into account its `k_` nearest neighbors.  
 &nbsp;

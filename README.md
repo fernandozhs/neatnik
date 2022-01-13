@@ -1,9 +1,10 @@
 # NEATnik
 
-[`NEATnik`](https://github.com/fernandozhs/neatnik) is a Python-wrapped C++ implementation of the [NEAT](https://direct.mit.edu/evco/article-abstract/10/2/99/1123/Evolving-Neural-Networks-through-Augmenting) (Neuro-Evolution of Augmenting Topologies) algorithm originally developed by Kenneth Stanley.
+[`NEATnik`](https://github.com/fernandozhs/neatnik) is a MPI-parallelized Python-wrapped C++ implementation of the [NEAT](https://direct.mit.edu/evco/article-abstract/10/2/99/1123/Evolving-Neural-Networks-through-Augmenting) (Neuro-Evolution of Augmenting Topologies) algorithm originally developed by Kenneth Stanley.
 
 ## Requirements
 
+* [MPI](https://www.open-mpi.org/) library conforming to the MPI-3.1 standards.
 * [GCC](http://gcc.gnu.org/) compiler compatible with C++17.
 * [CMake](http://cmake.org/) version 3.10 or superior.
 * [Python](http://www.python.org/) release 3.5 or higher.
@@ -32,6 +33,8 @@ If successful, this will have produced a file named `neatnik.so` within `../neat
 
 ## Documentation
 
+**[Utilities](guide/utilities.md)**  
+&nbsp;  
 **[Parameters](guide/parameters.md)**  
 &nbsp;  
 **[Experiment](guide/experiment.md)**  
