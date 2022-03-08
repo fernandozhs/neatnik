@@ -16,7 +16,7 @@ Encapsulates the parameters which dictate `NEATNik`'s functioning.
 static unsigned int random_seed
 ```
 
-A random integer used to seed `NEATnik`'s pseudo-random number generator.  
+A random non-negative integer used to seed `NEATnik`'s pseudo-random number generator.  
 &nbsp;
 
 

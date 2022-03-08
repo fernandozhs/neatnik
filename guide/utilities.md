@@ -50,14 +50,6 @@ Samples a normally-distributed double with mean `u_` and standard deviation `s_`
 &nbsp;
 
 
-```C++
-Node* source
-```
-
-Points to the `Node` from which the `Link`'s input signal originates.  
-&nbsp;
-
-
 ## Activation Functions
 
 ``` C++

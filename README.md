@@ -4,10 +4,10 @@
 
 ## Requirements
 
-* [MPI](https://www.open-mpi.org/) library conforming to the MPI-3.1 standards.
+* [OpenMPI](https://www.open-mpi.org/) version 3.1.3 or superior.
 * [GCC](http://gcc.gnu.org/) compiler compatible with C++17.
 * [CMake](http://cmake.org/) version 3.10 or superior.
-* [Python](http://www.python.org/) release 3.5 or higher.
+* [Python](http://www.python.org/) version 3.5 or superior.
 
 ## Dependencies
 

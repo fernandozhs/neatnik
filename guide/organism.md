@@ -55,18 +55,10 @@ The `Organism`'s age measured in generational cycles.
 
 
 ```C++
-std::vector<double> scores
+double scores
 ```
 
-The `Organism`'s scores. While the first entry stores the `Organism`'s `NOVELTY` score, the second element stores its `FITNESS` score.  
-&nbsp;
-
-
-```C++
-std::vector<double> behavior
-```
-
-The `Organism`'s behavior from which its `NOVELTY` score is derived.  
+The `Organism`'s fitness score.  
 &nbsp;
 
 
