@@ -1,6 +1,6 @@
 # NEATnik
 
-[`NEATnik`](https://github.com/fernandozhs/neatnik) is a MPI-parallelized Python-wrapped C++ implementation of the [NEAT](https://direct.mit.edu/evco/article-abstract/10/2/99/1123/Evolving-Neural-Networks-through-Augmenting) (Neuro-Evolution of Augmenting Topologies) algorithm originally developed by Kenneth Stanley.
+[`NEATnik`](https://github.com/fernandozhs/neatnik) is an MPI-parallelized Python-wrapped C++ implementation of the [NEAT](https://direct.mit.edu/evco/article-abstract/10/2/99/1123/Evolving-Neural-Networks-through-Augmenting) (Neuro-Evolution of Augmenting Topologies) algorithm originally developed by Kenneth Stanley.
 
 ## Requirements
 
@@ -12,7 +12,6 @@
 ## Dependencies
 
 * [`pybind11`](http://github.com/pybind/pybind11): a lightweight header-only library that exposes C++ types in Python and vice versa.
-
 
 ## Installation
 

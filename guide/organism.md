@@ -55,7 +55,7 @@ The `Organism`'s age measured in generational cycles.
 
 
 ```C++
-double scores
+double score
 ```
 
 The `Organism`'s fitness score.  
