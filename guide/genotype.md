@@ -159,7 +159,7 @@ Toggles `ENABLED` a random `DISABLED` `INPUT` `Node` encoded by the `Genotype`, 
 void alter_nodes()
 ```
 
-Attempts to alter the `activation` of each `ENABLED` `HIDDEN `Node` encoded by the `Genotype`.  
+Attempts to alter the `activation` of each `ENABLED` `HIDDEN` `Node` encoded by the `Genotype`.  
 &nbsp;
 
 
