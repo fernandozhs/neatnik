@@ -19,6 +19,7 @@ int MPI_rank
 ```
 
 This `Experiment`'s MPI rank returned by `MPI_Comm_size`.  
+&nbsp;
 
 
 ```C++
@@ -26,6 +27,7 @@ int MPI_size
 ```
 
 The total number of MPI processes returned by `MPI_Comm_rank`.  
+&nbsp;
 
 
 ```C++
@@ -34,6 +36,7 @@ std::vector<int> MPI_displacements
 ```
 
 The counts and displacements required by `MPI_Allgatherv`.  
+&nbsp;
 
 
 ```C++
