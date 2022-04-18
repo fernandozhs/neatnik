@@ -94,14 +94,6 @@ Destructs the `Experiment`, as well as its `Genus`.
 ## Methods
 
 ```C++
-void build()
-```
-
-Populates the `Experiment`'s `Genus` with `Organism`s initialized from the `Experiment`'s starting minimal `Graph`.  
-&nbsp;
-
-
-```C++
 void run()
 ```
 
@@ -118,26 +110,10 @@ Displays any of this `Experiment`'s properties.
 
 
 ```C++
-void drive(driver_metric metric_)
+void score()
 ```
 
-Drives the evolution of this `Experiment`'s `Genus`.  
-&nbsp;
-
-
-```C++
-void assess(Organism* organism_, const std::vector<int> metrics_)
-```
-
-Scores and curates the referenced input `Organism` with respect to the given driver `metrics_`.  
-&nbsp;
-
-
-```C++
-double novelty(Organism* organism_)
-```
-
-Evaluates the referenced input `Organism`'s `NOVELTY` score.  
+Uses MPI to score all `Organism`s in parallel.  
 &nbsp;
 
 
@@ -145,13 +121,5 @@ Evaluates the referenced input `Organism`'s `NOVELTY` score.
 virtual double fitness(Organism* organism_) = 0
 ```
 
-Evaluates the referenced input `Organism`'s `FITNESS` score.  
-&nbsp;
-
-
-```C++
-virtual std::vector<double> behavior(Organism* organism_) = 0
-```
-
-Extracts the referenced input `Organism`'s behavior.  
+Evaluates the referenced input `Organism`'s fitness score.  
 &nbsp;
