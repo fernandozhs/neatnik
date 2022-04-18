@@ -15,6 +15,28 @@ An `Experiment` drives the evolution of a `Genus`.
 ## Properties
 
 ```C++
+int MPI_rank
+```
+
+This `Experiment`'s MPI rank returned by `MPI_Comm_size`.  
+
+
+```C++
+int MPI_size
+```
+
+The total number of MPI processes returned by `MPI_Comm_rank`.  
+
+
+```C++
+std::vector<int> MPI_counts
+std::vector<int> MPI_displacements
+```
+
+The counts and displacements required by `MPI_Allgatherv`.  
+
+
+```C++
 std::vector<Vertex> vertexes
 ```
 
@@ -43,22 +65,6 @@ Genus* genus
 ```
 
 Points to the `Genus` to be evolved by this `Experiment`.  
-&nbsp;
-
-
-```C++
-std::vector<std::vector<double>> behaviors
-```
-
-Stores the novel behaviors displayed by the `Organism`s evolved in this `Experiment`.  
-&nbsp;
-
-
-``` C++
-std::vector<Graph> outcome
-```
-
-Stores the `Graph`s of the fittest `Organism`s to evolve in this `Experiment`.  
 &nbsp;
 
 
