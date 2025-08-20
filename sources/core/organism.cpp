@@ -3,7 +3,7 @@
 
 // Constructors:
 
-Organism::Organism(Species* species_, Graph graph_)
+Organism::Organism(Species* species_, GenotypeData genotype_data_)
 {
     species = species_;
 
@@ -11,11 +11,28 @@ Organism::Organism(Species* species_, Graph graph_)
 
     phenotype = new Phenotype(this);
 
-    genotype = new Genotype(this, graph_);
+    genotype = new Genotype(this, genotype_data_);
 
-    age = 0;
+    age = 0.;
 
     score = 0.;
+}
+
+Organism::Organism(Species* species_, OrganismData data_)
+{
+    species = species_;
+
+    auto [group_, age_, score_, genotype_data_] = data_;
+
+    group = group_;
+
+    phenotype = new Phenotype(this);
+
+    genotype = new Genotype(this, genotype_data_);
+
+    age = age_;
+
+    score = score_;
 }
 
 Organism::Organism(Organism* organism_)
@@ -33,13 +50,21 @@ Organism::Organism(Organism* organism_)
     score = organism_->score;
 }
 
-Organism::Organism(Graph graph_)
+Organism::Organism(OrganismData data_)
 {
     species = nullptr;
 
-    genotype = new Genotype(graph_);
+    auto [group_, age_, score_, genotype_data_] = data_;
+
+    group = group_;
 
     phenotype = new Phenotype(this);
+
+    genotype = new Genotype(nullptr, genotype_data_);
+
+    age = age_;
+
+    score = score_;
 }
 
 
@@ -138,7 +163,9 @@ std::vector<std::vector<std::vector<double>>> Organism::react(std::vector<std::v
     return reactions_;
 }
 
-Graph Organism::graph() const
+OrganismData Organism::data() const
 {
-    return genotype->graph();
+    OrganismData data_ (group, age, score, genotype->data());
+
+    return data_;
 }

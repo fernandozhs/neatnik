@@ -16,19 +16,29 @@ void bind_Experiment(pybind11::module& m)
     pybind11::class_<Experiment, PyExperiment>(m, "Experiment")
 
         // Properties:
-        .def_readwrite("MPI_rank", &Experiment::MPI_rank)
-        .def_readwrite("MPI_size", &Experiment::MPI_size)
-        .def_readwrite("vertexes", &Experiment::vertexes)
-        .def_readwrite("edges", &Experiment::edges)
-        .def_readwrite("stimuli", &Experiment::stimuli)
-        .def_readwrite("genus", &Experiment::genus)
+        .def_readonly("MPI_rank", &Experiment::MPI_rank)
+        .def_readonly("MPI_size", &Experiment::MPI_size)
+        .def_readonly("genus", &Experiment::genus)
 
         // Constructor:
         .def(pybind11::init<>())
 
         // Methods:
-        .def("run", &Experiment::run)
-        .def("score", &Experiment::score)
         .def("display", &Experiment::display)
-        .def("fitness", &Experiment::fitness);
+        .def("fitness", &Experiment::fitness)
+        .def("set", pybind11::overload_cast<std::vector<std::vector<std::vector<double>>>>(&Experiment::set), pybind11::arg("stimuli"))
+        .def("set", pybind11::overload_cast<GenotypeData>(&Experiment::set), pybind11::arg("population"))
+        .def("set", pybind11::overload_cast<GenusData>(&Experiment::set), pybind11::arg("population"))
+        .def("run", [](Experiment& self)
+        {
+            if (self.genus->size() == 0)
+            {
+                throw std::runtime_error("Cannot run experiment: population has not been seeded.");
+            }
+            if (self.stimuli.empty())
+            {
+                throw std::runtime_error("Cannot run experiment: no stimuli have been provided.");
+            }
+            self.run();
+        });
 }

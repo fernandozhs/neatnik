@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include <vector>
 #include <tuple>
 #include "utilities.hpp"
@@ -16,9 +17,9 @@ public:
 
     // Properties:
 
-    unsigned long int key;
+    Key key;
 
-    unsigned int tag;
+    std::uint32_t tag;
 
     element_state state;
 
@@ -37,9 +38,9 @@ public:
 
     // Constructors:
 
-    Node(unsigned long int key_, unsigned int tag_, element_state state_, node_role role_, node_activation activation_, double x_, double y_);
+    Node(Key key_, std::uint32_t tag_, element_state state_, node_role role_, node_activation activation_, std::uint32_t x_, std::uint32_t y_);
 
-    Node(unsigned long int key_, unsigned int tag_, element_state state_, node_role role_, Node* source_, Node* target_, node_activation activation_);
+    Node(Key key_, std::uint32_t tag_, element_state state_, node_role role_, Node* source_, Node* target_, node_activation activation_);
 
     Node(Node* node_);
 
@@ -54,5 +55,5 @@ public:
 
     void clear();
 
-    Vertex graph();
+    NodeData data();
 };

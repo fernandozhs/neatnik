@@ -26,11 +26,13 @@ public:
 
     // Constructors:
 
-    Organism(Species* species_, Graph graph_);
+    Organism(Species* species_, GenotypeData genotype_data_);
+
+    Organism(Species* species_, OrganismData data_);
 
     Organism(Organism* organism_);
 
-    Organism(Graph graph_);
+    Organism(OrganismData data_);
 
 
     // Destructor:
@@ -48,5 +50,5 @@ public:
 
     std::vector<std::vector<std::vector<double>>> react(std::vector<std::vector<std::vector<double>>> stimuli_);
 
-    Graph graph() const;
+    OrganismData data() const;
 };

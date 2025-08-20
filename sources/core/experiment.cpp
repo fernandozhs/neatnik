@@ -19,6 +19,33 @@ Experiment::~Experiment()
 
 // Methods:
 
+void Experiment::set(std::vector<std::vector<std::vector<double>>> stimuli_)
+{
+    stimuli = stimuli_;
+
+    return;
+}
+
+void Experiment::set(GenotypeData data_)
+{
+    delete genus;
+
+    std::vector<GenotypeData> genotypes_data_ (Parameters::population_size, data_);
+
+    genus = new Genus(this, genotypes_data_);
+
+    return;
+}
+
+void Experiment::set(GenusData data_)
+{
+    delete genus;
+
+    genus = new Genus(this, data_);
+
+    return;
+}
+
 void Experiment::run()
 {
     PRNG.seed(Parameters::random_seed);
@@ -30,10 +57,6 @@ void Experiment::run()
 
     MPI_counts.resize(MPI_size);
     MPI_displacements.resize(MPI_size);
-
-    std::vector<Graph> graphs_ (Parameters::population_size, Graph(vertexes, edges));
-
-    genus = new Genus(this, graphs_);
 
     for (int cycles_ = Parameters::generational_cycles; cycles_ >= 0; --cycles_)
     {
@@ -55,7 +78,6 @@ void Experiment::run()
 
     return;
 }
-
 
 void Experiment::score()
 {

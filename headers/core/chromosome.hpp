@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <cstdint>
+#include <tuple>
 #include <unordered_map>
 #include <vector>
 #include <utility>
@@ -20,7 +22,7 @@ public:
 
     // Properties:
 
-    std::unordered_map<unsigned long int, Element*> logbook;
+    std::unordered_map<Key, Element*, Hash> logbook;
 
     std::unordered_map<int, std::vector<Element*>> genes;
 
@@ -43,7 +45,7 @@ public:
 
     typename std::vector<Element*>::iterator end(int locus_);
 
-    Element* find(unsigned long int key_);
+    Element* find(Key key_);
 
     Element* insert(Element* element_);
 

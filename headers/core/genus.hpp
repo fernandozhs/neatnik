@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <cstdint>
+#include <stdexcept>
 #include <unordered_map>
 #include <vector>
 #include <utility>
@@ -25,9 +27,9 @@ public:
 
     Experiment* experiment;
 
-    std::unordered_map<unsigned long int, unsigned int> logbook;
+    std::unordered_map<Key, std::uint32_t, Hash> logbook;
 
-    unsigned int tag_counter = 0;
+    std::uint32_t tag_counter = 0;
 
     std::unordered_map<int, std::vector<Species*>> species;
 
@@ -37,7 +39,9 @@ public:
 
     // Constructor:
 
-    Genus(Experiment* experiment_, std::vector<Graph> graphs_);
+    Genus(Experiment* experiment_, std::vector<GenotypeData> genotypes_data_);
+
+    Genus(Experiment* experiment_, GenusData data_);
 
 
     // Destructor:
@@ -47,9 +51,9 @@ public:
 
     // Methods:
 
-    std::pair<unsigned long int, unsigned int> tag(unsigned int role_, element_type type_, unsigned int source_tag_, unsigned int target_tag_);
+    std::pair<Key, std::uint32_t> tag(unsigned int role_, element_type type_, std::uint32_t source_tag_, std::uint32_t target_tag_);
 
-    std::pair<unsigned long int, unsigned int> log(unsigned long int key_);
+    std::pair<Key, std::uint32_t> log(Key key_);
 
     unsigned int size(const std::vector<int> groups_ = {0, 1});
 
@@ -86,4 +90,6 @@ public:
     bool species_rejection(Species* species_);
 
     static bool species_comparison(Species* first_pecies_, Species* second_species_);
+
+    GenusData data();
 };

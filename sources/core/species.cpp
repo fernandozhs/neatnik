@@ -3,21 +3,41 @@
 
 // Constructors:
 
-Species::Species(Genus* genus_, taxon_group group_, std::vector<Graph> graphs_)
+Species::Species(Genus* genus_, taxon_group group_, std::vector<GenotypeData> genotypes_data_)
 {
     genus = genus_;
 
     group = group_;
 
-    for (const auto& graph_ : graphs_)
+    rank = 0.;
+
+    for (const auto& genotype_data_ : genotypes_data_)
     {
-        Organism* organism_ = new Organism(this, graph_);
+        Organism* organism_ = new Organism(this, genotype_data_);
 
         this->insert(organism_);
     }
 
     Organism* organism_ = this->random({CONTESTANT});
     this->toggle(organism_, DOMINANT);
+}
+
+Species::Species(Genus* genus_, SpeciesData data_)
+{
+    genus = genus_;
+
+    auto [group_, rank_, organisms_data_] = data_;
+
+    group = group_;
+
+    rank = rank_;
+
+    for (const auto& organism_data_ : organisms_data_)
+    {
+        Organism* organism_ = new Organism(this, organism_data_);
+
+        this->insert(organism_);
+    }
 }
 
 Species::Species(Genus* genus_, taxon_group group_, Organism* organism_)
@@ -294,4 +314,18 @@ bool Species::organism_comparison(Organism* first_organism_, Organism* second_or
     {
         return first_organism_->score > second_organism_->score;
     }
+}
+
+SpeciesData Species::data()
+{
+    std::vector<OrganismData> organisms_data_;
+
+    for (auto& organism_ : this->retrieve({DOMINANT, CONTESTANT}))
+    {
+        organisms_data_.push_back(organism_->data());
+    }
+
+    SpeciesData data_ (group, rank, organisms_data_);
+
+    return data_;
 }

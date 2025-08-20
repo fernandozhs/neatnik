@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include <vector>
 #include <tuple>
 #include <optional>
@@ -63,11 +64,23 @@ enum taxon_group {CONTESTANT=0, DOMINANT=1};
 
 // Aliases:
 
+// Key uniquely identifying a `Node` or `Link`.
+using Key = std::tuple<std::uint32_t, std::uint32_t, std::uint32_t, std::uint32_t>;
+
 // The data required for (re)constructing a `Link`.
-using Edge = std::tuple<std::optional<unsigned long int>, std::optional<unsigned int>, element_state, link_role, unsigned long int, unsigned long int, std::optional<double>>;
+using LinkData = std::tuple<std::optional<std::uint32_t>, element_state, link_role, std::optional<double>, std::uint32_t, std::uint32_t>;
 
 // The data required for (re)constructing a `Node`.
-using Vertex = std::tuple<unsigned long int, std::optional<unsigned int>, element_state, node_role, node_activation, double, double>;
+using NodeData = std::tuple<std::uint32_t, element_state, node_role, node_activation, std::uint32_t, std::uint32_t>;
 
 // The data required for (re)constructing a `Genotype`.
-using Graph = std::tuple<std::vector<Vertex>, std::vector<Edge>>;
+using GenotypeData = std::tuple<std::vector<NodeData>, std::vector<LinkData>>;
+
+// The data required for (re)constructing an `Organism`.
+using OrganismData = std::tuple<taxon_group, unsigned int, double, GenotypeData>;
+
+// The data required for (re)constructing a `Species`.
+using SpeciesData = std::tuple<taxon_group, double, std::vector<OrganismData>>;
+
+// The data required for (re)constructing a `Genus`.
+using GenusData = std::vector<SpeciesData>;

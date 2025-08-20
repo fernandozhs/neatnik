@@ -27,12 +27,14 @@ public:
 
     std::unordered_map<int, std::vector<Organism*>> organisms;
 
-    double rank = -1.;
+    double rank;
 
 
     // Constructors:
 
-    Species(Genus* genus_, taxon_group group_, std::vector<Graph> graphs_);
+    Species(Genus* genus_, taxon_group group_, std::vector<GenotypeData> genotypes_data_);
+
+    Species(Genus* genus_, SpeciesData data_);
 
     Species(Genus* genus_, taxon_group group_, Organism* organism_);
 
@@ -77,4 +79,6 @@ public:
     bool organism_compatibility(Organism* organism_);
 
     static bool organism_comparison(Organism* first_organism_, Organism* second_organism_);
+
+    SpeciesData data();
 };

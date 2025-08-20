@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include <tuple>
 #include "neatnik.hpp"
 
@@ -14,9 +15,9 @@ public:
 
     // Properties:
 
-    unsigned long int key;
+    Key key;
 
-    unsigned int tag;
+    std::uint32_t tag;
 
     element_state state;
 
@@ -30,7 +31,7 @@ public:
 
     // Constructors:
 
-    Link(unsigned long int key_, unsigned int tag_, element_state state_, link_role role_, Node* source_, Node* target_, double weight_);
+    Link(Key key_, std::uint32_t tag_, element_state state_, link_role role_, Node* source_, Node* target_, double weight_);
 
     Link(Link* link_);
 
@@ -39,5 +40,5 @@ public:
 
     void engage();
 
-    Edge graph();
+    LinkData data();
 };

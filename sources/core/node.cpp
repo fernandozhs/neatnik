@@ -3,7 +3,7 @@
 
 // Constructors:
 
-Node::Node(unsigned long int key_, unsigned int tag_, element_state state_, node_role role_, node_activation activation_, double x_, double y_)
+Node::Node(Key key_, std::uint32_t tag_, element_state state_, node_role role_, node_activation activation_, std::uint32_t x_, std::uint32_t y_)
 {
     key = key_;
 
@@ -15,11 +15,11 @@ Node::Node(unsigned long int key_, unsigned int tag_, element_state state_, node
 
     activation = activation_;
 
-    x = x_;
-    y = y_;
+    x = (double)x_;
+    y = (double)y_;
 }
 
-Node::Node(unsigned long int key_, unsigned int tag_, element_state state_, node_role role_, Node* source_, Node* target_, node_activation activation_)
+Node::Node(Key key_, std::uint32_t tag_, element_state state_, node_role role_, Node* source_, Node* target_, node_activation activation_)
 {
     key = key_;
 
@@ -113,10 +113,10 @@ void Node::clear()
     return;
 }
 
-Vertex Node::graph()
+NodeData Node::data()
 {
-    Vertex vertex_ (key, tag, state, role, activation, x, y);
+    NodeData data_ (tag, state, role, activation, std::get<2>(key), std::get<3>(key));
 
-    return vertex_;
+    return data_;
 }
 

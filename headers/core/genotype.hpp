@@ -5,6 +5,7 @@
 #pragma once
 
 #include <pybind11/pybind11.h>
+#include <cstdint>
 #include <utility>
 #include <optional>
 #include <unordered_set>
@@ -34,11 +35,9 @@ public:
 
     // Constructors:
 
-    Genotype(Organism* organism_, Graph graph_);
+    Genotype(Organism* organism_, GenotypeData data_);
 
     Genotype(Organism* organism_, Genotype* genotype_);
-
-    Genotype(Graph graph_);
 
 
     // Destructor:
@@ -50,13 +49,13 @@ public:
 
     int size();
 
-    bool contain(int role_, element_type type_, unsigned int source_tag_, unsigned int target_tag_);
+    bool contain(int role_, element_type type_, std::uint32_t source_tag_, std::uint32_t target_tag_);
 
     Link* encode(link_role role_, element_type type_, Node* source_, Node* target_, double weight_);
 
     Node* encode(node_role role_, element_type type_, Node* source_, Node* target_, node_activation activation_);
 
-    Node* encode(element_state state_, node_role role_, element_type type_, node_activation activation_, int x_, int y_);
+    Node* encode(element_state state_, node_role role_, element_type type_, node_activation activation_, std::uint32_t x_, std::uint32_t y_);
 
     void mutate();
 
@@ -80,5 +79,5 @@ public:
 
     double compatibility(Genotype* genotype_);
 
-    Graph graph();
+    GenotypeData data();
 };

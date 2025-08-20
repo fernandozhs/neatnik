@@ -3,30 +3,99 @@
 
 // Constructors:
 
-Genotype::Genotype(Organism* organism_, Graph graph_)
+Genotype::Genotype(Organism* organism_, GenotypeData data_)
 {
     organism = organism_;
-
-    std::unordered_map<unsigned long int, Node*> record_;
 
     links = new Chromosome<Link>();
     nodes = new Chromosome<Node>();
 
-    auto [vertexes_, edges_] = graph_;
+    std::unordered_map<std::uint32_t, Node*> record_;
+    std::unordered_map<std::uint32_t, Node*>::iterator first_match_;
+    std::unordered_map<std::uint32_t, Node*>::iterator second_match_;
+    Node* node_;
+    Link* link_;
 
-    for (const auto& [label_, ignore_, state_, role_, activation_, x_, y_] : vertexes_)
+    auto [node_data_, link_data_] = data_;
+
+    auto this_ = node_data_.begin();
+    while (!node_data_.empty())
     {
-        Node* node_ = this->encode(state_, role_, NODE, activation_, x_, y_);
+        auto [tag_, state_, role_, activation_, source_tag_, target_tag_] = *this_;
 
-        record_.insert(std::make_pair(label_, node_));
+        switch(role_)
+        {
+            case BIAS:
+            case INPUT:
+            case OUTPUT:
+                if (organism_ == nullptr)
+                {
+                    Key key_ (role_, NODE, source_tag_, target_tag_);
+                    node_ = new Node(key_, tag_, state_, role_, activation_, source_tag_, target_tag_);
+                    nodes->insert(node_);
+                }
+                else
+                {
+                    node_ = this->encode(state_, role_, NODE, activation_, source_tag_, target_tag_);
+                }
+                record_.insert(std::make_pair(tag_, node_));
+                this_ = node_data_.erase(this_);
+                break;
+
+            case HIDDEN:
+                first_match_ = record_.find(source_tag_);
+                second_match_ = record_.find(target_tag_);
+                if (first_match_ != record_.end() && second_match_ != record_.end())
+                {
+                    Node* source_ = first_match_->second;
+                    Node* target_ = second_match_->second;
+                    if (organism == nullptr)
+                    {
+                        Key key_ (role_, NODE, source_tag_, target_tag_);
+                        node_ = new Node(key_, tag_, state_, role_, source_, target_, activation_);
+                        nodes->insert(node_);
+                    }
+                    else
+                    {
+                        node_ = this->encode(role_, NODE, source_, target_, activation_);
+                    }
+                    record_.insert(std::make_pair(tag_, node_));
+                    this_ = node_data_.erase(this_);
+                }
+                else
+                {
+                    if (++this_ != node_data_.end())
+                    {
+                        continue;
+                    }
+                }
+                break;
+
+            default:
+                break;
+        }
+
+        if (this_ == node_data_.end())
+        {
+            this_ = node_data_.begin();
+        }
     }
 
-    for (const auto& [ignore_, ignore__, state_, role_, source_label_, target_label_, weight_] : edges_)
+    for (const auto& [tag_, state_, role_, weight_, source_tag_, target_tag_] : link_data_)
     {
-        Node* source_ = record_[source_label_];
-        Node* target_ = record_[target_label_];
+        Node* source_ = record_[source_tag_];
+        Node* target_ = record_[target_tag_];
 
-        this->encode(role_, LINK, source_, target_, weight_.value_or(U(-Parameters::weight_bound, Parameters::weight_bound)));
+        if (organism_ == nullptr)
+        {
+            Key key_ (role_, LINK, source_tag_, target_tag_);
+            link_ = new Link(key_, tag_.value(), state_, role_, source_, target_, weight_.value());
+            links->insert(link_);
+        }
+        else
+        {
+            this->encode(role_, LINK, source_, target_, weight_.value_or(U(-Parameters::weight_bound, Parameters::weight_bound)));
+        }
     }
 }
 
@@ -51,29 +120,6 @@ Genotype::Genotype(Organism* organism_, Genotype* genotype_)
     }
 }
 
-Genotype::Genotype(Graph graph_)
-{
-    organism = nullptr;
-
-    links = new Chromosome<Link>();
-    nodes = new Chromosome<Node>();
-
-    auto [vertexes_, edges_] = graph_;
-
-    for (const auto& [key_, tag_, state_, role_, activation_, x_, y_] : vertexes_)
-    {
-        nodes->insert(new Node(key_, tag_.value(), state_, role_, activation_, x_, y_));
-    }
-
-    for (const auto& [key_, tag_, state_, role_, source_key_, target_key_, weight_] : edges_)
-    {
-        Node* source_ = nodes->find(source_key_);
-        Node* target_ = nodes->find(target_key_);
-
-        links->insert(new Link(key_.value(), tag_.value(), state_, role_, source_, target_, weight_.value()));
-    }
-}
-
 
 // Destructor:
 
@@ -91,9 +137,9 @@ int Genotype::size()
     return links->size() + nodes->size();
 }
 
-bool Genotype::contain(int role_, element_type type_, unsigned int source_tag_, unsigned int target_tag_)
+bool Genotype::contain(int role_, element_type type_, std::uint32_t source_tag_, std::uint32_t target_tag_)
 {
-    unsigned long int key_ = Key(role_, type_, source_tag_, target_tag_);
+    Key key_ (role_, type_, source_tag_, target_tag_);
 
     if (type_ == LINK)
     {
@@ -107,7 +153,7 @@ bool Genotype::contain(int role_, element_type type_, unsigned int source_tag_, 
 
 Link* Genotype::encode(link_role role_, element_type type_, Node* source_, Node* target_, double weight_)
 {
-    std::pair<unsigned long int, unsigned int> log_ = organism->species->genus->tag(role_, type_, source_->tag, target_->tag);
+    std::pair<Key, std::uint32_t> log_ = organism->species->genus->tag(role_, type_, source_->tag, target_->tag);
 
     Link* link_ = new Link(log_.first, log_.second, ENABLED, role_, source_, target_, weight_);
 
@@ -116,16 +162,16 @@ Link* Genotype::encode(link_role role_, element_type type_, Node* source_, Node*
 
 Node* Genotype::encode(node_role role_, element_type type_, Node* source_, Node* target_, node_activation activation_)
 {
-    std::pair<unsigned long int, unsigned int> log_ = organism->species->genus->tag(role_, type_, source_->tag, target_->tag);
+    std::pair<Key, std::uint32_t> log_ = organism->species->genus->tag(role_, type_, source_->tag, target_->tag);
 
     Node* node_ = new Node(log_.first, log_.second, ENABLED, role_, source_, target_, activation_);
 
     return nodes->insert(node_);
 }
 
-Node* Genotype::encode(element_state state_, node_role role_, element_type type_, node_activation activation_, int x_, int y_)
+Node* Genotype::encode(element_state state_, node_role role_, element_type type_, node_activation activation_, std::uint32_t x_, std::uint32_t y_)
 {
-    std::pair<unsigned long int, unsigned int> log_ = organism->species->genus->tag(role_, type_, x_, y_);
+    std::pair<Key, std::uint32_t> log_ = organism->species->genus->tag(role_, type_, x_, y_);
 
     Node* node_ = new Node(log_.first, log_.second, state_, role_, activation_, x_, y_);
 
@@ -521,23 +567,22 @@ double Genotype::compatibility(Genotype* genotype_)
     return std::inner_product(comparison_.begin(), comparison_.end(), Parameters::compatibility_weights.begin(), 0.);
 }
 
-Graph Genotype::graph()
+GenotypeData Genotype::data()
 {
-    Graph graph_;
+    std::vector<NodeData> nodes_data_;
+    std::vector<LinkData> links_data_;
 
-    for (const auto& node_ : nodes->retrieve({INPUT, HIDDEN, BIAS, OUTPUT}, {ENABLED}))
+    for (const auto& node_ : nodes->retrieve({INPUT, BIAS, OUTPUT, HIDDEN}, {ENABLED}))
     {
-        Vertex vertex_ = node_->graph();
-
-        std::get<NODE>(graph_).push_back(vertex_);
+        nodes_data_.push_back(node_->data());
     }
 
     for (const auto& link_ : links->retrieve({FORWARD, RECURRENT, BIASING, LOOPED}, {ENABLED}))
     {
-        Edge edge_ = link_->graph();
-
-        std::get<LINK>(graph_).push_back(edge_);
+        links_data_.push_back(link_->data());
     }
 
-    return graph_;
+    GenotypeData data_ (nodes_data_, links_data_);
+
+    return data_;
 }

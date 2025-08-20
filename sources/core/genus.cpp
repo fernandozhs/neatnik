@@ -3,13 +3,25 @@
 
 // Constructor:
 
-Genus::Genus(Experiment* experiment_, std::vector<Graph> graphs_)
+Genus::Genus(Experiment* experiment_, std::vector<GenotypeData> genotypes_data_)
 {
     experiment = experiment_;
 
-    Species* species_ = new Species(this, DOMINANT, graphs_);
+    Species* species_ = new Species(this, DOMINANT, genotypes_data_);
 
     this->insert(species_);
+}
+
+Genus::Genus(Experiment* experiment_, GenusData data_)
+{
+    experiment = experiment_;
+
+    for (auto& species_data_ : data_)
+    {
+        Species* species_ = new Species(this, species_data_);
+
+        this->insert(species_);
+    }
 }
 
 
@@ -26,9 +38,9 @@ Genus::~Genus()
 
 // Methods:
 
-std::pair<unsigned long int, unsigned int> Genus::tag(unsigned int role_, element_type type_, unsigned int source_tag_, unsigned int target_tag_)
+std::pair<Key, std::uint32_t> Genus::tag(unsigned int role_, element_type type_, std::uint32_t source_tag_, std::uint32_t target_tag_)
 {
-    unsigned long int key_ = Key(role_, type_, source_tag_, target_tag_);
+    Key key_ (role_, type_, source_tag_, target_tag_);
 
     auto match_ = logbook.find(key_);
 
@@ -42,11 +54,19 @@ std::pair<unsigned long int, unsigned int> Genus::tag(unsigned int role_, elemen
     }
 }
 
-std::pair<unsigned long int, unsigned int> Genus::log(unsigned long int key_)
+std::pair<Key, std::uint32_t> Genus::log(Key key_)
 {
-    std::pair<unsigned long int, unsigned int> log_ (key_, tag_counter);
+    std::pair<Key, std::uint32_t> log_ (key_, tag_counter);
 
-    tag_counter++;
+    if (tag_counter & 0xC0000000)
+    {
+        // Due to the hash being employed, the tag counter should not represent numbers which make use of its 31st and 32nd bits.
+        throw std::runtime_error("The counter used to tag Nodes and Links has overflown.");
+    }
+    else
+    {
+        tag_counter++;
+    }
 
     logbook.insert(log_);
 
@@ -303,4 +323,16 @@ bool Genus::species_comparison(Species* first_species_, Species* second_species_
     {
         return first_organism_->score > second_organism_->score;
     }
+}
+
+GenusData Genus::data()
+{
+    GenusData species_data_;
+
+    for (auto& species_ : this->retrieve({DOMINANT, CONTESTANT}))
+    {
+        species_data_.push_back(species_->data());
+    }
+
+    return species_data_;
 }

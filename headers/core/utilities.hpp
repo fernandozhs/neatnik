@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include <vector>
 #include <random>
 #include <cmath>
@@ -37,6 +38,17 @@ double Logistic(std::vector<double>& x_);
 double ReLU(std::vector<double>& x_);
 
 
-// Assorted Functions:
+// Hash Map:
 
-long int Key(unsigned int i_, unsigned int j_, unsigned int k_, unsigned int l_);
+struct Hash
+{
+    std::uint64_t operator()(const std::tuple<std::uint32_t, std::uint32_t, std::uint32_t, std::uint32_t>& t_) const noexcept
+    {
+        std::uint64_t role_ = std::get<0>(t_) & 0x7u;
+        std::uint64_t state_ = std::get<1>(t_) & 0x1u;
+        std::uint64_t source_tag_ = std::get<2>(t_) & 0x3FFFFFFFu;
+        std::uint64_t target_tag_ = std::get<3>(t_) & 0x3FFFFFFFu;
+
+        return (role_ << 61) | (state_ << 60) | (source_tag_ << 30) | target_tag_;
+    }
+};

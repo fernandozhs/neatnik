@@ -80,11 +80,3 @@ double ReLU(std::vector<double>& x_)
         return 0.0;
     }
 }
-
-
-// Assorted Functions:
-
-long int Key(unsigned int i_, unsigned int j_, unsigned int k_, unsigned int l_)
-{
-    return ((long int)i_ << 61 | (long int)j_ << 60 | (long int)k_ << 30 | (long int)l_);
-}

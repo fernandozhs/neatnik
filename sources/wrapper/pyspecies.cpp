@@ -6,9 +6,9 @@ void bind_Species(pybind11::module& m)
     pybind11::class_<Species>(m, "Species")
 
         // Properties:
-        .def_readwrite("group", &Species::group)
-        .def_readwrite("organisms", &Species::organisms)
-        .def_readwrite("rank", &Species::rank)
+        .def_readonly("group", &Species::group)
+        .def_readonly("organisms", &Species::organisms)
+        .def_readonly("rank", &Species::rank)
 
         // Methods:
         .def("size", &Species::size)

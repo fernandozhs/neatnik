@@ -26,9 +26,6 @@ public:
     std::vector<int> MPI_counts;
     std::vector<int> MPI_displacements;
 
-    std::vector<Vertex> vertexes;
-    std::vector<Edge> edges;
-
     std::vector<std::vector<std::vector<double>>> stimuli;
 
     Genus* genus;
@@ -45,6 +42,12 @@ public:
 
 
     // Methods:
+
+    void set(std::vector<std::vector<std::vector<double>>> stimuli_);
+
+    void set(GenotypeData data_);
+
+    void set(GenusData data_);
 
     void run();
 

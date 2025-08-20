@@ -53,7 +53,7 @@ typename std::vector<Element*>::iterator Chromosome<Element>::end(int locus_)
 }
 
 template <class Element>
-Element* Chromosome<Element>::find(unsigned long int key_)
+Element* Chromosome<Element>::find(Key key_)
 {
     auto match_ = logbook.find(key_);
 
@@ -70,7 +70,7 @@ Element* Chromosome<Element>::find(unsigned long int key_)
 template <class Element>
 Element* Chromosome<Element>::insert(Element* element_)
 {
-    std::pair<unsigned long int, Element*> log_ (element_->key, element_);
+    std::pair<Key, Element*> log_ (element_->key, element_);
 
     logbook.insert(log_);
 

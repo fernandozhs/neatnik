@@ -3,7 +3,7 @@
 
 // Constructors:
 
-Link::Link(unsigned long int key_, unsigned int tag_, element_state state_, link_role role_, Node* source_, Node* target_, double weight_)
+Link::Link(Key key_, std::uint32_t tag_, element_state state_, link_role role_, Node* source_, Node* target_, double weight_)
 {
     key = key_;
 
@@ -49,9 +49,9 @@ void Link::engage()
     return;
 }
 
-Edge Link::graph()
+LinkData Link::data()
 {
-    Edge edge_ (key, tag, state, role, source->key, target->key, weight);
+    LinkData data_ (tag, state, role, weight, std::get<2>(key), std::get<3>(key));
 
-    return edge_;
+    return data_;
 }
