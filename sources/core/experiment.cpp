@@ -5,7 +5,7 @@
 
 Experiment::Experiment()
 {
-
+    PRNG.seed(Parameters::random_seed);
 }
 
 
@@ -48,8 +48,6 @@ void Experiment::set(GenusData data_)
 
 void Experiment::run()
 {
-    PRNG.seed(Parameters::random_seed);
-
     MPI_Init(nullptr, nullptr);
 
     MPI_Comm_size(MPI_COMM_WORLD, &MPI_size);
@@ -58,7 +56,7 @@ void Experiment::run()
     MPI_counts.resize(MPI_size);
     MPI_displacements.resize(MPI_size);
 
-    for (int cycles_ = Parameters::generational_cycles; cycles_ >= 0; --cycles_)
+    for (int cycles_ = Parameters::generational_cycles; cycles_ > 0; --cycles_)
     {
         if (MPI_rank == 0)
         {
