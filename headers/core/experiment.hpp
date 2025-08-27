@@ -7,6 +7,7 @@
 #include <mpi.h>
 #include <vector>
 #include <algorithm>
+#include <iostream>
 #include "neatnik.hpp"
 #include "parameters.hpp"
 #include "organism.hpp"
@@ -48,6 +49,10 @@ public:
     void set(GenotypeData data_);
 
     void set(GenusData data_);
+
+    void initialize();
+
+    void finalize();
 
     void run();
 

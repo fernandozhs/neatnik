@@ -46,16 +46,42 @@ void Experiment::set(GenusData data_)
     return;
 }
 
+void Experiment::initialize()
+{
+    int initialized_;
+
+    MPI_Initialized(&initialized_);
+
+    if (!initialized_)
+    {
+        MPI_Init(nullptr, nullptr);
+    
+        MPI_Comm_size(MPI_COMM_WORLD, &MPI_size);
+        MPI_Comm_rank(MPI_COMM_WORLD, &MPI_rank);
+    
+        MPI_counts.resize(MPI_size);
+        MPI_displacements.resize(MPI_size);
+    }
+
+    return;
+}
+
+void Experiment::finalize()
+{
+    int finalized_;
+
+    MPI_Finalized(&finalized_);
+
+    if (!finalized_)
+    {
+        MPI_Finalize();
+    }
+
+    return;
+}
+
 void Experiment::run()
 {
-    MPI_Init(nullptr, nullptr);
-
-    MPI_Comm_size(MPI_COMM_WORLD, &MPI_size);
-    MPI_Comm_rank(MPI_COMM_WORLD, &MPI_rank);
-
-    MPI_counts.resize(MPI_size);
-    MPI_displacements.resize(MPI_size);
-
     for (int cycles_ = Parameters::generational_cycles; cycles_ > 0; --cycles_)
     {
         if (MPI_rank == 0)
@@ -71,8 +97,6 @@ void Experiment::run()
 
         genus->select();
     }
-
-    MPI_Finalize();
 
     return;
 }

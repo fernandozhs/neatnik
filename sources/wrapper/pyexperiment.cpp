@@ -29,15 +29,19 @@ void bind_Experiment(pybind11::module& m)
         .def("set", pybind11::overload_cast<std::vector<std::vector<std::vector<double>>>>(&Experiment::set), pybind11::arg("stimuli"))
         .def("set", pybind11::overload_cast<GenotypeData>(&Experiment::set), pybind11::arg("population"))
         .def("set", pybind11::overload_cast<GenusData>(&Experiment::set), pybind11::arg("population"))
+        .def("initialize", &Experiment::initialize)
+        .def("finalize", &Experiment::finalize)
         .def("run", [](Experiment& self)
         {
             if (self.genus->size() == 0)
             {
-                throw std::runtime_error("Cannot run experiment: population has not been seeded.");
+                std::cout << "Cannot run experiment: population has not been seeded." << std::flush;
+                return;
             }
             if (self.stimuli.empty())
             {
-                throw std::runtime_error("Cannot run experiment: no stimuli have been provided.");
+                std::cout << "Cannot run experiment: no stimuli have been provided." << std::flush;
+                return;
             }
             self.run();
         });
