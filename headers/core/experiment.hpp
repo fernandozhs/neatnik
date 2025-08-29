@@ -6,6 +6,9 @@
 
 #include <mpi.h>
 #include <vector>
+#include <pybind11/pybind11.h>
+#include <pybind11/numpy.h>
+#include <tuple>
 #include <algorithm>
 #include <iostream>
 #include "neatnik.hpp"
@@ -27,9 +30,12 @@ public:
     std::vector<int> MPI_counts;
     std::vector<int> MPI_displacements;
 
-    std::vector<std::vector<std::vector<double>>> stimuli;
+    pybind11::ssize_t input_counter = 0;
+    pybind11::ssize_t output_counter = 0;
 
-    Genus* genus;
+    pybind11::array_t<double> stimuli;
+
+    Genus* genus = nullptr;
 
 
     // Constructor:
@@ -44,7 +50,7 @@ public:
 
     // Methods:
 
-    void set(std::vector<std::vector<std::vector<double>>> stimuli_);
+    void set(pybind11::array_t<double> stimuli_);
 
     void set(GenotypeData data_);
 

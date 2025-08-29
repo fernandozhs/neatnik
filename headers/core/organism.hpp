@@ -1,5 +1,9 @@
 #pragma once
 
+#include <pybind11/pybind11.h>
+#include <pybind11/numpy.h>
+#include <cmath>
+#include <algorithm>
 #include "neatnik.hpp"
 #include "genotype.hpp"
 #include "phenotype.hpp"
@@ -46,9 +50,9 @@ public:
 
     Organism* assimilate(Organism* organism_);
 
-    std::vector<std::vector<std::vector<double>>> react();
+    pybind11::array_t<double> react();
 
-    std::vector<std::vector<std::vector<double>>> react(std::vector<std::vector<std::vector<double>>> stimuli_);
+    pybind11::array_t<double> react(pybind11::array_t<double> stimuli_);
 
     OrganismData data() const;
 };

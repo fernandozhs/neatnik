@@ -5,6 +5,8 @@
 #pragma once
 
 #include <vector>
+#include <pybind11/pybind11.h>
+#include <pybind11/numpy.h>
 #include "neatnik.hpp"
 #include "organism.hpp"
 
@@ -31,7 +33,7 @@ public:
 
     void disassemble();
 
-    void activate(std::vector<double> inputs_);
+    void activate(const double* inputs_begin_, double* outputs_begin_);
 
     void deactivate();
 

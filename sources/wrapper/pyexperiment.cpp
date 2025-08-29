@@ -26,23 +26,10 @@ void bind_Experiment(pybind11::module& m)
         // Methods:
         .def("display", &Experiment::display)
         .def("fitness", &Experiment::fitness)
-        .def("set", pybind11::overload_cast<std::vector<std::vector<std::vector<double>>>>(&Experiment::set), pybind11::arg("stimuli"))
-        .def("set", pybind11::overload_cast<GenotypeData>(&Experiment::set), pybind11::arg("population"))
-        .def("set", pybind11::overload_cast<GenusData>(&Experiment::set), pybind11::arg("population"))
         .def("initialize", &Experiment::initialize)
         .def("finalize", &Experiment::finalize)
-        .def("run", [](Experiment& self)
-        {
-            if (self.genus->size() == 0)
-            {
-                std::cout << "Cannot run experiment: population has not been seeded." << std::flush;
-                return;
-            }
-            if (self.stimuli.empty())
-            {
-                std::cout << "Cannot run experiment: no stimuli have been provided." << std::flush;
-                return;
-            }
-            self.run();
-        });
+        .def("set", pybind11::overload_cast<pybind11::array_t<double>>(&Experiment::set), pybind11::arg("stimuli"))
+        .def("set", pybind11::overload_cast<GenotypeData>(&Experiment::set), pybind11::arg("population"))
+        .def("set", pybind11::overload_cast<GenusData>(&Experiment::set), pybind11::arg("population"))
+        .def("run", &Experiment::run);
 }

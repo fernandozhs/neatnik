@@ -107,61 +107,90 @@ Organism* Organism::assimilate(Organism* organism_)
     return offspring_;
 }
 
-std::vector<std::vector<std::vector<double>>> Organism::react()
+pybind11::array_t<double> Organism::react()
 {
-    std::vector<std::vector<std::vector<double>>> reactions_;
-    reactions_.reserve(species->genus->experiment->stimuli.size());
+    pybind11::array_t<double> stimuli_ = species->genus->experiment->stimuli;
 
-    std::vector<std::vector<double>> outputs_;
+    pybind11::buffer_info stimuli_buffer_ = stimuli_.request();
+
+    pybind11::ssize_t N = stimuli_buffer_.shape[0];
+    pybind11::ssize_t M = stimuli_buffer_.shape[1];
+    pybind11::ssize_t K = stimuli_buffer_.shape[2];
+    pybind11::ssize_t L = species->genus->experiment->output_counter;
+
+    double* stimuli_data_ = static_cast<double*> (stimuli_buffer_.ptr);
+
+    pybind11::array_t<double> reactions_ = pybind11::array_t<double> ({N, M, L});
+    pybind11::buffer_info reactions_buffer_ = reactions_.request();
+    double* reactions_data_ = static_cast<double*>(reactions_buffer_.ptr);
 
     phenotype->assemble();
 
-    for (const auto& inputs_ : species->genus->experiment->stimuli)
+    for (pybind11::ssize_t i = 0; i < N; i++)
     {
-        outputs_.clear();
-
-        for (const auto& input_ : inputs_)
+        for (pybind11::ssize_t j = 0; j < M; j++)
         {
-            phenotype->activate(input_);
-            outputs_.push_back(phenotype->output);
+            double* stimulus_begin_  = stimuli_data_  + (i * M * K + j * K);
+            double* reactions_begin_ = reactions_data_ + (i * M * L + j * L);
+
+            phenotype->activate(stimulus_begin_, reactions_begin_);
+
             phenotype->deactivate();
         }
 
         phenotype->discontinue();
-
-        reactions_.push_back(outputs_);
     }
 
     return reactions_;
 }
 
-std::vector<std::vector<std::vector<double>>> Organism::react(std::vector<std::vector<std::vector<double>>> stimuli_)
+pybind11::array_t<double> Organism::react(pybind11::array_t<double> stimuli_)
 {
-    std::vector<std::vector<std::vector<double>>> reactions_;
-    reactions_.reserve(stimuli_.size());
+    unsigned int input_counter_ = genotype->nodes->size({INPUT});
+    unsigned int output_counter_ = genotype->nodes->size({OUTPUT});
 
-    std::vector<std::vector<double>> outputs_;
+    pybind11::buffer_info stimuli_buffer_ = stimuli_.request();
+
+    pybind11::ssize_t N = stimuli_buffer_.shape[0];
+    pybind11::ssize_t M = stimuli_buffer_.shape[1];
+    pybind11::ssize_t K = stimuli_buffer_.shape[2];
+    pybind11::ssize_t L = static_cast<pybind11::ssize_t>(output_counter_);
+
+    double* stimuli_data_ = static_cast<double*> (stimuli_buffer_.ptr);
+
+    pybind11::array_t<double> reactions_ = pybind11::array_t<double> ({N, M, L});
+    pybind11::buffer_info reactions_buffer_ = reactions_.request();
+    double* reactions_data_ = static_cast<double*>(reactions_buffer_.ptr);
+
+    if (K != static_cast<pybind11::ssize_t>(input_counter_))
+    {
+        std::cout << "Cannot react to stimuli: the number of stimuli does not match the number of input nodes." << std::flush;
+
+        std::fill(reactions_data_, reactions_data_ + (N * M * L), NAN);
+
+        return reactions_;
+    }
 
     phenotype->assemble();
 
-    for (const auto& inputs_ : stimuli_)
+    for (pybind11::ssize_t i = 0; i < N; i++)
     {
-        outputs_.clear();
-
-        for (const auto& input_ : inputs_)
+        for (pybind11::ssize_t j = 0; j < M; j++)
         {
-            phenotype->activate(input_);
-            outputs_.push_back(phenotype->output);
+            double* stimulus_begin_  = stimuli_data_  + (i * M * K + j * K);
+            double* reactions_begin_ = reactions_data_ + (i * M * L + j * L);
+
+            phenotype->activate(stimulus_begin_, reactions_begin_);
+
             phenotype->deactivate();
         }
 
         phenotype->discontinue();
-
-        reactions_.push_back(outputs_);
     }
 
     return reactions_;
 }
+
 
 OrganismData Organism::data() const
 {

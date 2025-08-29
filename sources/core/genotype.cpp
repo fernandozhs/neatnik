@@ -23,7 +23,7 @@ Genotype::Genotype(Organism* organism_, GenotypeData data_)
     {
         auto [tag_, state_, role_, activation_, source_tag_, target_tag_] = *this_;
 
-        switch(role_)
+        switch (role_)
         {
             case BIAS:
             case INPUT:

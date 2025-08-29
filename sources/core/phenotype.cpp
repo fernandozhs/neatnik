@@ -47,8 +47,10 @@ void Phenotype::disassemble()
     return;
 }
 
-void Phenotype::activate(std::vector<double> inputs_)
+void Phenotype::activate(const double* inputs_begin_, double* outputs_begin_)
 {
+    double node_output_;
+
     for (const auto& link_ : organism->genotype->links->retrieve({RECURRENT, LOOPED}, {ENABLED}))
     {
         link_->engage();
@@ -59,7 +61,7 @@ void Phenotype::activate(std::vector<double> inputs_)
         switch (node_->role)
         {
             case INPUT:
-                node_->inputs.push_back(inputs_.at(node_->tag));
+                node_->inputs.push_back(inputs_begin_[node_->tag]);
                 node_->engage();
                 break;
 
@@ -73,9 +75,12 @@ void Phenotype::activate(std::vector<double> inputs_)
         }
     }
 
+    pybind11::ssize_t index_ = 0;
     for (const auto& node_ : organism->genotype->nodes->sort({OUTPUT}, {ENABLED}))
     {
-        output.push_back(node_->output);
+        node_output_ = node_->output;
+        outputs_begin_[index_++] = node_output_;
+        output.push_back(node_output_);
     }
 
     return;

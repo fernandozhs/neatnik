@@ -16,7 +16,7 @@ void bind_Organism(pybind11::module& m)
 
         // Methods:
         .def("react", pybind11::overload_cast<>(&Organism::react))
-        .def("react", pybind11::overload_cast<std::vector<std::vector<std::vector<double>>>>(&Organism::react))
+        .def("react", pybind11::overload_cast<pybind11::array_t<double>>(&Organism::react), pybind11::arg("stimuli"))
         .def("data", &Organism::data)
         .def(pybind11::pickle(
             // __getstate__
