@@ -1,9 +1,9 @@
 #pragma once
 
+#include <stdexcept>
+#include <algorithm>
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
-#include <cmath>
-#include <algorithm>
 #include "neatnik.hpp"
 #include "genotype.hpp"
 #include "phenotype.hpp"

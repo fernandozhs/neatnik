@@ -4,13 +4,13 @@
 
 #pragma once
 
-#include <mpi.h>
+#include <stdexcept>
 #include <vector>
-#include <pybind11/pybind11.h>
-#include <pybind11/numpy.h>
 #include <tuple>
 #include <algorithm>
-#include <iostream>
+#include <mpi.h>
+#include <pybind11/pybind11.h>
+#include <pybind11/numpy.h>
 #include "neatnik.hpp"
 #include "parameters.hpp"
 #include "organism.hpp"

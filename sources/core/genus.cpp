@@ -61,7 +61,7 @@ std::pair<Key, std::uint32_t> Genus::log(Key key_)
     if (tag_counter & 0xC0000000)
     {
         // Due to the hash being employed, the tag counter should not represent numbers which make use of its 31st and 32nd bits.
-        throw std::runtime_error("The counter used to tag Nodes and Links has overflown.");
+        throw std::overflow_error("The counter used to tag Nodes and Links has overflown.");
     }
     else
     {

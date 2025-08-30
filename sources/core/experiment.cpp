@@ -26,16 +26,14 @@ void Experiment::set(pybind11::array_t<double> stimuli_)
 
     if (dimensions_ != 3)
     {
-        std::cout << "Cannot set stimuli: the provided object must be three-dimensional." << std::endl << std::flush;
-        return;
+        throw std::invalid_argument("Cannot set stimuli: the provided object must be three-dimensional.");
     }
 
     pybind11::ssize_t input_counter_ = shape_[2];
 
     if (genus != nullptr && input_counter_ != input_counter)
     {
-        std::cout << "Cannot set stimuli: the number of stimuli does not match the number of input nodes in the population." << std::endl << std::flush;
-        return;
+        throw std::invalid_argument("Cannot set stimuli: the number of stimuli does not match the number of input nodes in the population.");
     }
     else
     {
@@ -72,8 +70,7 @@ void Experiment::set(GenotypeData data_)
 
     if (stimuli.size() != 0 && input_counter_ != input_counter)
     {
-        std::cout << "Cannot set population: the number of input nodes does not match the number of stimuli provided." << std::endl << std::flush;
-        return;
+        throw std::invalid_argument("Cannot set population: the number of input nodes does not match the number of stimuli provided.");
     }
     else
     {
@@ -119,8 +116,7 @@ void Experiment::set(GenusData data_)
 
     if (stimuli.size() != 0 && input_counter_ != input_counter)
     {
-        std::cout << "Cannot set population: the number of input nodes does not match the number of stimuli provided." << std::endl << std::flush;
-        return;
+        throw std::invalid_argument("Cannot set population: the number of input nodes does not match the number of stimuli provided.");
     }
     else
     {
@@ -173,14 +169,12 @@ void Experiment::run()
 {
     if (genus == nullptr)
     {
-        std::cout << "Cannot run experiment: population has not been seeded." << std::endl << std::flush;
-        return;
+        throw std::runtime_error("Cannot run experiment: population has not been seeded.");
     }
 
     if (stimuli.size() == 0)
     {
-        std::cout << "Cannot run experiment: no stimuli have been provided." << std::endl << std::flush;
-        return;
+        throw std::runtime_error("Cannot run experiment: no stimuli have been provided.");
     }
 
     for (int cycles_ = Parameters::generational_cycles; cycles_ > 0; --cycles_)

@@ -18,6 +18,7 @@ void bind_Experiment(pybind11::module& m)
         // Properties:
         .def_readonly("MPI_rank", &Experiment::MPI_rank)
         .def_readonly("MPI_size", &Experiment::MPI_size)
+        .def_readonly("stimuli", &Experiment::stimuli)
         .def_readonly("genus", &Experiment::genus)
 
         // Constructor:

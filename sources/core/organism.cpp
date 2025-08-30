@@ -95,7 +95,6 @@ Organism* Organism::mutate()
 
 Organism* Organism::assimilate(Organism* organism_)
 {
-    // Initializes the new `Organism`.
     Organism* offspring_ = new Organism(this);
 
     offspring_->genotype->assimilate(organism_->genotype);
@@ -146,6 +145,13 @@ pybind11::array_t<double> Organism::react()
 
 pybind11::array_t<double> Organism::react(pybind11::array_t<double> stimuli_)
 {
+    pybind11::ssize_t dimensions_ = stimuli_.ndim();
+
+    if (dimensions_ != 3)
+    {
+        throw std::invalid_argument("Cannot set stimuli: the provided object must be three-dimensional.");
+    }
+
     unsigned int input_counter_ = genotype->nodes->size({INPUT});
     unsigned int output_counter_ = genotype->nodes->size({OUTPUT});
 
@@ -164,11 +170,7 @@ pybind11::array_t<double> Organism::react(pybind11::array_t<double> stimuli_)
 
     if (K != static_cast<pybind11::ssize_t>(input_counter_))
     {
-        std::cout << "Cannot react to stimuli: the number of stimuli does not match the number of input nodes." << std::flush;
-
-        std::fill(reactions_data_, reactions_data_ + (N * M * L), NAN);
-
-        return reactions_;
+        throw std::invalid_argument("Cannot react to stimuli: the number of stimuli does not match the number of input nodes.");
     }
 
     phenotype->assemble();
