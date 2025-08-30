@@ -109,7 +109,7 @@ void Experiment::set(GenusData data_)
                 break;
 
             case OUTPUT:
-                output_counter++;
+                output_counter_++;
                 break;
 
             default:
