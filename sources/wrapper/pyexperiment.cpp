@@ -6,6 +6,11 @@ void PyExperiment::display()
     PYBIND11_OVERRIDE(void, Experiment, display);
 }
 
+void PyExperiment::execute()
+{
+    PYBIND11_OVERRIDE(void, Experiment, execute);
+}
+
 double PyExperiment::fitness(Organism* thatOrganism_)
 {
     PYBIND11_OVERRIDE_PURE(double, Experiment, fitness, thatOrganism_);
@@ -26,6 +31,7 @@ void bind_Experiment(pybind11::module& m)
 
         // Methods:
         .def("display", &Experiment::display)
+        .def("execute", &Experiment::execute)
         .def("fitness", &Experiment::fitness)
         .def("initialize", &Experiment::initialize)
         .def("finalize", &Experiment::finalize)

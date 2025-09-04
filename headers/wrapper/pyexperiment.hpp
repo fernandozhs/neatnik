@@ -20,6 +20,8 @@ public:
 
     void display() override;
 
+    void execute() override;
+
     double fitness(Organism* thatOrganism_) override;
 };
 

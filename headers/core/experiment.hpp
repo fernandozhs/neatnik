@@ -66,5 +66,7 @@ public:
 
     virtual void display();
 
+    virtual void execute();
+
     virtual double fitness(Organism* organism_) = 0;
 };
