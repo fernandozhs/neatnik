@@ -52,6 +52,8 @@ std::vector<double> Parameters::assimilating_activation = {0., 0.};
 
 std::vector<double> Parameters::spawning_organism = {0., 0.};
 
+bool Parameters::statistical_scoring = false;
+
 
 // Constructor:
 

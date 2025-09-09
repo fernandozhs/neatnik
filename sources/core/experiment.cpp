@@ -144,8 +144,8 @@ void Experiment::initialize()
         MPI_Comm_size(MPI_COMM_WORLD, &MPI_size);
         MPI_Comm_rank(MPI_COMM_WORLD, &MPI_rank);
     
-        MPI_counts.resize(MPI_size);
-        MPI_displacements.resize(MPI_size);
+        MPI_counts.resize(MPI_size, 0);
+        MPI_displacements.resize(MPI_size, 0);
     }
 
     return;
@@ -200,26 +200,39 @@ void Experiment::run()
 
 void Experiment::score()
 {
-    int allocation_ = genus->offsprings.size();
+    std::vector<Organism*> organisms_;
+    std::vector<double> scores_;
+
+    if (Parameters::statistical_scoring)
+    {
+        for (const auto& species_ : genus->retrieve({DOMINANT, CONTESTANT}))
+        {
+            Organism* organism_ = species_->front(DOMINANT);
+    
+            organisms_.push_back(organism_);
+        }
+    }
+    organisms_.insert(organisms_.end(), genus->offsprings.begin(), genus->offsprings.end());
+
+    int allocation_ = organisms_.size();
+    scores_.resize(allocation_, 0.);
 
     std::fill(MPI_counts.begin(), MPI_counts.end() - allocation_%MPI_size, allocation_/MPI_size);
-
     std::fill(MPI_counts.end() - allocation_%MPI_size, MPI_counts.end(), allocation_/MPI_size + 1);
-
     std::partial_sum(MPI_counts.begin(), MPI_counts.end() - 1, MPI_displacements.begin() + 1);
 
     for (int index_ = MPI_displacements[MPI_rank]; index_ != MPI_displacements[MPI_rank] + MPI_counts[MPI_rank]; ++index_)
     {
-        Organism* offspring_ = genus->offsprings[index_];
+        Organism* organism_ = organisms_[index_];
 
-        genus->scores[index_] = this->fitness(offspring_);
+        scores_[index_] = this->fitness(organism_);
     }
 
-    MPI_Allgatherv(MPI_IN_PLACE, 0, MPI_DATATYPE_NULL, genus->scores.data(), MPI_counts.data(), MPI_displacements.data(), MPI_DOUBLE, MPI_COMM_WORLD);
+    MPI_Allgatherv(MPI_IN_PLACE, 0, MPI_DATATYPE_NULL, scores_.data(), MPI_counts.data(), MPI_displacements.data(), MPI_DOUBLE, MPI_COMM_WORLD);
 
     for (int index_ = 0; index_ != allocation_; ++index_)
     {
-        genus->offsprings[index_]->score = genus->scores[index_];
+        organisms_[index_]->score = scores_[index_];
     }
 
     for (const auto& species_ : genus->retrieve({DOMINANT, CONTESTANT}))

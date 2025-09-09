@@ -31,6 +31,7 @@ void bind_Parameters(pybind11::module& m)
         .def_readwrite_static("assimilating_weight", &Parameters::assimilating_weight)
         .def_readwrite_static("assimilating_activation", &Parameters::assimilating_activation)
         .def_readwrite_static("spawning_organism", &Parameters::spawning_organism)
+        .def_readwrite_static("statistical_scoring", &Parameters::statistical_scoring)
 
         // Constructor:
         .def(pybind11::init<>());

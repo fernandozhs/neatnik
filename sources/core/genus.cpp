@@ -267,8 +267,6 @@ void Genus::spawn()
         }
     }
 
-    scores.resize(offsprings.size(), 0.);
-
     return;
 }
 

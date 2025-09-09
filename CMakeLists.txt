@@ -42,6 +42,8 @@ pybind11_add_module(neatnik ${PROJECT_SOURCE_DIR}/headers/core/utilities.hpp
                             ${PROJECT_SOURCE_DIR}/sources/core/experiment.cpp
                             ${PROJECT_SOURCE_DIR}/headers/core/neatnik.hpp
                             ${PROJECT_SOURCE_DIR}/sources/core/neatnik.cpp
+                            ${PROJECT_SOURCE_DIR}/headers/wrapper/pygenotype.hpp
+                            ${PROJECT_SOURCE_DIR}/sources/wrapper/pygenotype.cpp
                             ${PROJECT_SOURCE_DIR}/headers/wrapper/pyorganism.hpp
                             ${PROJECT_SOURCE_DIR}/sources/wrapper/pyorganism.cpp
                             ${PROJECT_SOURCE_DIR}/headers/wrapper/pyspecies.hpp

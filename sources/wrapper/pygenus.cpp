@@ -7,7 +7,6 @@ void bind_Genus(pybind11::module& m)
 
         // Properties:
         .def_readonly("species", &Genus::species)
-        .def_readonly("scores", &Genus::scores)
 
         // Methods:
         .def("size", &Genus::size)

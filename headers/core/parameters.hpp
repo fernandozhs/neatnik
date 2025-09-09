@@ -66,6 +66,8 @@ public:
 
     static std::vector<double> spawning_organism;
 
+    static bool statistical_scoring;
+
 
     // Constructor:
 

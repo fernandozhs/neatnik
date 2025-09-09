@@ -34,7 +34,6 @@ public:
     std::unordered_map<int, std::vector<Species*>> species;
 
     std::vector<Organism*> offsprings;
-    std::vector<double> scores;
 
 
     // Constructor:

@@ -7,6 +7,7 @@ void bind_Organism(pybind11::module& m)
 
         // Properties:
         .def_readonly("species", &Organism::species)
+        .def_readonly("genotype", &Organism::genotype)
         .def_readonly("group", &Organism::group)
         .def_readonly("age", &Organism::age)
         .def_readonly("score", &Organism::score)
