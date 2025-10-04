@@ -1,6 +1,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include "pyneatnik.hpp"
+#include "pychromosome.hpp"
 #include "pygenotype.hpp"
 #include "pyorganism.hpp"
 #include "pyspecies.hpp"
@@ -16,6 +17,7 @@ PYBIND11_MODULE(neatnik, m)
     bind_Species(m);
     bind_Organism(m);
     bind_Genotype(m);
+    bind_Chromosome(m);
     bind_Parameters(m);
     bind_Experiment(m);
 }
